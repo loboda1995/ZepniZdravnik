@@ -7,12 +7,12 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:orientation="horizontal">
 
         <TextView
             android:text="@string/labelMedicineName"
             android:textSize="15dp"
-            android:layout_marginBottom="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
@@ -32,7 +32,6 @@
         <TextView
             android:text="@string/labelMedicineQuantity"
             android:textSize="15dp"
-            android:layout_marginBottom="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 

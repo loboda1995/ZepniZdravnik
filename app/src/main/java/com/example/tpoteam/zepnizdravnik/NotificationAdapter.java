@@ -15,22 +15,22 @@ import java.util.ArrayList;
 
 public class NotificationAdapter extends ArrayAdapter<MedicineNotification> {
 
-    private MedicineNotification[] objects;
+
 
     public NotificationAdapter(Context context, ArrayList<MedicineNotification> notifications) {
         super(context, 0, notifications);
-        objects = notifications.toArray(new MedicineNotification[0]);
     }
 
 
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        MedicineNotification notification = objects[position];
+        MedicineNotification notification = getItem(position);
 
-        if(notification.medicineNoticiationID == -1){
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.notification_add, null);
+        // Ce je notification==null potem gre za element v seznamu, ki predstavlja gumb za dodajanje opomnikov
+        if(notification == null){
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.notification_add, parent, false);
         }else{
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.notification_display, null);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.notification_display, parent, false);
 
             TextView medicineNameDisplay = (TextView) convertView.findViewById(R.id.medicineName);
             medicineNameDisplay.setText(notification.medicineName);
