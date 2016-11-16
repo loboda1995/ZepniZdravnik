@@ -1,0 +1,18 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.tpoteam.zepnizdravnik.MainActivity">
+
+    <item
+        android:id="@+id/action_appointment"
+        android:icon="@drawable/appointment_icon"
+        android:title="Moji filmi"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/action_contacts"
+        android:icon="@drawable/doctor_icon"
+        android:title="Moji filmi"
+        app:showAsAction="always"/>
+
+</menu>
