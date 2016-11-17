@@ -8,6 +8,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import java.io.File;
@@ -23,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String nameOfExtra2 = "ID";
 
     private ListView list;
+    private LinearLayout startScreen;
     private NotificationAdapter adapter;
 
     private int numberOfNotifications;
@@ -37,21 +40,20 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         // Pridobimo ListView in mu dodamo ClickListener ter ustvarimo in dodamo adapter
+        startScreen = (LinearLayout) findViewById(R.id.startScreen);
         list = (ListView) findViewById(R.id.list);
         list.setOnItemClickListener(movieDetailsListener);
 
-        /*
-        medicineNotifications.add(new MedicineNotification(1, "Zdravilo 1"));
-        medicineNotifications.add(new MedicineNotification(2, "Zdravilo 2"));
-        medicineNotifications.add(new MedicineNotification(3, "Zdravilo 3"));
-        medicineNotifications.add(new MedicineNotification(4, "Zdravilo 4"));
-        medicineNotifications.add(new MedicineNotification(5, "Zdravilo 5"));
-        medicineNotifications.add(new MedicineNotification(6, "Zdravilo 6"));
-        medicineNotifications.add(new MedicineNotification(7, "Zdravilo 7"));
-        */
-        medicineNotifications = getMedicineNotifications();
-        adapter = new NotificationAdapter(this, medicineNotifications);
-        list.setAdapter(adapter);
+        showScreen();
+
+        // Ob kliku na zacetni zaslon prikazemo okno za dodajanje opomnika
+        startScreen.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                startAddNotificationActivity(0);
+            }
+        });
     }
 
     // Ustvarimo meni
@@ -64,19 +66,37 @@ public class MainActivity extends AppCompatActivity {
     AdapterView.OnItemClickListener movieDetailsListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-            final Intent details = new Intent(MainActivity.this, NotificationOverview.class);
-            details.putExtra(nameOfExtra1, medicineNotifications);
-            details.putExtra(nameOfExtra2, arg2);
-            startActivity(details);
+            startAddNotificationActivity(arg2);
         }
     };
+
+    private void startAddNotificationActivity(int id){
+        final Intent details = new Intent(MainActivity.this, NotificationOverview.class);
+        details.putExtra(nameOfExtra1, medicineNotifications);
+        details.putExtra(nameOfExtra2, id);
+        startActivity(details);
+    }
 
     protected void onResume(){
         super.onResume();
 
+        showScreen();
+    }
+
+    private void showScreen(){
+        // Pridobimo shranjene opomnike
         medicineNotifications = getMedicineNotifications();
         adapter = new NotificationAdapter(this, medicineNotifications);
         list.setAdapter(adapter);
+
+        // Ce uporabnik se ni ustvaril opomnikov, prikazemo zacetni zaslon, sicer prikazemo seznam
+        if(medicineNotifications.size() > 1){
+            list.setVisibility(View.VISIBLE);
+            startScreen.setVisibility(View.GONE);
+        }else{
+            list.setVisibility(View.GONE);
+            startScreen.setVisibility(View.VISIBLE);
+        }
     }
 
     private ArrayList<MedicineNotification> getMedicineNotifications()

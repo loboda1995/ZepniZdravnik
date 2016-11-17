@@ -1,14 +1,27 @@
 package com.example.tpoteam.zepnizdravnik;
 
+import android.app.ActionBar;
 import android.content.Intent;
+import android.graphics.LinearGradient;
+import android.graphics.Shader;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.RectShape;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import java.io.File;
@@ -29,6 +42,16 @@ public class NotificationOverview extends AppCompatActivity {
 
     private EditText medicineNameInput;
 
+    private RadioButton radioWeekly;
+    private RadioButton radioDaily;
+
+    private LinearLayout weeklyOptions;
+    private LinearLayout dailyOptions;
+    private CheckBox[] weeklyCheckboxes = new CheckBox[7];
+    private CheckBox[] dailyCheckboxes = new CheckBox[24];
+
+    private EditText comments;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,21 +60,23 @@ public class NotificationOverview extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         // Pridobimo vnosna polja
-        medicineNameInput = (EditText) findViewById(R.id.medicineName);
+        getAllInputs();
 
-        medicineNotifications = (ArrayList<MedicineNotification>) this.getIntent().getSerializableExtra(MainActivity.nameOfExtra1);
-        IDselected = this.getIntent().getIntExtra(MainActivity.nameOfExtra2, 0);
-
-        // Ce je IDselected kaze na zadnji element pomeni, da ustvarjamo nov opomnik, sicer
-        // spreminajmo ze obstojecega
-        if(IDselected < medicineNotifications.size()-1){
-            selectedNotification = medicineNotifications.get(IDselected);
-
-            medicineNameInput.setText(selectedNotification.medicineName);
-            //TODO: pridobiti in prikazati se ostale atribute
-        }else{
-
-        }
+        // Ob spremembi vrednosti izbranega tipa intervala jemanja spremenimo prikazane moznosti terminov
+        RadioGroup radioGroup = (RadioGroup) findViewById(R.id.intervalTypeGroup);
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+        {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if(checkedId == radioDaily.getId()){
+                    dailyOptions.setVisibility(View.VISIBLE);
+                    weeklyOptions.setVisibility(View.GONE);
+                }else{
+                    dailyOptions.setVisibility(View.GONE);
+                    weeklyOptions.setVisibility(View.VISIBLE);
+                }
+            }
+        });
 
         // Odzivi na klike na gumbe
         Button gumb = (Button) findViewById(R.id.deleteButton);
@@ -70,6 +95,64 @@ public class NotificationOverview extends AppCompatActivity {
                 save();
             }
         });
+
+
+        // Pridobimo in prikazemo podatke, ce opomnik ze obstaja
+        medicineNotifications = (ArrayList<MedicineNotification>) this.getIntent().getSerializableExtra(MainActivity.nameOfExtra1);
+        IDselected = this.getIntent().getIntExtra(MainActivity.nameOfExtra2, 0);
+
+        // Ce je IDselected kaze na zadnji element pomeni, da ustvarjamo nov opomnik, sicer
+        // spreminajmo ze obstojecega
+        if(IDselected < medicineNotifications.size()-1){
+            selectedNotification = medicineNotifications.get(IDselected);
+
+            medicineNameInput.setText(selectedNotification.medicineName);
+            if(selectedNotification.dailyInterval){
+                radioDaily.setChecked(true);
+                for(int i = 0; i < dailyCheckboxes.length; i++){
+                    dailyCheckboxes[i].setChecked(selectedNotification.times[i]);
+                }
+            }else{
+                radioWeekly.setChecked(true);
+                for(int i = 0; i < weeklyCheckboxes.length; i++){
+                    weeklyCheckboxes[i].setChecked(selectedNotification.times[i]);
+                }
+            }
+            comments.setText(selectedNotification.comments);
+        }
+    }
+
+    // Pridobimo in shranimo vsa vnosna polja
+    private void getAllInputs(){
+        medicineNameInput = (EditText) findViewById(R.id.medicineName);
+
+        radioDaily = (RadioButton) findViewById(R.id.radioDaily);
+        radioWeekly = (RadioButton) findViewById(R.id.radioWeekly);
+
+        weeklyOptions = (LinearLayout) findViewById(R.id.weeklyOptions);
+        dailyOptions = (LinearLayout) findViewById(R.id.dailyOptions);
+        int id = 0;
+        for (int i = 0; i < weeklyOptions.getChildCount(); i++) {
+            View v = weeklyOptions.getChildAt(i);
+            if (v instanceof CheckBox) {
+                weeklyCheckboxes[id++] = (CheckBox)v;
+            }
+        }
+        id = 0;
+        for (int i = 0; i < dailyOptions.getChildCount(); i++) {
+            View v = dailyOptions.getChildAt(i);
+            if (v instanceof LinearLayout) {
+                for(int j = 0; j < ((LinearLayout)v).getChildCount(); j++){
+                    View u = ((LinearLayout) v).getChildAt(j);
+                    if (u instanceof CheckBox) {
+                        dailyCheckboxes[id+j*12] = (CheckBox)u;
+                    }
+                }
+                id++;
+            }
+        }
+
+        comments = (EditText) findViewById(R.id.commentsInput);
     }
 
     // Izbrise izbrani opomnik
@@ -97,14 +180,31 @@ public class NotificationOverview extends AppCompatActivity {
 
     private void saveThisNotification() {
         String newMedicineName = medicineNameInput.getText().toString();
+        boolean isDaily = radioDaily.isChecked();
+        boolean[] times = new boolean[24];
+        String comm = comments.getText().toString();
+        if(isDaily){
+            for(int i = 0; i < dailyCheckboxes.length; i++){
+                times[i] = dailyCheckboxes[i].isChecked();
+            }
+        }else{
+            for(int i = 0; i < weeklyCheckboxes.length; i++){
+                times[i] = weeklyCheckboxes[i].isChecked();
+            }
+        }
+
+        // Odstranimo element, ki sluzi dodajanju novih opomnikov
         medicineNotifications.remove(medicineNotifications.size()-1);
 
         // Ce je izbrani Notification == null, pomeni da ustvarjamo novega, sicer spreminajmo ze
         // obstojecega
         if(selectedNotification != null){
             selectedNotification.medicineName = newMedicineName;
+            selectedNotification.dailyInterval = isDaily;
+            selectedNotification.times = times;
+            selectedNotification.comments = comm;
         }else{
-            selectedNotification = new MedicineNotification(10, newMedicineName);
+            selectedNotification = new MedicineNotification(newMedicineName, isDaily, times, comm);
             medicineNotifications.add(selectedNotification);
         }
 

@@ -8,12 +8,18 @@ import java.io.Serializable;
 
 public class MedicineNotification implements Serializable{
 
-    public int medicineNoticiationID;
     public String medicineName;
 
-    public MedicineNotification(int notiID, String medicineName){
-        this.medicineNoticiationID = notiID;
+    public boolean dailyInterval;
+    public boolean[] times = new boolean[24];
+    public String comments;
+
+    public MedicineNotification(String medicineName, boolean isDaily, boolean[] t, String comm){
         this.medicineName = medicineName;
+
+        this.dailyInterval = isDaily;
+        this.times = t;
+        this.comments = comm;
         // TODO: dodati dodatne atribute, kolicina, intervali doz, opombe
     }
 
