@@ -40,13 +40,15 @@
             <TextView
                 android:text="@string/labelMedicineName"
                 android:textSize="20dp"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="0.4"
                 android:layout_height="wrap_content"/>
 
-            <TextView
+            <EditText
                 android:id="@+id/medicineName"
                 android:textSize="20dp"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="0.6"
                 android:layout_height="wrap_content"/>
 
         </LinearLayout>
@@ -60,13 +62,15 @@
             <TextView
                 android:text="@string/labelMedicineQuantity"
                 android:textSize="20dp"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="0.4"
                 android:layout_height="wrap_content"/>
 
-            <TextView
+            <EditText
                 android:id="@+id/medicineQuantity"
                 android:textSize="20dp"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="0.6"
                 android:layout_height="wrap_content"/>
 
         </LinearLayout>
@@ -143,6 +147,7 @@
             android:orientation="horizontal">
             
             <Button
+                android:id="@+id/deleteButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -150,6 +155,7 @@
                 android:text="@string/buttonDelete"/>
 
             <Button
+                android:id="@+id/saveButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
