@@ -106,7 +106,6 @@ public class MainActivity extends AppCompatActivity {
         File f = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), fileNameWithNotifications);
         ArrayList<MedicineNotification> noti = new ArrayList<>();
         try {
-
             fis = new FileInputStream(f);
             ois = new ObjectInputStream(fis);
             noti = (ArrayList<MedicineNotification>)ois.readObject();

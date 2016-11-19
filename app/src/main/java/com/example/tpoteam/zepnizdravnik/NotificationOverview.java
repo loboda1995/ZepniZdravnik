@@ -1,7 +1,10 @@
 package com.example.tpoteam.zepnizdravnik;
 
 import android.app.ActionBar;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
@@ -9,6 +12,7 @@ import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RectShape;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -23,6 +27,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -41,6 +46,7 @@ public class NotificationOverview extends AppCompatActivity {
     private MedicineNotification selectedNotification;
 
     private EditText medicineNameInput;
+    private EditText medicineQuantityInput;
 
     private RadioButton radioWeekly;
     private RadioButton radioDaily;
@@ -107,6 +113,7 @@ public class NotificationOverview extends AppCompatActivity {
             selectedNotification = medicineNotifications.get(IDselected);
 
             medicineNameInput.setText(selectedNotification.medicineName);
+            medicineQuantityInput.setText(Integer.toString(selectedNotification.medicineQuantity));
             if(selectedNotification.dailyInterval){
                 radioDaily.setChecked(true);
                 for(int i = 0; i < dailyCheckboxes.length; i++){
@@ -125,6 +132,7 @@ public class NotificationOverview extends AppCompatActivity {
     // Pridobimo in shranimo vsa vnosna polja
     private void getAllInputs(){
         medicineNameInput = (EditText) findViewById(R.id.medicineName);
+        medicineQuantityInput = (EditText) findViewById(R.id.medicineQuantity);
 
         radioDaily = (RadioButton) findViewById(R.id.radioDaily);
         radioWeekly = (RadioButton) findViewById(R.id.radioWeekly);
@@ -158,9 +166,21 @@ public class NotificationOverview extends AppCompatActivity {
     // Izbrise izbrani opomnik
     private void delete(){
         if(selectedNotification != null){
-            //TODO: prikaz sporocila, "Ali ste prepricani?"
-            deleteThisNotification();
-            finish();
+            new AlertDialog.Builder(this)
+                    .setTitle(R.string.notificationRemovalTitle)
+                    .setMessage(R.string.notificationRemoveMessage)
+                    .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            deleteThisNotification();
+                            Toast.makeText(NotificationOverview.this, R.string.notifcationRemoved, Toast.LENGTH_LONG).show();
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    NotificationOverview.this.finish();
+                                }
+                            }, 500);
+                        }})
+                    .setNegativeButton(R.string.no, null).show();
         }
     }
 
@@ -168,18 +188,42 @@ public class NotificationOverview extends AppCompatActivity {
     private void save(){
         if(allInputIsValid()){
             saveThisNotification();
-            //TODO: prikaz sporocila, "Uspesno shranjeno"
+            Toast.makeText(this, R.string.notificationSaved, Toast.LENGTH_LONG).show();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    NotificationOverview.this.finish();
+                }
+            }, 500);
         }
+        else
+            Toast.makeText(this, R.string.validationError, Toast.LENGTH_LONG).show();
     }
 
     // Preveri ali so vrednosti vseh vnosnih polj podane in regularne
     private boolean allInputIsValid(){
-        //TODO: implementacija preverjanja
-        return true;
+        boolean isValid = true;
+        String newMedicineName = medicineNameInput.getText().toString();
+        if(newMedicineName.trim().equals("")) {
+            isValid = false;
+            medicineQuantityInput.setTextColor(Color.RED);
+        }
+        else
+            medicineQuantityInput.setTextColor(Color.BLACK);
+        try {
+            int newMedicineQuantity = Integer.parseInt(medicineQuantityInput.getText().toString());
+            medicineQuantityInput.setTextColor(Color.BLACK);
+        }
+        catch (Exception e) {
+            isValid = false;
+            medicineQuantityInput.setTextColor(Color.RED);
+        }
+        return isValid;
     }
 
     private void saveThisNotification() {
         String newMedicineName = medicineNameInput.getText().toString();
+        int newMedicineQuantity = Integer.parseInt(medicineQuantityInput.getText().toString());
         boolean isDaily = radioDaily.isChecked();
         boolean[] times = new boolean[24];
         String comm = comments.getText().toString();
@@ -200,11 +244,12 @@ public class NotificationOverview extends AppCompatActivity {
         // obstojecega
         if(selectedNotification != null){
             selectedNotification.medicineName = newMedicineName;
+            selectedNotification.medicineQuantity = newMedicineQuantity;
             selectedNotification.dailyInterval = isDaily;
             selectedNotification.times = times;
             selectedNotification.comments = comm;
         }else{
-            selectedNotification = new MedicineNotification(newMedicineName, isDaily, times, comm);
+            selectedNotification = new MedicineNotification(newMedicineName, newMedicineQuantity, isDaily, times, comm);
             medicineNotifications.add(selectedNotification);
         }
 

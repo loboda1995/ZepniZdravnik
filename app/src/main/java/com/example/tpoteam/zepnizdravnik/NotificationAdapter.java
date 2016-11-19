@@ -34,6 +34,8 @@ public class NotificationAdapter extends ArrayAdapter<MedicineNotification> {
 
             TextView medicineNameDisplay = (TextView) convertView.findViewById(R.id.medicineName);
             medicineNameDisplay.setText(notification.medicineName);
+            TextView medicineQunatityDisplay = (TextView) convertView.findViewById(R.id.medicineQuantity);
+            medicineQunatityDisplay.setText(Integer.toString(notification.medicineQuantity));
             // TODO: dodati je potrebno se prikaz ostalih podatkov
         }
 

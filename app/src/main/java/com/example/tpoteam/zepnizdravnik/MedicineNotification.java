@@ -9,14 +9,14 @@ import java.io.Serializable;
 public class MedicineNotification implements Serializable{
 
     public String medicineName;
-
+    public int medicineQuantity;
     public boolean dailyInterval;
     public boolean[] times = new boolean[24];
     public String comments;
 
-    public MedicineNotification(String medicineName, boolean isDaily, boolean[] t, String comm){
+    public MedicineNotification(String medicineName, int medicineQuantity, boolean isDaily, boolean[] t, String comm){
         this.medicineName = medicineName;
-
+        this.medicineQuantity = medicineQuantity;
         this.dailyInterval = isDaily;
         this.times = t;
         this.comments = comm;
