@@ -10,6 +10,7 @@
     <string name="radioDaily">Dnevno</string>
     <string name="radioWeekly">Tedensko</string>
     <string name="labelInterval">Izbira opomnikov:</string>
+    <string name="labelColor">Barva opomnika:</string>
     <string name="labelComments">Opombe:</string>
     <string name="buttonDelete">Izbriši</string>
     <string name="buttonSave">Shrani</string>
@@ -17,11 +18,14 @@
     <string name="noNotifications1">Začnite uporabljati\naplikacijo</string>
     <string name="noNotifications2">&#62;&#62;Ustvarite opomnik&#60;&#60;</string>
     <string name="notificationSaved">Opomnik je bil uspešno shranjen.</string>
+    <string name="notificationNotSaved">Prišlo je do napake, poskusite ponovno.</string>
     <string name="notificationRemovalTitle">Brisanje opomnika</string>
     <string name="notificationRemoveMessage">Ali želite odstraniti ta opomnik?</string>
     <string name="yes">DA</string>
     <string name="no">NE</string>
     <string name="notifcationRemoved">Opomnik uspešno odstranjen.</string>
+    <string name="notifcationNotRemoved">Prišlo je do napake, poskusite ponovno.</string>
+    <string name="validationError">Prišlo je do napake pri vnosu podatkov.</string>
 
     <string name="day1">Ponedeljek</string>
     <string name="day2">Torek</string>
@@ -55,7 +59,5 @@
     <string name="hour21">21:00</string>
     <string name="hour22">22:00</string>
     <string name="hour23">23:00</string>
-    <string name="labelColor">Barva opomnika</string>
-    <string name="validationError">Prišlo je do napake pri vnosu podatkov.</string>
 
 </resources>

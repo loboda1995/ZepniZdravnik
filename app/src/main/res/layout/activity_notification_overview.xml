@@ -85,6 +85,28 @@
 
                 </LinearLayout>
 
+                // Izbira barve opomnika
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:text="@string/labelColor"
+                        android:textSize="20dp"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.6"
+                        android:layout_height="wrap_content"/>
+
+                    <Spinner
+                        android:id="@+id/colorPicker"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.4"
+                        android:layout_height="wrap_content"></Spinner>
+
+                </LinearLayout>
+
                 // Izbira tipa intervala jemanja zdravil
                 <LinearLayout
                     android:layout_width="match_parent"

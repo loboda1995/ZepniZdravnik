@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -32,11 +33,12 @@ public class NotificationAdapter extends ArrayAdapter<MedicineNotification> {
         }else{
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.notification_display, parent, false);
 
+            LinearLayout noti = (LinearLayout) convertView.findViewById(R.id.notificationDisplay);
+            noti.setBackgroundColor(getContext().getResources().getIntArray(R.array.notificationcolors)[notification.idOfColor]);
             TextView medicineNameDisplay = (TextView) convertView.findViewById(R.id.medicineName);
             medicineNameDisplay.setText(notification.medicineName);
             TextView medicineQunatityDisplay = (TextView) convertView.findViewById(R.id.medicineQuantity);
             medicineQunatityDisplay.setText(Integer.toString(notification.medicineQuantity));
-            // TODO: dodati je potrebno se prikaz ostalih podatkov
         }
 
         return convertView;

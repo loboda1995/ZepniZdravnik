@@ -26,6 +26,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,6 +48,7 @@ public class NotificationOverview extends AppCompatActivity {
 
     private EditText medicineNameInput;
     private EditText medicineQuantityInput;
+    private Spinner colorPicker;
 
     private RadioButton radioWeekly;
     private RadioButton radioDaily;
@@ -114,6 +116,9 @@ public class NotificationOverview extends AppCompatActivity {
 
             medicineNameInput.setText(selectedNotification.medicineName);
             medicineQuantityInput.setText(Integer.toString(selectedNotification.medicineQuantity));
+
+            colorPicker.setSelection(selectedNotification.idOfColor);
+
             if(selectedNotification.dailyInterval){
                 radioDaily.setChecked(true);
                 for(int i = 0; i < dailyCheckboxes.length; i++){
@@ -133,6 +138,10 @@ public class NotificationOverview extends AppCompatActivity {
     private void getAllInputs(){
         medicineNameInput = (EditText) findViewById(R.id.medicineName);
         medicineQuantityInput = (EditText) findViewById(R.id.medicineQuantity);
+
+        // Ustvarimo color picker za izbiro barve ozadja opomnika
+        colorPicker = (Spinner)findViewById(R.id.colorPicker);
+        colorPicker.setAdapter(new ColorPickerAdapter(this));
 
         radioDaily = (RadioButton) findViewById(R.id.radioDaily);
         radioWeekly = (RadioButton) findViewById(R.id.radioWeekly);
@@ -171,14 +180,16 @@ public class NotificationOverview extends AppCompatActivity {
                     .setMessage(R.string.notificationRemoveMessage)
                     .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
-                            deleteThisNotification();
-                            Toast.makeText(NotificationOverview.this, R.string.notifcationRemoved, Toast.LENGTH_LONG).show();
-                            new Handler().postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    NotificationOverview.this.finish();
-                                }
-                            }, 500);
+                            boolean b = deleteThisNotification();
+                            Toast.makeText(NotificationOverview.this, b ? R.string.notifcationRemoved : R.string.notifcationNotRemoved, Toast.LENGTH_LONG).show();
+                            if(b){
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        NotificationOverview.this.finish();
+                                    }
+                                }, 500);
+                            }
                         }})
                     .setNegativeButton(R.string.no, null).show();
         }
@@ -187,14 +198,16 @@ public class NotificationOverview extends AppCompatActivity {
     // Shrani novoustvarjen opomnik ali pa shrani spremenjen opomnik
     private void save(){
         if(allInputIsValid()){
-            saveThisNotification();
-            Toast.makeText(this, R.string.notificationSaved, Toast.LENGTH_LONG).show();
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    NotificationOverview.this.finish();
-                }
-            }, 500);
+            boolean b = saveThisNotification();
+            Toast.makeText(this, b ? R.string.notificationSaved : R.string.notificationNotSaved, Toast.LENGTH_LONG).show();
+            if(b){
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        NotificationOverview.this.finish();
+                    }
+                }, 500);
+            }
         }
         else
             Toast.makeText(this, R.string.validationError, Toast.LENGTH_LONG).show();
@@ -221,9 +234,10 @@ public class NotificationOverview extends AppCompatActivity {
         return isValid;
     }
 
-    private void saveThisNotification() {
+    private boolean saveThisNotification() {
         String newMedicineName = medicineNameInput.getText().toString();
         int newMedicineQuantity = Integer.parseInt(medicineQuantityInput.getText().toString());
+        int newColorId = colorPicker.getSelectedItemPosition();
         boolean isDaily = radioDaily.isChecked();
         boolean[] times = new boolean[24];
         String comm = comments.getText().toString();
@@ -242,30 +256,43 @@ public class NotificationOverview extends AppCompatActivity {
 
         // Ce je izbrani Notification == null, pomeni da ustvarjamo novega, sicer spreminajmo ze
         // obstojecega
+        MedicineNotification copy = selectedNotification;
         if(selectedNotification != null){
             selectedNotification.medicineName = newMedicineName;
             selectedNotification.medicineQuantity = newMedicineQuantity;
+            selectedNotification.idOfColor = newColorId;
             selectedNotification.dailyInterval = isDaily;
             selectedNotification.times = times;
             selectedNotification.comments = comm;
         }else{
-            selectedNotification = new MedicineNotification(newMedicineName, newMedicineQuantity, isDaily, times, comm);
+            selectedNotification = new MedicineNotification(newMedicineName, newMedicineQuantity, newColorId, isDaily, times, comm);
             medicineNotifications.add(selectedNotification);
         }
 
-        // Shranimo trenutne opomnike
-        writeObjectToFile(medicineNotifications, MainActivity.fileNameWithNotifications);
+        // Shranimo trenutne opomnike, ce shranjevanje uspe vrnemo true, sicer ponastavimo vrednosti
+        // trenutnega opomnika na stare in vrnemo false
+        boolean b = writeObjectToFile(medicineNotifications, MainActivity.fileNameWithNotifications);
+        if(b){
+            return true;
+        }else{
+            selectedNotification = copy;
+            return false;
+        }
     }
 
-    private void deleteThisNotification() {
+    private boolean deleteThisNotification() {
+        // Ne moremo izbrisati opomnika, ko ustvarjamo novega
+        if(selectedNotification == null){
+            return false;
+        }
         medicineNotifications.remove(medicineNotifications.size()-1);
         medicineNotifications.remove(IDselected);
 
         // Shranimo trenutne opomnike
-        writeObjectToFile(medicineNotifications, MainActivity.fileNameWithNotifications);
+        return writeObjectToFile(medicineNotifications, MainActivity.fileNameWithNotifications);
     }
 
-    private void writeObjectToFile(Object o, String fileName){
+    private boolean writeObjectToFile(Object o, String fileName){
         try {
             File f = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), fileName);
             FileOutputStream fileOutputStream = new FileOutputStream(f);
@@ -275,6 +302,8 @@ public class NotificationOverview extends AppCompatActivity {
             fileOutputStream.close();
         } catch (IOException e) {
             e.printStackTrace();
+            return false;
         }
+        return true;
     }
 }
