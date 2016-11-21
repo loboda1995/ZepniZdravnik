@@ -34,6 +34,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
 /**
@@ -219,10 +220,10 @@ public class NotificationOverview extends AppCompatActivity {
         String newMedicineName = medicineNameInput.getText().toString();
         if(newMedicineName.trim().equals("")) {
             isValid = false;
-            medicineQuantityInput.setTextColor(Color.RED);
+            medicineNameInput.setTextColor(Color.RED);
         }
         else
-            medicineQuantityInput.setTextColor(Color.BLACK);
+            medicineNameInput.setTextColor(Color.BLACK);
         try {
             int newMedicineQuantity = Integer.parseInt(medicineQuantityInput.getText().toString());
             medicineQuantityInput.setTextColor(Color.BLACK);
@@ -294,14 +295,12 @@ public class NotificationOverview extends AppCompatActivity {
 
     private boolean writeObjectToFile(Object o, String fileName){
         try {
-            File f = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), fileName);
-            FileOutputStream fileOutputStream = new FileOutputStream(f);
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+            FileOutputStream fos = openFileOutput(fileName, MODE_PRIVATE);
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fos);
             objectOutputStream.writeObject(o);
             objectOutputStream.close();
-            fileOutputStream.close();
+            fos.close();
         } catch (IOException e) {
-            e.printStackTrace();
             return false;
         }
         return true;
