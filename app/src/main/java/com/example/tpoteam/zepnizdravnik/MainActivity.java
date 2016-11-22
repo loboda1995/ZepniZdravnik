@@ -101,12 +101,11 @@ public class MainActivity extends AppCompatActivity {
 
     private ArrayList<MedicineNotification> getMedicineNotifications()
     {
-        InputStream fis = null;
+        FileInputStream fis = null;
         ObjectInputStream ois = null;
-        File f = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), fileNameWithNotifications);
         ArrayList<MedicineNotification> noti = new ArrayList<>();
         try {
-            fis = new FileInputStream(f);
+            fis = openFileInput(fileNameWithNotifications);;
             ois = new ObjectInputStream(fis);
             noti = (ArrayList<MedicineNotification>)ois.readObject();
             ois.close();
