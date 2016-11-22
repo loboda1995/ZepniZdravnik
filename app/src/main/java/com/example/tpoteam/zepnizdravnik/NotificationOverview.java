@@ -249,9 +249,13 @@ public class NotificationOverview extends AppCompatActivity {
                 }
             }
         }
-        MedicineNotification copy = new MedicineNotification(selectedNotification.medicineName,
-                selectedNotification.medicineQuantity, selectedNotification.idOfColor,
-                selectedNotification.dailyInterval, selectedNotification.times, selectedNotification.comments);
+        MedicineNotification copy = null;
+        if(selectedNotification != null){
+             copy = new MedicineNotification(selectedNotification.medicineName,
+                    selectedNotification.medicineQuantity, selectedNotification.idOfColor,
+                    selectedNotification.dailyInterval, selectedNotification.times, selectedNotification.comments);
+        }
+
         // Odstranimo element, ki sluzi dodajanju novih opomnikov
         medicineNotifications.remove(medicineNotifications.size()-1);
 
@@ -299,7 +303,7 @@ public class NotificationOverview extends AppCompatActivity {
                         }else{
                             cal.set(Calendar.DAY_OF_WEEK, 1);
                         }
-                        cal.set(Calendar.HOUR_OF_DAY, 12);
+                        cal.set(Calendar.HOUR_OF_DAY, 10);
                         cal.set(Calendar.MINUTE, 0);
                         cal.set(Calendar.SECOND, 0);
                         if(cal.getTimeInMillis() < System.currentTimeMillis()){
