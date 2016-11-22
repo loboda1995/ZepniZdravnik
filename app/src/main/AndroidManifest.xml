@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.tpoteam.zepnizdravnik">
 
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
@@ -25,6 +26,9 @@
             android:name=".NotificationOverview"
             android:label="@string/title_activity_notification_overview"
             android:theme="@style/AppTheme.NoActionBar" />
+
+        <receiver android:name=".AlarmReceiver"></receiver>
+        <service android:name=".NotificationSchedulingService" />
     </application>
 
 </manifest>

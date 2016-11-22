@@ -1,15 +1,11 @@
 package com.example.tpoteam.zepnizdravnik;
 
-import android.app.ActionBar;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.LinearGradient;
-import android.graphics.Shader;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.shapes.RectShape;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -17,17 +13,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.SeekBar;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -35,6 +27,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 /**
  * Created by Luka Loboda on 16-Nov-16.
@@ -45,6 +38,7 @@ public class NotificationOverview extends AppCompatActivity {
     private ArrayList<MedicineNotification>  medicineNotifications =  new ArrayList<>();
     private int IDselected;
     private MedicineNotification selectedNotification;
+    private AlarmReceiver alarm = new AlarmReceiver();
 
     private EditText medicineNameInput;
     private EditText medicineQuantityInput;
@@ -122,12 +116,12 @@ public class NotificationOverview extends AppCompatActivity {
             if(selectedNotification.dailyInterval){
                 radioDaily.setChecked(true);
                 for(int i = 0; i < dailyCheckboxes.length; i++){
-                    dailyCheckboxes[i].setChecked(selectedNotification.times[i]);
+                    dailyCheckboxes[i].setChecked(selectedNotification.times[i] != 0);
                 }
             }else{
                 radioWeekly.setChecked(true);
                 for(int i = 0; i < weeklyCheckboxes.length; i++){
-                    weeklyCheckboxes[i].setChecked(selectedNotification.times[i]);
+                    weeklyCheckboxes[i].setChecked(selectedNotification.times[i] != 0);
                 }
             }
             comments.setText(selectedNotification.comments);
@@ -239,24 +233,29 @@ public class NotificationOverview extends AppCompatActivity {
         int newMedicineQuantity = Integer.parseInt(medicineQuantityInput.getText().toString());
         int newColorId = colorPicker.getSelectedItemPosition();
         boolean isDaily = radioDaily.isChecked();
-        boolean[] times = new boolean[24];
+        int[] times = new int[24];
         String comm = comments.getText().toString();
         if(isDaily){
             for(int i = 0; i < dailyCheckboxes.length; i++){
-                times[i] = dailyCheckboxes[i].isChecked();
+                if(dailyCheckboxes[i].isChecked()){
+                    times[i] = ((int) System.currentTimeMillis())+i;
+                }
             }
         }else{
             for(int i = 0; i < weeklyCheckboxes.length; i++){
-                times[i] = weeklyCheckboxes[i].isChecked();
+                if(weeklyCheckboxes[i].isChecked()){
+                    times[i] = ((int) System.currentTimeMillis())+i;
+                }
             }
         }
-
+        MedicineNotification copy = new MedicineNotification(selectedNotification.medicineName,
+                selectedNotification.medicineQuantity, selectedNotification.idOfColor,
+                selectedNotification.dailyInterval, selectedNotification.times, selectedNotification.comments);
         // Odstranimo element, ki sluzi dodajanju novih opomnikov
         medicineNotifications.remove(medicineNotifications.size()-1);
 
         // Ce je izbrani Notification == null, pomeni da ustvarjamo novega, sicer spreminajmo ze
         // obstojecega
-        MedicineNotification copy = selectedNotification;
         if(selectedNotification != null){
             selectedNotification.medicineName = newMedicineName;
             selectedNotification.medicineQuantity = newMedicineQuantity;
@@ -273,6 +272,45 @@ public class NotificationOverview extends AppCompatActivity {
         // trenutnega opomnika na stare in vrnemo false
         boolean b = writeObjectToFile(medicineNotifications, MainActivity.fileNameWithNotifications);
         if(b){
+            if(copy != null){
+                // Pocistimo stare alarme
+                for(int i = 0; i < copy.times.length; i++){
+                    if(copy.times[i] != 0){
+                        Intent intent = new Intent(this, AlarmReceiver.class);
+                        alarm.cancelAlarm(this, PendingIntent.getBroadcast(this, copy.times[i], intent, PendingIntent.FLAG_UPDATE_CURRENT));
+                    }
+                }
+            }
+            for(int i = 0; i < times.length; i++){
+                if(times[i] != 0){
+                    // Nastavimo cas alarma, ce je v preteklosti, pristejemo dan ali teden
+                    Calendar cal = Calendar.getInstance();
+                    if(isDaily){
+                        cal.set(Calendar.HOUR_OF_DAY, i);
+                        cal.set(Calendar.MINUTE, 0);
+                        cal.set(Calendar.SECOND, 0);
+                        if(cal.getTimeInMillis() < System.currentTimeMillis()){
+                            cal.setTimeInMillis(cal.getTimeInMillis() + AlarmManager.INTERVAL_DAY);
+                        }
+                    }else{
+                        if(i < 6){
+                            cal.set(Calendar.DAY_OF_WEEK, i+2);
+                        }else{
+                            cal.set(Calendar.DAY_OF_WEEK, 1);
+                        }
+                        cal.set(Calendar.HOUR_OF_DAY, 12);
+                        cal.set(Calendar.MINUTE, 0);
+                        cal.set(Calendar.SECOND, 0);
+                        if(cal.getTimeInMillis() < System.currentTimeMillis()){
+                            cal.setTimeInMillis(cal.getTimeInMillis() + AlarmManager.INTERVAL_DAY*7);
+                        }
+                    }
+
+                    Intent intent = new Intent(this, AlarmReceiver.class);
+                    intent.putExtra("medicineName", selectedNotification.medicineName);
+                    alarm.setAlarm(this, PendingIntent.getBroadcast(this, times[i], intent, PendingIntent.FLAG_UPDATE_CURRENT), cal);
+                }
+            }
             return true;
         }else{
             selectedNotification = copy;
@@ -284,6 +322,12 @@ public class NotificationOverview extends AppCompatActivity {
         // Ne moremo izbrisati opomnika, ko ustvarjamo novega
         if(selectedNotification == null){
             return false;
+        }
+        for(int i = 0; i < selectedNotification.times.length; i++){
+            if(selectedNotification.times[i] != 0){
+                Intent intent = new Intent(this, AlarmReceiver.class);
+                alarm.cancelAlarm(this, PendingIntent.getBroadcast(this, selectedNotification.times[i], intent, PendingIntent.FLAG_UPDATE_CURRENT));
+            }
         }
         medicineNotifications.remove(medicineNotifications.size()-1);
         medicineNotifications.remove(IDselected);

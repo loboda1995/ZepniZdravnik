@@ -1,5 +1,7 @@
 package com.example.tpoteam.zepnizdravnik;
 
+import android.app.PendingIntent;
+
 import java.io.Serializable;
 
 /**
@@ -12,10 +14,11 @@ public class MedicineNotification implements Serializable{
     public int medicineQuantity;
     public int idOfColor;
     public boolean dailyInterval;
-    public boolean[] times = new boolean[24];
+    public int[] times = new int[24];
     public String comments;
 
-    public MedicineNotification(String medicineName, int medicineQuantity, int id, boolean isDaily, boolean[] t, String comm){
+
+    public MedicineNotification(String medicineName, int medicineQuantity, int id, boolean isDaily, int[] t, String comm){
         this.medicineName = medicineName;
         this.medicineQuantity = medicineQuantity;
         this.idOfColor = id;
