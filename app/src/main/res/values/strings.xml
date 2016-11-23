@@ -2,8 +2,9 @@
     <string name="app_name">ZepniZdravnik</string>
     <string name="title_activity_notification_overview">Pregled opomnika</string>
 
-    <string name="labelMedicineName">Ime zdravila: </string>
-    <string name="labelMedicineQuantity">Količina: </string>
+    <string name="labelMedicineName">Ime zdravila:&#160;</string>
+    <string name="labelMedicineQuantity">Količina:&#160;</string>
+    <string name="labelMedicineTimes">Intervali:&#160;</string>
 
     <string name="buttonAdd">Dodaj opomnik</string>
     <string name="labelTimeInterval">Interval jemanja:</string>

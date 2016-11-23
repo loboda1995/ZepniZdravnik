@@ -36,7 +36,7 @@ import java.util.Calendar;
 
 public class NotificationOverview extends AppCompatActivity {
 
-    private ArrayList<MedicineNotification>  medicineNotifications =  new ArrayList<>();
+    private ArrayList<MedicineNotification> medicineNotifications =  new ArrayList<>();
     private int IDselected;
     private MedicineNotification selectedNotification;
     private AlarmReceiver alarm = new AlarmReceiver();
