@@ -43,21 +43,32 @@ public class NotificationAdapter extends ArrayAdapter<MedicineNotification> {
             medicineQunatityDisplay.setText(Integer.toString(notification.medicineQuantity));
             TextView medicineTimesDisplay = (TextView) convertView.findViewById(R.id.medicineTimes);
             Calendar calendar = Calendar.getInstance();
-            int hour = calendar.get(Calendar.HOUR_OF_DAY);
-            int day = calendar.get(Calendar.DAY_OF_WEEK);
             String alarm = "";
             for (int i = 0; i < notification.times.length; i++) {
                 if(notification.times[i] != 0) {
                     if(notification.dailyInterval) {
-                        alarm = times[i];
-                        if(i == hour + 1)
-                            break;
+                        calendar.set(Calendar.HOUR_OF_DAY, i);
+                    }else{
+                        if(i < 6){
+                            calendar.set(Calendar.DAY_OF_WEEK, i+2);
+                        }else{
+                            calendar.set(Calendar.DAY_OF_WEEK, 1);
+                        }
+                        calendar.set(Calendar.HOUR_OF_DAY, 10);
                     }
-                    else {
-                        day -= hour < 10 ? 2 : 1;
-                        alarm = days[i];
-                        if(i == day)
-                            break;
+                    calendar.set(Calendar.MINUTE, 0);
+                    calendar.set(Calendar.SECOND, 0);
+                    if(calendar.getTimeInMillis() > System.currentTimeMillis()){
+                        alarm = notification.dailyInterval ? times[i] : days[i];
+                        break;
+                    }
+                }
+            }
+            if(alarm.length() == 0){
+                for(int i = 0; i < notification.times.length; i++){
+                    if(notification.times[i] != 0){
+                        alarm = notification.dailyInterval ? times[i]+" (jutri)" : days[i];
+                        break;
                     }
                 }
             }
