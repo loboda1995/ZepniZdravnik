@@ -42,15 +42,26 @@ public class NotificationAdapter extends ArrayAdapter<MedicineNotification> {
             TextView medicineQunatityDisplay = (TextView) convertView.findViewById(R.id.medicineQuantity);
             medicineQunatityDisplay.setText(Integer.toString(notification.medicineQuantity));
             TextView medicineTimesDisplay = (TextView) convertView.findViewById(R.id.medicineTimes);
-            String sporocilo = "";
+            Calendar calendar = Calendar.getInstance();
+            int hour = calendar.get(Calendar.HOUR_OF_DAY);
+            int day = calendar.get(Calendar.DAY_OF_WEEK);
+            String alarm = "";
             for (int i = 0; i < notification.times.length; i++) {
-                if(notification.times[i] != 0)
-                    if(notification.dailyInterval)
-                        sporocilo += times[i] + " ";
-                    else
-                        sporocilo += days[i] + " ";
+                if(notification.times[i] != 0) {
+                    if(notification.dailyInterval) {
+                        alarm = times[i];
+                        if(i == hour + 1)
+                            break;
+                    }
+                    else {
+                        day -= hour < 10 ? 2 : 1;
+                        alarm = days[i];
+                        if(i == day)
+                            break;
+                    }
+                }
             }
-            medicineTimesDisplay.setText(sporocilo);
+            medicineTimesDisplay.setText(alarm);
         }
 
         return convertView;
