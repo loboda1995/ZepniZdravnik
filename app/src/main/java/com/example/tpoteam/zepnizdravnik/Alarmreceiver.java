@@ -21,7 +21,7 @@ public class AlarmReceiver extends WakefulBroadcastReceiver{
     public void onReceive(Context context, Intent intent) {
         Intent service = new Intent(context, NotificationSchedulingService.class);
         service.putExtra("medicineName", intent.getStringExtra("medicineName"));
-
+        service.putExtra("notificationID", intent.getIntExtra("notificationID", 0));
         startWakefulService(context, service);
     }
 

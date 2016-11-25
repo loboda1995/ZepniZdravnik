@@ -27,6 +27,10 @@
     <string name="notifcationRemoved">Opomnik uspešno odstranjen.</string>
     <string name="notifcationNotRemoved">Prišlo je do napake, poskusite ponovno.</string>
     <string name="validationError">Prišlo je do napake pri vnosu podatkov.</string>
+    <string name="validationErrorMedicine">Vnesite ime zdravila.</string>
+    <string name="validationErrorQuantityEmpty">Vnesite količino zdravila.</string>
+    <string name="validationErrorQuantity">Vnesena količina mora biti številka.</string>
+    <string name="valiationErrorTimes">Izberite interval jemanja zdravila.</string>
 
     <string name="day1">Ponedeljek</string>
     <string name="day2">Torek</string>

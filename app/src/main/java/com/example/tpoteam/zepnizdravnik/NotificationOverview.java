@@ -204,8 +204,6 @@ public class NotificationOverview extends AppCompatActivity {
                 }, 500);
             }
         }
-        else
-            Toast.makeText(this, R.string.validationError, Toast.LENGTH_LONG).show();
     }
 
     // Preveri ali so vrednosti vseh vnosnih polj podane in regularne
@@ -215,16 +213,47 @@ public class NotificationOverview extends AppCompatActivity {
         if(newMedicineName.trim().equals("")) {
             isValid = false;
             medicineNameInput.setTextColor(Color.RED);
+            medicineNameInput.setError(getString(R.string.validationErrorMedicine));
         }
         else
             medicineNameInput.setTextColor(Color.BLACK);
-        try {
-            int newMedicineQuantity = Integer.parseInt(medicineQuantityInput.getText().toString());
-            medicineQuantityInput.setTextColor(Color.BLACK);
-        }
-        catch (Exception e) {
-            isValid = false;
+        if(medicineQuantityInput.getText().toString().trim().equals("")) {
+            medicineQuantityInput.setError(getString(R.string.validationErrorQuantityEmpty));
             medicineQuantityInput.setTextColor(Color.RED);
+        }
+        else {
+            try {
+                int newMedicineQuantity = Integer.parseInt(medicineQuantityInput.getText().toString());
+                medicineQuantityInput.setTextColor(Color.BLACK);
+            } catch (Exception e) {
+                isValid = false;
+                medicineQuantityInput.setTextColor(Color.RED);
+                medicineQuantityInput.setError(getString(R.string.validationErrorQuantity));
+            }
+        }
+        if(isValid) {
+            boolean isDaily = radioDaily.isChecked();
+            int counter = 0;
+            if (isDaily) {
+                for (CheckBox dailyCheckbox : dailyCheckboxes) {
+                    if (dailyCheckbox.isChecked()) {
+                        counter++;
+                    }
+                }
+            } else {
+                for (CheckBox weeklyCheckbox : weeklyCheckboxes) {
+                    if (weeklyCheckbox.isChecked()) {
+                        counter++;
+                    }
+                }
+            }
+            if (counter == 0) {
+                isValid = false;
+                Toast.makeText(this, R.string.valiationErrorTimes, Toast.LENGTH_SHORT).show();
+            }
+        }
+        else {
+            Toast.makeText(this, R.string.validationError, Toast.LENGTH_SHORT).show();
         }
         return isValid;
     }
@@ -313,6 +342,7 @@ public class NotificationOverview extends AppCompatActivity {
 
                     Intent intent = new Intent(this, AlarmReceiver.class);
                     intent.putExtra("medicineName", selectedNotification.medicineName);
+                    intent.putExtra("notificationID", times[i]);
                     alarm.setAlarm(this, PendingIntent.getBroadcast(this, times[i], intent, PendingIntent.FLAG_UPDATE_CURRENT), cal);
                 }
             }

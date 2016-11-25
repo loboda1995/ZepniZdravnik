@@ -27,6 +27,7 @@ public class NotificationSchedulingService extends IntentService {
         NotificationManager mNotificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class), 0);
         Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        int notificationID = intent.getIntExtra("notificationID", 0);
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
@@ -35,10 +36,11 @@ public class NotificationSchedulingService extends IntentService {
                         .setSound(soundUri)
                         .setStyle(new NotificationCompat.BigTextStyle())
                         .setAutoCancel(true)
+                        .setShowWhen(true)
                         .setContentText("Čas je da vzamete " + intent.getStringExtra("medicineName"));
 
         mBuilder.setContentIntent(contentIntent);
-        mNotificationManager.notify(1, mBuilder.build());
+        mNotificationManager.notify(notificationID, mBuilder.build());
 
         AlarmReceiver.completeWakefulIntent(intent);
     }
