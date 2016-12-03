@@ -7,6 +7,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+<<<<<<< HEAD
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -20,6 +21,11 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+=======
+import java.util.ArrayList;
+import java.util.List;
+
+>>>>>>> f6b982eaea758d6db77761344baf91eddc547688
 import static android.content.ContentValues.TAG;
 
 public class DatabaseTestActivity extends AppCompatActivity {
@@ -43,8 +49,11 @@ public class DatabaseTestActivity extends AppCompatActivity {
         lv = (ListView) findViewById(R.id.lvDbEntries);
         ArrayAdapter adapter = new ArrayAdapter<Zdravnik>(this,R.layout.database_listview,zdravniki);
         lv.setAdapter(adapter);
+<<<<<<< HEAD
 
 
 
+=======
+>>>>>>> f6b982eaea758d6db77761344baf91eddc547688
     }
 }
