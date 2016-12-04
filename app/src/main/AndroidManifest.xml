@@ -2,13 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.tpoteam.zepnizdravnik">
 
-<<<<<<< HEAD
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.INTERNET" />
-=======
+
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
->>>>>>> f6b982eaea758d6db77761344baf91eddc547688
+
 
     <application
         android:allowBackup="true"
@@ -26,25 +25,22 @@
             android:name=".NotificationOverview"
             android:label="@string/title_activity_notification_overview"
             android:theme="@style/AppTheme.NoActionBar" />
-<<<<<<< HEAD
+
 
         <receiver android:name=".AlarmReceiver" />
 
         <service android:name=".NotificationSchedulingService" />
 
         <activity android:name=".ActivityJsonTest">
-=======
-        <activity android:name=".DatabaseTestActivity">
->>>>>>> f6b982eaea758d6db77761344baf91eddc547688
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-<<<<<<< HEAD
-=======
+        </activity>>
 
->>>>>>> f6b982eaea758d6db77761344baf91eddc547688
+        <activity android:name=".DatabaseTestActivity">
+
         </activity>
     </application>
 

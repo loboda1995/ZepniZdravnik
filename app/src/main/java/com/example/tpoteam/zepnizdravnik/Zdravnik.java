@@ -1,16 +1,14 @@
 package com.example.tpoteam.zepnizdravnik;
 
-<<<<<<< HEAD
 import java.util.ArrayList;
 
-=======
->>>>>>> f6b982eaea758d6db77761344baf91eddc547688
+
 /**
  * Created by Thinkpad on 21. 11. 2016.
  */
 
 public class Zdravnik {
-<<<<<<< HEAD
+
     String ime;
     String priimek;
     String ime_doma;
@@ -29,6 +27,8 @@ public class Zdravnik {
 //    String Nedelja;
 
     public Zdravnik(){
+        this.ime = "";
+        this.priimek = "";
 
     }
     public Zdravnik(String i, String p, String d, String m, String t, String N, String u){
@@ -49,19 +49,14 @@ public class Zdravnik {
     public void setUrnik(ArrayList<Dan> urnik) {
         this.urnik = urnik;
     }
-=======
-    private String ime;
-    private String priimek;
 
 
->>>>>>> f6b982eaea758d6db77761344baf91eddc547688
 
     public Zdravnik(String i, String p){
         this.ime = i;
         this.priimek = p;
     }
 
-<<<<<<< HEAD
 
     public String getTelefon_zdravnika() {
         return Telefon_zdravnika;
@@ -85,13 +80,11 @@ public class Zdravnik {
 
 
 
-=======
-    public Zdravnik(){
-        this.ime = this.priimek ="";
-    }
 
 
->>>>>>> f6b982eaea758d6db77761344baf91eddc547688
+
+
+
     public String getPriimek() {
         return priimek;
     }
@@ -101,10 +94,6 @@ public class Zdravnik {
     }
 
 
-<<<<<<< HEAD
-=======
-
->>>>>>> f6b982eaea758d6db77761344baf91eddc547688
     public void setIme(String ime) {
         this.ime = ime;
     }
