@@ -16,6 +16,12 @@
         android:paddingBottom="50px"
         android:textAllCaps="false" />
 
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="39dp"
+        android:id="@+id/IzbiraGroup"
+        android:layout_weight="0.44">
+
     <RadioButton
         android:text="Zdravstveni domovi"
         android:layout_width="match_parent"
@@ -24,7 +30,7 @@
         android:checked="true"
         android:paddingTop="0dp"
         android:textSize="18sp"
-        android:layout_weight="0.10" />
+        android:layout_weight="0.18" />
 
     <RadioButton
         android:text="Zdravniki"
@@ -32,12 +38,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/radioButton2"
         android:textSize="18sp"
-        android:layout_weight="0.11" />
-
-    <RadioGroup
-        android:layout_width="match_parent"
-        android:layout_height="39dp"
-        android:id="@+id/IzbiraGroup" />
+        android:layout_weight="0.16" />
+    </RadioGroup>
 
     <TextView
         android:text="TextView"

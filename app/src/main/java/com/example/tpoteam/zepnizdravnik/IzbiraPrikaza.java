@@ -35,8 +35,8 @@ public class IzbiraPrikaza extends AppCompatActivity {
 
         opis.setText("Prikazala se vam bodo imena zdravstvenih domov urejenih po abecednem vrstnem redu. S klikom nanje dobite podrobnejše informacije.");
 
-        RadioGroup radioGroup = (RadioGroup) findViewById(R.id.IzbiraGroup);
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+        RadioGroup groupIzbira = (RadioGroup) findViewById(R.id.IzbiraGroup);
+        groupIzbira.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
         {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
