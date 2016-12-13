@@ -6,11 +6,19 @@ package com.example.tpoteam.zepnizdravnik;
 
 public class Dan {
     String ime;
-    String urnik;
+    String delovnik;
 
     public Dan(String i, String u){
         this.ime = i;
-        this.urnik = u;
+        this.delovnik= u;
 
+    }
+
+    public String getIme() {
+        return ime;
+    }
+
+    public String getDelovnik() {
+        return delovnik;
     }
 }

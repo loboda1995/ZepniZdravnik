@@ -90,13 +90,13 @@ public class ZdravnikiExpandableAdapter extends BaseExpandableListAdapter {
 
 
         //urnik
-        ((TextView)convertView.findViewById(R.id.tvPonedeljek)).setText(zdravniki.get(groupPosition).getUrnik().get(0).getUrnik());
-        ((TextView)convertView.findViewById(R.id.tvTorek)).setText(zdravniki.get(groupPosition).getUrnik().get(1).getUrnik());
-        ((TextView)convertView.findViewById(R.id.tvSreda)).setText(zdravniki.get(groupPosition).getUrnik().get(2).getUrnik());
-        ((TextView)convertView.findViewById(R.id.tvCetrtek)).setText(zdravniki.get(groupPosition).getUrnik().get(3).getUrnik());
-        ((TextView)convertView.findViewById(R.id.tvPetek)).setText(zdravniki.get(groupPosition).getUrnik().get(4).getUrnik());
-        ((TextView)convertView.findViewById(R.id.tvSobota)).setText(zdravniki.get(groupPosition).getUrnik().get(5).getUrnik());
-        ((TextView)convertView.findViewById(R.id.tvNedelja)).setText(zdravniki.get(groupPosition).getUrnik().get(6).getUrnik());
+        ((TextView)convertView.findViewById(R.id.tvPonedeljek)).setText(zdravniki.get(groupPosition).getUrnik().get(0).getDelovnik());
+        ((TextView)convertView.findViewById(R.id.tvTorek)).setText(zdravniki.get(groupPosition).getUrnik().get(1).getDelovnik());
+        ((TextView)convertView.findViewById(R.id.tvSreda)).setText(zdravniki.get(groupPosition).getUrnik().get(2).getDelovnik());
+        ((TextView)convertView.findViewById(R.id.tvCetrtek)).setText(zdravniki.get(groupPosition).getUrnik().get(3).getDelovnik());
+        ((TextView)convertView.findViewById(R.id.tvPetek)).setText(zdravniki.get(groupPosition).getUrnik().get(4).getDelovnik());
+        ((TextView)convertView.findViewById(R.id.tvSobota)).setText(zdravniki.get(groupPosition).getUrnik().get(5).getDelovnik());
+        ((TextView)convertView.findViewById(R.id.tvNedelja)).setText(zdravniki.get(groupPosition).getUrnik().get(6).getDelovnik());
 
 
 
