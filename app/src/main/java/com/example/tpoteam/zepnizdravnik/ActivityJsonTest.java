@@ -37,16 +37,31 @@ import okhttp3.Response;
 public class ActivityJsonTest extends AppCompatActivity {
     JSONArray jsonZdravniki;
     ArrayList<Zdravnik> listaZdravnikov = new ArrayList<>();
+    ArrayAdapter adapter = new ArrayAdapter<Zdravnik>(this,R.layout.database_listview,listaZdravnikov);
+    boolean razparsano = false;
+    boolean crash = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_json_test);
 
+        Bundle b = this.getIntent().getExtras();
+        if(b.getBoolean("Izbira")){
+            //prikazZdravstvenihDomov();
+        }
+        else{
+            prikazZdravnikov();
+        }
+    }
+
+/*
+
+    private void prikazZdravstvenihDomov(){
         OkHttpClient client = new OkHttpClient();
 
         Request request = new Request.Builder()
                 //spremeniti na naslov, ki bo na azure
-                .url("http://192.168.1.70/testjsona.json")
+                .url("http://zepnizdravnik.azurewebsites.net/index.php/doctorInfoJSON")
                 .build();
 
 
@@ -60,6 +75,74 @@ public class ActivityJsonTest extends AppCompatActivity {
             public void onResponse(Call call, final Response response) throws IOException {
                 try {
                     String responseData = response.body().string();
+                    //Log.e("vrne", responseData.toString());
+                    jsonZdravniki = new JSONArray(responseData);
+
+                    for(int i=0; i<jsonZdravniki.length(); i++) {
+                        JSONObject zdrDom = (JSONObject) jsonZdravniki.get(i);
+
+
+                        Dom t = new Zdravnik(zdrDom.getString("Ime"), zdrDom.getString("Priimek"), zdrDom.getString("Ime_doma"),
+                                zdrDom.getString("Mail_zdravnik"),
+                                zdrDom.getString("Telefon_zdravnik"),
+                                zdrDom.getString("Naziv"),
+                                zdrDom.getString("ID_urnika"));
+
+                        ArrayList<Dan> dneviUrnik = new ArrayList<>();
+                        String[] dnevi = {"Ponedeljek", "Torek", "Sreda", "Cetrtek", "Petek", "Sobota", "Nedelja"};
+                        for (int j = 0; j < dnevi.length; j++) {
+                            dneviUrnik.add(new Dan(dnevi[j], zdrDom.getString(dnevi[j])));
+                        }
+                        t.setUrnik(dneviUrnik);
+                        listaZdravnikov.add(t);
+
+
+
+                    }
+                    //Log.e("doctor", listaZdravnikov.get(0).ime);
+                    razparsano = true;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    crash = true;
+                }
+            }
+
+
+        });
+        while(!razparsano && !crash){}
+        ListView lv = (ListView) findViewById(R.id.lvJson);
+        adapter.setDropDownViewResource(R.layout.activity_database_test);
+        lv.setAdapter(adapter);
+    }
+
+*/
+
+
+
+
+
+
+
+    private void prikazZdravnikov(){
+        OkHttpClient client = new OkHttpClient();
+
+        Request request = new Request.Builder()
+                //spremeniti na naslov, ki bo na azure
+                .url("http://zepnizdravnik.azurewebsites.net/index.php/doctorInfoJSON")
+                .build();
+
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+
+            }
+
+            public void onResponse(Call call, final Response response) throws IOException {
+                try {
+                    String responseData = response.body().string();
+                    //Log.e("vrne", responseData.toString());
                     jsonZdravniki = new JSONArray(responseData);
 
                     for(int i=0; i<jsonZdravniki.length(); i++) {
@@ -79,34 +162,23 @@ public class ActivityJsonTest extends AppCompatActivity {
                         }
                         t.setUrnik(dneviUrnik);
                         listaZdravnikov.add(t);
-                    }
 
+
+
+                    }
+                    //Log.e("doctor", listaZdravnikov.get(0).ime);
+                    razparsano = true;
                 } catch (Exception e) {
                     e.printStackTrace();
+                    crash = true;
                 }
             }
+
+
         });
-
-
+        while(!razparsano && !crash){}
         ListView lv = (ListView) findViewById(R.id.lvJson);
-        ArrayAdapter adapter = new ArrayAdapter<Zdravnik>(this,R.layout.database_listview,listaZdravnikov);
+        adapter.setDropDownViewResource(R.layout.activity_database_test);
         lv.setAdapter(adapter);
-
-
-
-
-
-
-
-
-
-
-
     }
-
-
-
-
-
-
 }
