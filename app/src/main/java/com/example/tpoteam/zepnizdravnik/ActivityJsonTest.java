@@ -38,8 +38,8 @@ import okhttp3.Response;
 public class ActivityJsonTest extends AppCompatActivity {
     JSONArray jsonZdravniki;
     ArrayList<Zdravnik> listaZdravnikov = new ArrayList<>();
-    boolean razparsano = false;
-    boolean crash = false;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -167,7 +167,7 @@ public class ActivityJsonTest extends AppCompatActivity {
 
                     }
                     //Log.e("doctor", listaZdravnikov.get(0).ime);
-                    razparsano = true;
+
                     ActivityJsonTest.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -190,5 +190,7 @@ public class ActivityJsonTest extends AppCompatActivity {
 
         });
     }
+
+
 
 }

@@ -56,7 +56,7 @@
                 android:layout_height="match_parent"
                 >
                 <TableRow
-                    android:paddingLeft="40dp">
+                    >
                     <TextView
                         android:text="ponedeljek"
                         android:padding="3dip" />
@@ -68,7 +68,7 @@
                 </TableRow>
 
                 <TableRow
-                    android:paddingLeft="40dp">
+                    >
                     <TextView
                         android:text="torek"
                         android:padding="3dip" />
@@ -80,7 +80,7 @@
                 </TableRow>
 
                 <TableRow
-                    android:paddingLeft="40dp">
+                    >
                     <TextView
                         android:text="sreda"
                         android:padding="3dip" />
@@ -91,7 +91,7 @@
                         android:id="@+id/tvSreda"/>
                 </TableRow>
                 <TableRow
-                    android:paddingLeft="40dp">
+                    >
                     <TextView
                         android:text="četrtek"
                         android:padding="3dip" />
@@ -102,7 +102,7 @@
                         android:id="@+id/tvCetrtek"/>
                 </TableRow>
                 <TableRow
-                    android:paddingLeft="40dp">
+                    >
                     <TextView
                         android:text="petek"
                         android:padding="3dip" />
@@ -113,7 +113,7 @@
                         android:id="@+id/tvPetek"/>
                 </TableRow>
                 <TableRow
-                    android:paddingLeft="40dp">
+                    >
                     <TextView
                         android:text="sobota"
                         android:padding="3dip" />
@@ -124,7 +124,7 @@
                         android:id="@+id/tvSobota"/>
                 </TableRow>
                 <TableRow
-                    android:paddingLeft="40dp">
+                    >
                     <TextView
                         android:text="nedelja"
                         android:padding="3dip" />

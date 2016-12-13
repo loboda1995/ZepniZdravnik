@@ -1,6 +1,7 @@
 package com.example.tpoteam.zepnizdravnik;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,6 +79,8 @@ public class ZdravnikiExpandableAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+        final int pos;
+        pos = groupPosition;
         TextView tw = null;
         if(convertView == null){
             LayoutInflater li = (LayoutInflater)this._context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -85,8 +88,24 @@ public class ZdravnikiExpandableAdapter extends BaseExpandableListAdapter {
         }
 
         ((TextView)convertView.findViewById(R.id.tvZdravstveniDom)).setText(zdravniki.get(groupPosition).getIme_doma());
-        ((TextView)convertView.findViewById(R.id.tvMailZdravnika)).setText(zdravniki.get(groupPosition).getMail_zdravnika());
+        TextView mail = (TextView)convertView.findViewById(R.id.tvMailZdravnika);
+        mail.setText(zdravniki.get(groupPosition).getMail_zdravnika());
+        mail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("plain/text");
+                intent.putExtra(Intent.EXTRA_EMAIL, new String[] {zdravniki.get(pos).getMail_zdravnika() });
+                intent.putExtra(Intent.EXTRA_SUBJECT, "Naročilo na zdravniški pregled");
+                intent.putExtra(Intent.EXTRA_TEXT, "Pozdravljeni,\n");
+                if (intent.resolveActivity(v.getContext().getPackageManager()) != null) {
+                    v.getContext().startActivity(Intent.createChooser(intent, ""));
+                }
+            }
+        });
+
         ((TextView)convertView.findViewById(R.id.tvTelefonZdravnika)).setText(zdravniki.get(groupPosition).getTelefon_zdravnika());
+
 
 
         //urnik
