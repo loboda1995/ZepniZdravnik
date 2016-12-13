@@ -60,6 +60,7 @@ public class IzbiraPrikaza extends AppCompatActivity {
                 Intent baza_prikaz = new Intent(IzbiraPrikaza.this, ActivityJsonTest.class);
                 baza_prikaz.putExtra("Izbira", izbran);
                 startActivity(baza_prikaz);
+                finish();
             }
         });
     }

@@ -11,10 +11,6 @@
         android:background="#5252d4">
 
 
-
-
-
-
         <LinearLayout
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
@@ -30,7 +26,7 @@
                 android:layout_height="wrap_content"
                 android:text="ZDRAVSTVENI DOM ljubljana center"
                 android:textStyle="bold"
-                android:textSize="20dp"
+                android:textSize="17dp"
                 android:id="@+id/tvZdravstveniDom" />
 
             <TextView
@@ -38,7 +34,8 @@
                 android:layout_height="wrap_content"
                 android:text="janez.novak@zdravstevnidom.si"
                 android:id="@+id/tvMailZdravnika"
-                android:textSize="16dp"/>
+                android:textSize="16dp"
+                android:fontFamily="sans-serif" />
 
 
             <TextView

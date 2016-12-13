@@ -11,11 +11,9 @@
     tools:context="com.example.tpoteam.zepnizdravnik.ActivityJsonTest">
 
 
-    <ListView
+    <ExpandableListView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/lvJson" />
+        android:layout_height="wrap_content"
+        android:id="@+id/expandableListView" />
 
 </RelativeLayout>

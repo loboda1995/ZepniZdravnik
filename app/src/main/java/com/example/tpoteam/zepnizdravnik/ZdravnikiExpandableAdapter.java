@@ -30,7 +30,7 @@ public class ZdravnikiExpandableAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return 0;
+        return 1;
     }
 
     @Override

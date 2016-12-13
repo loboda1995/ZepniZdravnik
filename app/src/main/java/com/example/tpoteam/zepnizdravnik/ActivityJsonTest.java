@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v7.util.AsyncListUtil;
 import android.util.Log;
 import android.widget.ArrayAdapter;
+import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -171,9 +172,11 @@ public class ActivityJsonTest extends AppCompatActivity {
                         @Override
                         public void run() {
                             try {
-                                ListView lv = (ListView) findViewById(R.id.lvJson);
-                                ArrayAdapter adapter = new ArrayAdapter<Zdravnik>(ActivityJsonTest.this, R.layout.database_listview, listaZdravnikov);
-                                lv.setAdapter(adapter);
+                                ExpandableListView elv = (ExpandableListView) findViewById(R.id.expandableListView);
+                                ZdravnikiExpandableAdapter adapter = new ZdravnikiExpandableAdapter(ActivityJsonTest.this,listaZdravnikov);
+                                elv.setAdapter(adapter);
+
+
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
