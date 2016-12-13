@@ -167,26 +167,25 @@ public class ActivityJsonTest extends AppCompatActivity {
                     }
                     //Log.e("doctor", listaZdravnikov.get(0).ime);
                     razparsano = true;
+                    ActivityJsonTest.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                ListView lv = (ListView) findViewById(R.id.lvJson);
+                                ArrayAdapter adapter = new ArrayAdapter<Zdravnik>(ActivityJsonTest.this, R.layout.database_listview, listaZdravnikov);
+                                lv.setAdapter(adapter);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+
                 } catch (Exception e) {
                     e.printStackTrace();
-                    crash = true;
                 }
             }
 
-
         });
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            public void run() {
-               izpisi_elemente();
-            }
-        }, 1000);
     }
 
-    private void izpisi_elemente(){
-        ArrayAdapter adapter = new ArrayAdapter<Zdravnik>(this,R.layout.database_listview,listaZdravnikov);
-        ListView lv = (ListView) findViewById(R.id.lvJson);
-        adapter.setDropDownViewResource(R.layout.activity_database_test);
-        lv.setAdapter(adapter);
-    }
 }
