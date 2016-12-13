@@ -37,7 +37,6 @@ import okhttp3.Response;
 public class ActivityJsonTest extends AppCompatActivity {
     JSONArray jsonZdravniki;
     ArrayList<Zdravnik> listaZdravnikov = new ArrayList<>();
-    ArrayAdapter adapter = new ArrayAdapter<Zdravnik>(this,R.layout.database_listview,listaZdravnikov);
     boolean razparsano = false;
     boolean crash = false;
     @Override
@@ -176,7 +175,16 @@ public class ActivityJsonTest extends AppCompatActivity {
 
 
         });
-        while(!razparsano && !crash){}
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+               izpisi_elemente();
+            }
+        }, 1000);
+    }
+
+    private void izpisi_elemente(){
+        ArrayAdapter adapter = new ArrayAdapter<Zdravnik>(this,R.layout.database_listview,listaZdravnikov);
         ListView lv = (ListView) findViewById(R.id.lvJson);
         adapter.setDropDownViewResource(R.layout.activity_database_test);
         lv.setAdapter(adapter);
