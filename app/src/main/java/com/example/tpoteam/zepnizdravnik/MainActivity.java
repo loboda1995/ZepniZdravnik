@@ -1,7 +1,6 @@
 package com.example.tpoteam.zepnizdravnik;
 
 import android.content.Intent;
-import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -9,19 +8,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
     public static final String fileNameWithNotifications = "notificationsFile";
+    public static final String fileNameWithAppointments = "appointmentsFile";
     public static final String nameOfExtra1 = "Notifications";
     public static final String nameOfExtra2 = "ID";
 
@@ -43,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         // Pridobimo ListView in mu dodamo ClickListener ter ustvarimo in dodamo adapter
         startScreen = (LinearLayout) findViewById(R.id.startScreen);
         list = (ListView) findViewById(R.id.list);
-        list.setOnItemClickListener(movieDetailsListener);
+        list.setOnItemClickListener(overviewListener);
 
         showScreen();
 
@@ -82,7 +79,8 @@ public class MainActivity extends AppCompatActivity {
 
     // Prikaze aktivnost s pregledi
     private void showAppointments(){
-
+        final Intent appoints = new Intent(MainActivity.this, AppointmentActivity.class);
+        startActivity(appoints);
     }
 
     // Prikaze aktivnost s kontakti
@@ -90,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    AdapterView.OnItemClickListener movieDetailsListener = new AdapterView.OnItemClickListener() {
+    AdapterView.OnItemClickListener overviewListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
             startAddNotificationActivity(arg2);
@@ -132,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
         ObjectInputStream ois = null;
         ArrayList<MedicineNotification> noti = new ArrayList<>();
         try {
-            fis = openFileInput(fileNameWithNotifications);;
+            fis = openFileInput(fileNameWithNotifications);
             ois = new ObjectInputStream(fis);
             noti = (ArrayList<MedicineNotification>)ois.readObject();
             ois.close();

@@ -65,4 +65,11 @@
     <string name="hour22">22:00</string>
     <string name="hour23">23:00</string>
 
+    <string name="labelTimeOfAppointment">Čas pregleda:</string>
+    <string name="labelLocOfAppointment">Kje:</string>
+    <string name="labelDocOfAppointment">Pri zdravniku:</string>
+    <string name="labelDoctor">Ime zdravnika:</string>
+    <string name="labelLocation">Zdravstvena ustanova:</string>
+    <string name="title_activity_appointment_overviev">Pregled opomnika</string>
+
 </resources>
