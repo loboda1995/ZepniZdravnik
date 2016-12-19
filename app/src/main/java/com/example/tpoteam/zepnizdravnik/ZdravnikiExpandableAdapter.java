@@ -24,6 +24,8 @@ public class ZdravnikiExpandableAdapter extends BaseExpandableListAdapter {
         this.zdravniki = zdr;
     }
 
+
+
     @Override
     public int getGroupCount() {
         return zdravniki.size();

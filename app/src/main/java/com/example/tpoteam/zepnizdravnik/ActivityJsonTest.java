@@ -1,33 +1,18 @@
 package com.example.tpoteam.zepnizdravnik;
 
-import android.content.Context;
-import android.nfc.Tag;
-import android.os.AsyncTask;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.util.AsyncListUtil;
-import android.util.Log;
-import android.widget.ArrayAdapter;
-import android.widget.ExpandableListView;
-import android.widget.ListView;
-import android.widget.Toast;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.reflect.TypeToken;
+import com.pnikosis.materialishprogress.ProgressWheel;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -38,12 +23,15 @@ import okhttp3.Response;
 public class ActivityJsonTest extends AppCompatActivity {
     JSONArray jsonZdravniki;
     ArrayList<Zdravnik> listaZdravnikov = new ArrayList<>();
-
+    private ProgressWheel pw;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_json_test);
+
+        pw = (ProgressWheel)findViewById(R.id.progress_wheel);
+        pw.spin();
 
         Bundle b = this.getIntent().getExtras();
         if(b.getBoolean("Izbira")){
@@ -51,6 +39,7 @@ public class ActivityJsonTest extends AppCompatActivity {
         }
         else{
             prikazZdravnikov();
+
         }
     }
 
@@ -139,6 +128,7 @@ public class ActivityJsonTest extends AppCompatActivity {
 
             }
 
+
             public void onResponse(Call call, final Response response) throws IOException {
                 try {
                     String responseData = response.body().string();
@@ -172,9 +162,24 @@ public class ActivityJsonTest extends AppCompatActivity {
                         @Override
                         public void run() {
                             try {
-                                ExpandableListView elv = (ExpandableListView) findViewById(R.id.expandableListView);
-                                ZdravnikiExpandableAdapter adapter = new ZdravnikiExpandableAdapter(ActivityJsonTest.this,listaZdravnikov);
-                                elv.setAdapter(adapter);
+
+                                pw.stopSpinning();
+                                pw.setVisibility(View.GONE);
+
+
+                                RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
+
+                                RecyclerView.Adapter mAdapter = new MyRecyclerViewZdravnikiAdapter(ActivityJsonTest.this,listaZdravnikov);
+                                mRecyclerView.setLayoutManager(new LinearLayoutManager(ActivityJsonTest.this));
+                                mRecyclerView.setAdapter(mAdapter);
+
+
+
+//                                ZdravnikiExpandableAdapter zdrAdapter = new ZdravnikiExpandableAdapter(ActivityJsonTest.this,listaZdravnikov);
+//                                ExpandableListView elv = (ExpandableListView)findViewById(R.id.expandableListView);
+//                                elv.setAdapter(zdrAdapter);
+
+
 
 
                             } catch (Exception e) {
