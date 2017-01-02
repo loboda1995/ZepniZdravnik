@@ -9,21 +9,29 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by Luka Loboda on 14-Dec-16.
@@ -38,7 +46,14 @@ public class AppointmentOverview extends AppCompatActivity{
     private EditText inputDoctor;
     private EditText inputLocation;
     private Spinner colorPicker;
+    private TextView displayAlarmTime;
+    private TextView displayAppointmentTime;
     private EditText comments;
+
+    private long alarmTime = -1;
+    private long appointmentTime = -1;
+
+    SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy 'ob' HH:mm");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +95,16 @@ public class AppointmentOverview extends AppCompatActivity{
         if(IDselected < appointmentNotifications.size()-1){
             selectedNotification = appointmentNotifications.get(IDselected);
 
+            inputDoctor.setText(selectedNotification.doctor);
+            inputLocation.setText(selectedNotification.location);
+
+            alarmTime = selectedNotification.timeOfNotification;
+            appointmentTime = selectedNotification.timeOfAppointment;
+            Calendar cal = Calendar.getInstance();
+            cal.setTimeInMillis(alarmTime);
+            displayAlarmTime.setText(alarmTime == -1 ? getResources().getString(R.string.setTimeText) : sdf.format(cal.getTime()));
+            cal.setTimeInMillis(appointmentTime);
+            displayAppointmentTime.setText(appointmentTime == -1 ? getResources().getString(R.string.setTimeText) : sdf.format(cal.getTime()));
 
             colorPicker.setSelection(selectedNotification.idOfColor);
 
@@ -92,11 +117,67 @@ public class AppointmentOverview extends AppCompatActivity{
         inputDoctor = (EditText) findViewById(R.id.appointDoctorName);
         inputLocation = (EditText) findViewById(R.id.appointLocation);
 
+        displayAlarmTime = (TextView) findViewById(R.id.displayAlarmTime);
+        displayAlarmTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDatePicker(true);
+            }
+        });
+        displayAppointmentTime = (TextView) findViewById(R.id.displayAppointTime);
+        displayAppointmentTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDatePicker(false);
+            }
+        });
+
         // Ustvarimo color picker za izbiro barve ozadja opomnika
         colorPicker = (Spinner)findViewById(R.id.colorPicker);
         colorPicker.setAdapter(new ColorPickerAdapter(this));
 
         comments = (EditText) findViewById(R.id.commentsInput);
+    }
+
+    private void showDatePicker(final boolean alarm){
+        LayoutInflater layoutInflater = LayoutInflater.from(this);
+        View promptView = layoutInflater.inflate(R.layout.date_and_time_picker, null);
+        TimePicker timePicker = (TimePicker) promptView.findViewById(R.id.timePicker);
+        timePicker.setIs24HourView(true);
+        TextView title = (TextView)promptView.findViewById(R.id.title);
+        title.setText(alarm ? getResources().getString(R.string.timePickerTitle1) : getResources().getString(R.string.timePickerTitle2));
+        final DatePicker datePicker = (DatePicker)promptView.findViewById(R.id.datePicker);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setView(promptView);
+
+        alertDialogBuilder.setCancelable(false)
+                .setPositiveButton("Nastavi",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                Calendar cal = Calendar.getInstance();
+                                if(alarm) {
+                                    cal.set(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth());
+                                    // TODO: preverimo ali je čas alarma pred časom pregleda in če ni slučajno v preteklosti
+                                    alarmTime = cal.getTimeInMillis();
+                                    displayAlarmTime.setText(sdf.format(cal.getTime()));
+                                }else{
+                                    cal.set(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth());
+                                    // TODO: preverimo ali je čas alarma pred časom pregleda in če ni slučajno čas v preteklosti
+                                    appointmentTime = cal.getTimeInMillis();
+                                    displayAppointmentTime.setText(sdf.format(cal.getTime()));
+                                }
+                                dialog.cancel();
+                            }
+                        })
+                .setNegativeButton("Prekliči",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+
+        AlertDialog alert = alertDialogBuilder.create();
+        alert.show();
     }
 
     // Izbrise izbrani opomnik
@@ -156,10 +237,12 @@ public class AppointmentOverview extends AppCompatActivity{
         if(selectedNotification != null){
             selectedNotification.doctor = doctorName;
             selectedNotification.location = location;
+            selectedNotification.timeOfNotification = alarmTime;
+            selectedNotification.timeOfAppointment = appointmentTime;
             selectedNotification.idOfColor = newColorId;
             selectedNotification.comments = comm;
         }else{
-            selectedNotification = new AppointmentNotification(newColorId, location, doctorName, 0, 0, comm);
+            selectedNotification = new AppointmentNotification(newColorId, location, doctorName, alarmTime, appointmentTime, comm);
             appointmentNotifications.add(selectedNotification);
         }
 

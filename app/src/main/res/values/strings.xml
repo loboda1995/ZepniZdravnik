@@ -72,4 +72,11 @@
     <string name="labelLocation">Zdravstvena ustanova:</string>
     <string name="title_activity_appointment_overviev">Pregled opomnika</string>
 
+    <string name="timePickerTitle1">Datum in čas opomnika</string>
+    <string name="timePickerTitle2">Datum in čas pregleda</string>
+
+    <string name="labelAlarmTime">Čas prikaza opomnika:</string>
+    <string name="setTimeText">Nastavi čas</string>
+    <string name="labelAppointTime">Čas pregleda:</string>
+
 </resources>

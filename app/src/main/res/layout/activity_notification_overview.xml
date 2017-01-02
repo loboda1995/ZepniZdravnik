@@ -47,6 +47,7 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:textColor="@android:color/black"
                         android:text="@string/labelMedicineName"
                         android:textSize="20dp"
                         android:layout_width="0dp"
@@ -54,6 +55,7 @@
                         android:layout_height="wrap_content"/>
 
                     <EditText
+                        android:background="@drawable/inputbackground"
                         android:id="@+id/medicineName"
                         android:textSize="20dp"
                         android:layout_width="0dp"
@@ -70,6 +72,7 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:textColor="@android:color/black"
                         android:text="@string/labelMedicineQuantity"
                         android:textSize="20dp"
                         android:layout_width="0dp"
@@ -77,8 +80,9 @@
                         android:layout_height="wrap_content"/>
 
                     <EditText
+                        android:background="@drawable/inputbackground"
                         android:id="@+id/medicineQuantity"
-                        android:textSize="20dp"
+                        android:textSize="18dp"
                         android:layout_width="0dp"
                         android:layout_weight="0.6"
                         android:layout_height="wrap_content"/>
@@ -93,8 +97,9 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:textColor="@android:color/black"
                         android:text="@string/labelColor"
-                        android:textSize="20dp"
+                        android:textSize="18dp"
                         android:layout_width="0dp"
                         android:layout_weight="0.6"
                         android:layout_height="wrap_content"/>
@@ -119,9 +124,10 @@
                         android:layout_height="match_parent">
 
                         <TextView
+                            android:textColor="@android:color/black"
                             android:layout_centerVertical="true"
                             android:text="@string/labelTimeInterval"
-                            android:textSize="20dp"
+                            android:textSize="18dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"/>
 
@@ -142,7 +148,7 @@
                                 android:id="@+id/radioDaily"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textSize="20dp"
+                                android:textSize="18dp"
                                 android:checked="true"
                                 android:text="@string/radioDaily"/>
 
@@ -150,7 +156,7 @@
                                 android:id="@+id/radioWeekly"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textSize="20dp"
+                                android:textSize="18dp"
                                 android:text="@string/radioWeekly"/>
 
                         </RadioGroup>
@@ -166,9 +172,10 @@
                     android:layout_height="wrap_content">
 
                     <TextView
+                        android:textColor="@android:color/black"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="20dp"
+                        android:textSize="18dp"
                         android:text="@string/labelInterval"/>
 
                     <include layout="@layout/weeklyoptions" />
@@ -185,12 +192,14 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:textColor="@android:color/black"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="20dp"
+                        android:textSize="18dp"
                         android:text="@string/labelComments"/>
 
                     <EditText
+                        android:background="@drawable/inputbackground"
                         android:id="@+id/commentsInput"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -209,7 +218,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:textSize="20dp"
+                        android:textSize="18dp"
                         android:text="@string/buttonDelete"/>
 
                     <Button
@@ -217,7 +226,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:textSize="20dp"
+                        android:textSize="18dp"
                         android:text="@string/buttonSave"/>
 
                 </LinearLayout>

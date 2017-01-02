@@ -47,18 +47,29 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:textColor="@android:color/black"
+                        android:layout_gravity="fill"
                         android:text="@string/labelDoctor"
-                        android:textSize="20dp"
+                        android:textSize="18dp"
                         android:layout_width="0dp"
                         android:layout_weight="0.4"
                         android:layout_height="wrap_content"/>
 
-                    <EditText
-                        android:id="@+id/appointDoctorName"
-                        android:textSize="20dp"
+                    <RelativeLayout
                         android:layout_width="0dp"
                         android:layout_weight="0.6"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="match_parent">
+                        <EditText
+                            android:background="@drawable/inputbackground"
+                            android:id="@+id/appointDoctorName"
+                            android:layout_centerVertical="true"
+                            android:textSize="18dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+
+                    </RelativeLayout>
+
+
 
                 </LinearLayout>
 
@@ -70,18 +81,108 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:textColor="@android:color/black"
+                        android:layout_gravity="fill"
                         android:text="@string/labelLocation"
-                        android:textSize="20dp"
+                        android:textSize="18dp"
                         android:layout_width="0dp"
                         android:layout_weight="0.4"
                         android:layout_height="wrap_content"/>
 
-                    <EditText
-                        android:id="@+id/appointLocation"
-                        android:textSize="20dp"
+                    <RelativeLayout
                         android:layout_width="0dp"
                         android:layout_weight="0.6"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="match_parent">
+                        <EditText
+                            android:background="@drawable/inputbackground"
+                            android:id="@+id/appointLocation"
+                            android:layout_centerVertical="true"
+                            android:textSize="18dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                // Izbira časa sprožitve opomnika
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal">
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="0.4"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:textColor="@android:color/black"
+                            android:text="@string/labelAlarmTime"
+                            android:layout_centerVertical="true"
+                            android:textSize="18dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="0.6"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:background="@drawable/inputbackground"
+                            android:textColor="@android:color/black"
+                            android:id="@+id/displayAlarmTime"
+                            android:layout_centerVertical="true"
+                            android:textSize="18dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                // Izbira časa pregleda
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal">
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="0.4"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:textColor="@android:color/black"
+                            android:text="@string/labelAppointTime"
+                            android:layout_centerVertical="true"
+                            android:textSize="18dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="0.6"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:background="@drawable/inputbackground"
+                            android:textColor="@android:color/black"
+                            android:id="@+id/displayAppointTime"
+                            android:layout_centerVertical="true"
+                            android:textSize="18dp"
+                            android:text="Nastavi čas"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+
+                    </RelativeLayout>
 
                 </LinearLayout>
 
@@ -93,8 +194,9 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:textColor="@android:color/black"
                         android:text="@string/labelColor"
-                        android:textSize="20dp"
+                        android:textSize="18dp"
                         android:layout_width="0dp"
                         android:layout_weight="0.6"
                         android:layout_height="wrap_content"/>
@@ -114,13 +216,16 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:textColor="@android:color/black"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="20dp"
+                        android:textSize="18dp"
                         android:text="@string/labelComments"/>
 
                     <EditText
+                        android:background="@drawable/inputbackground"
                         android:id="@+id/commentsInput"
+                        android:textSize="18dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="top"

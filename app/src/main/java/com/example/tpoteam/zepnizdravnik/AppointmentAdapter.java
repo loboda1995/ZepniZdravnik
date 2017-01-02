@@ -32,6 +32,7 @@ public class AppointmentAdapter extends ArrayAdapter<AppointmentNotification> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.notification_add, parent, false);
         }else{
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.appointment_notification_display, parent, false);
+            convertView.setBackgroundColor(getContext().getResources().getIntArray(R.array.notificationcolors)[appointment.idOfColor]);
 
             TextView timeOfAppoint = (TextView) convertView.findViewById(R.id.timeOfAppointment);
             TextView locOfAppoint = (TextView) convertView.findViewById(R.id.locOfAppointment);
