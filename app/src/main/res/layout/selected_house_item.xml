@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#5252d4">
+
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:background="#b4b4ef"
+            android:paddingLeft="100dp"
+            >
+
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="LJUBLJANA"
+                android:textStyle="bold"
+                android:textSize="17dp"
+                android:id="@+id/tvKrajDoma" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Celovška cesta 109"
+                android:textSize="17dp"
+                android:id="@+id/tvNaslovDoma"
+                android:layout_marginBottom="5dp"/>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="janez.novak@zdravstevnidom.si"
+                android:id="@+id/tvMailDoma"
+                android:textSize="16dp"
+                android:fontFamily="sans-serif" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="01/70123332"
+                android:textSize="16dp"
+                android:id="@+id/tvTelefonDoma" />
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

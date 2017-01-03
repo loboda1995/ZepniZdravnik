@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 
 public class IzbiraPrikaza extends AppCompatActivity {
-    boolean izbran = false;
+    private boolean izbran = false;
 
 
 
@@ -41,12 +41,12 @@ public class IzbiraPrikaza extends AppCompatActivity {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if(checkedId == zd.getId()){
-                    izbran = true;
+                    izbran = false;
                     TextView opis = (TextView) findViewById(R.id.TVOpis);
                     opis.setText("Prikazala se vam bodo imena zdravstvenih domov urejenih po abecednem vrstnem redu. S klikom nanje dobite podrobnejše informacije.");
 
                 }else if(checkedId == zdravnik.getId()){
-                    izbran = false;
+                    izbran = true;
                     TextView opis = (TextView) findViewById(R.id.TVOpis);
                     opis.setText("Prikazala se vam bodo imena zdravnikov urejenih po abecednem vrstnem redu. S klikom nanje dobite podrobnejše informacije.");
 
@@ -58,10 +58,14 @@ public class IzbiraPrikaza extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent baza_prikaz = new Intent(IzbiraPrikaza.this, ActivityJsonTest.class);
-                baza_prikaz.putExtra("Izbira", izbran);
+                baza_prikaz.putExtra("Izbira", getIzber());
                 startActivity(baza_prikaz);
                 finish();
             }
         });
+    }
+
+    private boolean getIzber(){
+        return izbran;
     }
 }

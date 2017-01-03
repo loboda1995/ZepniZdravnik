@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ExpandableListAdapter;
 
 import com.pnikosis.materialishprogress.ProgressWheel;
 
@@ -21,8 +22,9 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class ActivityJsonTest extends AppCompatActivity {
-    JSONArray jsonZdravniki;
+    JSONArray jsonZdravniki, jsonDomovi;
     ArrayList<Zdravnik> listaZdravnikov = new ArrayList<>();
+    ArrayList<Dom> listaDomov = new ArrayList<>();
     private ProgressWheel pw;
 
     @Override
@@ -34,8 +36,8 @@ public class ActivityJsonTest extends AppCompatActivity {
         pw.spin();
 
         Bundle b = this.getIntent().getExtras();
-        if(b.getBoolean("Izbira")){
-            //prikazZdravstvenihDomov();
+        if(!b.getBoolean("Izbira")){
+            prikazZdravstvenihDomov();
         }
         else{
             prikazZdravnikov();
@@ -43,14 +45,12 @@ public class ActivityJsonTest extends AppCompatActivity {
         }
     }
 
-/*
 
     private void prikazZdravstvenihDomov(){
         OkHttpClient client = new OkHttpClient();
 
         Request request = new Request.Builder()
-                //spremeniti na naslov, ki bo na azure
-                .url("http://zepnizdravnik.azurewebsites.net/index.php/doctorInfoJSON")
+                .url("http://zepnizdravnik.azurewebsites.net/index.php/homeInfoJSON")
                 .build();
 
 
@@ -64,47 +64,52 @@ public class ActivityJsonTest extends AppCompatActivity {
             public void onResponse(Call call, final Response response) throws IOException {
                 try {
                     String responseData = response.body().string();
-                    //Log.e("vrne", responseData.toString());
-                    jsonZdravniki = new JSONArray(responseData);
+                    jsonDomovi = new JSONArray(responseData);
 
-                    for(int i=0; i<jsonZdravniki.length(); i++) {
-                        JSONObject zdrDom = (JSONObject) jsonZdravniki.get(i);
+                    for(int i=0; i<jsonDomovi.length(); i++) {
+                        JSONObject zdrDom = (JSONObject) jsonDomovi.get(i);
 
+                        Dom d = new Dom(zdrDom.getString("Ime_doma"), zdrDom.getString("Naslov"), zdrDom.getString("Kraj"), zdrDom.getString("Mail_dom"), zdrDom.getString("Postna_stevilka"), zdrDom.getString("Telefon_dom"));
 
-                        Dom t = new Zdravnik(zdrDom.getString("Ime"), zdrDom.getString("Priimek"), zdrDom.getString("Ime_doma"),
-                                zdrDom.getString("Mail_zdravnik"),
-                                zdrDom.getString("Telefon_zdravnik"),
-                                zdrDom.getString("Naziv"),
-                                zdrDom.getString("ID_urnika"));
-
-                        ArrayList<Dan> dneviUrnik = new ArrayList<>();
-                        String[] dnevi = {"Ponedeljek", "Torek", "Sreda", "Cetrtek", "Petek", "Sobota", "Nedelja"};
-                        for (int j = 0; j < dnevi.length; j++) {
-                            dneviUrnik.add(new Dan(dnevi[j], zdrDom.getString(dnevi[j])));
-                        }
-                        t.setUrnik(dneviUrnik);
-                        listaZdravnikov.add(t);
-
-
-
+                        listaDomov.add(d);
                     }
-                    //Log.e("doctor", listaZdravnikov.get(0).ime);
-                    razparsano = true;
                 } catch (Exception e) {
                     e.printStackTrace();
-                    crash = true;
                 }
+
+                ActivityJsonTest.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+
+                            pw.stopSpinning();
+                            pw.setVisibility(View.GONE);
+
+
+                            RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
+
+                            RecyclerView.Adapter mAdapter = new MyRecyclerViewDomAdapter(ActivityJsonTest.this, listaDomov);
+                            mRecyclerView.setLayoutManager(new LinearLayoutManager(ActivityJsonTest.this));
+                            mRecyclerView.setAdapter(mAdapter);
+
+//                                ZdravnikiExpandableAdapter zdrAdapter = new ZdravnikiExpandableAdapter(ActivityJsonTest.this,listaZdravnikov);
+//                                ExpandableListView elv = (ExpandableListView)findViewById(R.id.expandableListView);
+//                                elv.setAdapter(zdrAdapter);
+
+
+
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+
+
             }
-
-
         });
-        while(!razparsano && !crash){}
-        ListView lv = (ListView) findViewById(R.id.lvJson);
-        adapter.setDropDownViewResource(R.layout.activity_database_test);
-        lv.setAdapter(adapter);
     }
 
-*/
 
 
 
