@@ -1,6 +1,7 @@
 package com.example.tpoteam.zepnizdravnik;
 
 import android.content.Context;
+import android.graphics.PorterDuff;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,11 +33,13 @@ public class NotificationAdapter extends ArrayAdapter<MedicineNotification> {
         // Ce je notification==null potem gre za element v seznamu, ki predstavlja gumb za dodajanje opomnikov
         if(notification == null){
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.notification_add, parent, false);
+            LinearLayout layout = (LinearLayout) convertView.findViewById(R.id.addButton);
+            layout.getBackground().setColorFilter(getContext().getResources().getColor(R.color.addListItem), PorterDuff.Mode.ADD);
         }else{
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.notification_display, parent, false);
 
             LinearLayout noti = (LinearLayout) convertView.findViewById(R.id.notificationDisplay);
-            noti.setBackgroundColor(getContext().getResources().getIntArray(R.array.notificationcolors)[notification.idOfColor]);
+            noti.getBackground().setColorFilter(getContext().getResources().getIntArray(R.array.notificationcolors)[notification.idOfColor], PorterDuff.Mode.ADD);
             TextView medicineNameDisplay = (TextView) convertView.findViewById(R.id.medicineName);
             medicineNameDisplay.setText(notification.medicineName);
             TextView medicineQunatityDisplay = (TextView) convertView.findViewById(R.id.medicineQuantity);

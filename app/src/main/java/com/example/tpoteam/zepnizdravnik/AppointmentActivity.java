@@ -10,7 +10,10 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -82,6 +85,7 @@ public class AppointmentActivity extends AppCompatActivity {
         FileInputStream fis = null;
         ObjectInputStream ois = null;
         ArrayList<AppointmentNotification> noti = new ArrayList<>();
+        ArrayList<AppointmentNotification> notiActive = new ArrayList<>();
         try {
             fis = openFileInput(MainActivity.fileNameWithAppointments);
             ois = new ObjectInputStream(fis);
@@ -91,8 +95,27 @@ public class AppointmentActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        noti.add(null);
-        return noti;
+        for(AppointmentNotification n : noti){
+            if(!n.removeOld || (n.removeOld && n.timeOfAppointment > System.currentTimeMillis())){
+                notiActive.add(n);
+            }
+        }
+        if(noti.size() != notiActive.size())
+            writeObjectToFile(notiActive, MainActivity.fileNameWithAppointments);
+        notiActive.add(null);
+        return notiActive;
     }
 
+    private boolean writeObjectToFile(Object o, String fileName){
+        try {
+            FileOutputStream fos = openFileOutput(fileName, MODE_PRIVATE);
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fos);
+            objectOutputStream.writeObject(o);
+            objectOutputStream.close();
+            fos.close();
+        } catch (IOException e) {
+            return false;
+        }
+        return true;
+    }
 }

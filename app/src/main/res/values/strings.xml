@@ -68,15 +68,18 @@
     <string name="labelTimeOfAppointment">Čas pregleda:</string>
     <string name="labelLocOfAppointment">Kje:</string>
     <string name="labelDocOfAppointment">Pri zdravniku:</string>
-    <string name="labelDoctor">Ime zdravnika:</string>
-    <string name="labelLocation">Zdravstvena ustanova:</string>
+    <string name="labelDoctor">Zdravnik:</string>
+    <string name="labelInstitution">Zdravstvena ustanova:</string>
+    <string name="labelLocation">Naslov ustanove:</string>
     <string name="title_activity_appointment_overviev">Pregled opomnika</string>
 
     <string name="timePickerTitle1">Datum in čas opomnika</string>
     <string name="timePickerTitle2">Datum in čas pregleda</string>
 
-    <string name="labelAlarmTime">Čas prikaza opomnika:</string>
+    <string name="labelAlarmTime">Čas opomnika:</string>
     <string name="setTimeText">Nastavi čas</string>
     <string name="labelAppointTime">Čas pregleda:</string>
+
+    <string name="labelRemove">Samodejno odstrani pretekel opomnik:</string>
 
 </resources>

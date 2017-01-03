@@ -33,8 +33,10 @@
             android:label="@string/title_activity_appointment_overviev"
             android:theme="@style/AppTheme.NoActionBar" />
 
-        <receiver android:name=".AlarmReceiver"></receiver>
-        <service android:name=".NotificationSchedulingService" />
+        <receiver android:name=".MedicineAlarmReceiver"></receiver>
+        <service android:name=".MedicineNotificationService" />
+        <receiver android:name=".AppointmentAlarmReceiver"></receiver>
+        <service android:name=".AppointmentNotificationService" />
 
     </application>
 </manifest>

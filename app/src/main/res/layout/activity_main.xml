@@ -64,8 +64,11 @@
         </RelativeLayout>
 
         <ListView
+            android:padding="5dp"
             android:visibility="gone"
             android:id="@+id/list"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
         </ListView>

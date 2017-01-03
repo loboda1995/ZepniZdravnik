@@ -1,7 +1,6 @@
 package com.example.tpoteam.zepnizdravnik;
 
 import android.app.IntentService;
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -9,15 +8,14 @@ import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 
 /**
  * Created by Luka Loboda on 20-Nov-16.
  */
 
-public class NotificationSchedulingService extends IntentService {
+public class AppointmentNotificationService extends IntentService {
 
-    public NotificationSchedulingService() {
+    public AppointmentNotificationService() {
         super("SchedulingService");
     }
 
@@ -32,17 +30,18 @@ public class NotificationSchedulingService extends IntentService {
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.doctor_icon)
-                        .setContentTitle("Opomnik za zdravilo")
+                        .setContentTitle("Opomnik za pregled")
                         .setSound(soundUri)
                         .setStyle(new NotificationCompat.BigTextStyle())
                         .setAutoCancel(true)
                         .setShowWhen(true)
-                        .setContentText("Čas je da vzamete " + intent.getStringExtra("medicineName"));
+                        .setContentText(intent.getStringExtra("time")+" imate pregled v "+intent.getStringExtra("location"));
 
         mBuilder.setContentIntent(contentIntent);
         mNotificationManager.notify(notificationID, mBuilder.build());
 
-        AlarmReceiver.completeWakefulIntent(intent);
+        MedicineAlarmReceiver.completeWakefulIntent(intent);
     }
 
 }
+

@@ -1,6 +1,7 @@
 package com.example.tpoteam.zepnizdravnik;
 
 import android.content.Context;
+import android.graphics.PorterDuff;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,9 +31,12 @@ public class AppointmentAdapter extends ArrayAdapter<AppointmentNotification> {
         // Ce je notification==null potem gre za element v seznamu, ki predstavlja gumb za dodajanje opomnikov
         if(appointment == null){
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.notification_add, parent, false);
+            LinearLayout layout = (LinearLayout) convertView.findViewById(R.id.addButton);
+            layout.getBackground().setColorFilter(getContext().getResources().getColor(R.color.addListItem), PorterDuff.Mode.ADD);
         }else{
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.appointment_notification_display, parent, false);
-            convertView.setBackgroundColor(getContext().getResources().getIntArray(R.array.notificationcolors)[appointment.idOfColor]);
+            LinearLayout layout = (LinearLayout) convertView.findViewById(R.id.notificationDisplay);
+            layout.getBackground().setColorFilter(getContext().getResources().getIntArray(R.array.notificationcolors)[appointment.idOfColor], PorterDuff.Mode.ADD);
 
             TextView timeOfAppoint = (TextView) convertView.findViewById(R.id.timeOfAppointment);
             TextView locOfAppoint = (TextView) convertView.findViewById(R.id.locOfAppointment);

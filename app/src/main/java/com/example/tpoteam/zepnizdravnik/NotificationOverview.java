@@ -7,11 +7,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -22,11 +23,9 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -39,7 +38,7 @@ public class NotificationOverview extends AppCompatActivity {
     private ArrayList<MedicineNotification> medicineNotifications =  new ArrayList<>();
     private int IDselected;
     private MedicineNotification selectedNotification;
-    private AlarmReceiver alarm = new AlarmReceiver();
+    private MedicineAlarmReceiver alarm = new MedicineAlarmReceiver();
 
     private EditText medicineNameInput;
     private EditText medicineQuantityInput;
@@ -170,8 +169,11 @@ public class NotificationOverview extends AppCompatActivity {
     // Izbrise izbrani opomnik
     private void delete(){
         if(selectedNotification != null){
+            String chars = getResources().getString(R.string.notificationRemovalTitle);
+            SpannableString str = new SpannableString(chars);
+            str.setSpan(new ForegroundColorSpan(Color.BLACK), 0, chars.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             new AlertDialog.Builder(this)
-                    .setTitle(R.string.notificationRemovalTitle)
+                    .setTitle(str)
                     .setMessage(R.string.notificationRemoveMessage)
                     .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
@@ -310,7 +312,7 @@ public class NotificationOverview extends AppCompatActivity {
                 // Pocistimo stare alarme
                 for(int i = 0; i < copy.times.length; i++){
                     if(copy.times[i] != 0){
-                        Intent intent = new Intent(this, AlarmReceiver.class);
+                        Intent intent = new Intent(this, MedicineAlarmReceiver.class);
                         alarm.cancelAlarm(this, PendingIntent.getBroadcast(this, copy.times[i], intent, PendingIntent.FLAG_UPDATE_CURRENT));
                     }
                 }
@@ -340,7 +342,7 @@ public class NotificationOverview extends AppCompatActivity {
                         }
                     }
 
-                    Intent intent = new Intent(this, AlarmReceiver.class);
+                    Intent intent = new Intent(this, MedicineAlarmReceiver.class);
                     intent.putExtra("medicineName", selectedNotification.medicineName);
                     intent.putExtra("notificationID", times[i]);
                     alarm.setAlarm(this, PendingIntent.getBroadcast(this, times[i], intent, PendingIntent.FLAG_UPDATE_CURRENT), cal);
@@ -360,7 +362,7 @@ public class NotificationOverview extends AppCompatActivity {
         }
         for(int i = 0; i < selectedNotification.times.length; i++){
             if(selectedNotification.times[i] != 0){
-                Intent intent = new Intent(this, AlarmReceiver.class);
+                Intent intent = new Intent(this, MedicineAlarmReceiver.class);
                 alarm.cancelAlarm(this, PendingIntent.getBroadcast(this, selectedNotification.times[i], intent, PendingIntent.FLAG_UPDATE_CURRENT));
             }
         }

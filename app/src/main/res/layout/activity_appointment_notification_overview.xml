@@ -46,14 +46,18 @@
                     android:layout_marginBottom="10dp"
                     android:orientation="horizontal">
 
-                    <TextView
-                        android:textColor="@android:color/black"
-                        android:layout_gravity="fill"
-                        android:text="@string/labelDoctor"
-                        android:textSize="18dp"
+                    <RelativeLayout
                         android:layout_width="0dp"
                         android:layout_weight="0.4"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="match_parent">
+                        <TextView
+                            android:textColor="@android:color/black"
+                            android:layout_centerVertical="true"
+                            android:text="@string/labelDoctor"
+                            android:textSize="18dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                    </RelativeLayout>
 
                     <RelativeLayout
                         android:layout_width="0dp"
@@ -68,8 +72,42 @@
                             android:layout_height="wrap_content"/>
 
                     </RelativeLayout>
+                </LinearLayout>
 
+                // Vnosno polje za ustanovo
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal">
 
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="0.4"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:textColor="@android:color/black"
+                            android:layout_centerVertical="true"
+                            android:text="@string/labelInstitution"
+                            android:textSize="18dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="0.6"
+                        android:layout_height="match_parent">
+                        <EditText
+                            android:background="@drawable/inputbackground"
+                            android:id="@+id/appointInstitution"
+                            android:layout_centerVertical="true"
+                            android:textSize="18dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+
+                    </RelativeLayout>
 
                 </LinearLayout>
 
@@ -80,14 +118,19 @@
                     android:layout_marginBottom="10dp"
                     android:orientation="horizontal">
 
-                    <TextView
-                        android:textColor="@android:color/black"
-                        android:layout_gravity="fill"
-                        android:text="@string/labelLocation"
-                        android:textSize="18dp"
+                    <RelativeLayout
                         android:layout_width="0dp"
                         android:layout_weight="0.4"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:textColor="@android:color/black"
+                            android:layout_gravity="fill"
+                            android:text="@string/labelLocation"
+                            android:textSize="18dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                    </RelativeLayout>
 
                     <RelativeLayout
                         android:layout_width="0dp"
@@ -138,6 +181,7 @@
                             android:id="@+id/displayAlarmTime"
                             android:layout_centerVertical="true"
                             android:textSize="18dp"
+                            android:text="@string/setTimeText"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"/>
 
@@ -178,7 +222,7 @@
                             android:id="@+id/displayAppointTime"
                             android:layout_centerVertical="true"
                             android:textSize="18dp"
-                            android:text="Nastavi čas"
+                            android:text="@string/setTimeText"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"/>
 
@@ -193,19 +237,62 @@
                     android:layout_marginBottom="10dp"
                     android:orientation="horizontal">
 
-                    <TextView
-                        android:textColor="@android:color/black"
-                        android:text="@string/labelColor"
-                        android:textSize="18dp"
+                    <RelativeLayout
                         android:layout_width="0dp"
                         android:layout_weight="0.6"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="match_parent">
+                        <TextView
+                            android:layout_centerVertical="true"
+                            android:textColor="@android:color/black"
+                            android:text="@string/labelColor"
+                            android:textSize="18dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                    </RelativeLayout>
 
-                    <Spinner
-                        android:id="@+id/colorPicker"
+                    <RelativeLayout
                         android:layout_width="0dp"
                         android:layout_weight="0.4"
-                        android:layout_height="wrap_content"></Spinner>
+                        android:layout_height="match_parent">
+                        <Spinner
+                            android:layout_centerVertical="true"
+                            android:id="@+id/colorPicker"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"></Spinner>
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                // Izbira samodejnega brisanja opomnika
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal">
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="0.6"
+                        android:layout_height="match_parent">
+                        <TextView
+                            android:layout_centerVertical="true"
+                            android:textColor="@android:color/black"
+                            android:text="@string/labelRemove"
+                            android:textSize="18dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="0.4"
+                        android:layout_height="match_parent">
+                        <CheckBox
+                            android:id="@+id/removeOld"
+                            android:layout_centerVertical="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </RelativeLayout>
 
                 </LinearLayout>
 
