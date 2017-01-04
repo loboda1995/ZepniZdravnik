@@ -27,7 +27,8 @@
         <activity
             android:name=".AppointmentActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="true"/>
         <activity
             android:name=".AppointmentOverview"
             android:label="@string/title_activity_appointment_overviev"

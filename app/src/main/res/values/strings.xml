@@ -69,8 +69,8 @@
     <string name="labelLocOfAppointment">Kje:</string>
     <string name="labelDocOfAppointment">Pri zdravniku:</string>
     <string name="labelDoctor">Zdravnik:</string>
-    <string name="labelInstitution">Zdravstvena ustanova:</string>
-    <string name="labelLocation">Naslov ustanove:</string>
+    <string name="labelInstitution">Ustanova:</string>
+    <string name="labelLocation">Naslov:</string>
     <string name="title_activity_appointment_overviev">Pregled opomnika</string>
 
     <string name="timePickerTitle1">Datum in čas opomnika</string>

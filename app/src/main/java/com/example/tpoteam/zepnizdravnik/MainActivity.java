@@ -1,6 +1,7 @@
 package com.example.tpoteam.zepnizdravnik;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        toolbar.setTitleTextColor(Color.BLACK);
 
         // Pridobimo ListView in mu dodamo ClickListener ter ustvarimo in dodamo adapter
         startScreen = (LinearLayout) findViewById(R.id.startScreen);

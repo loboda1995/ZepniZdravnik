@@ -60,6 +60,7 @@ public class NotificationOverview extends AppCompatActivity {
         setContentView(R.layout.activity_notification_overview);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        toolbar.setTitleTextColor(Color.BLACK);
 
         // Pridobimo vnosna polja
         getAllInputs();
@@ -284,7 +285,7 @@ public class NotificationOverview extends AppCompatActivity {
         if(selectedNotification != null){
              copy = new MedicineNotification(selectedNotification.medicineName,
                     selectedNotification.medicineQuantity, selectedNotification.idOfColor,
-                    selectedNotification.dailyInterval, selectedNotification.times, selectedNotification.comments);
+                    selectedNotification.dailyInterval, selectedNotification.times, selectedNotification.comments, selectedNotification.idOfNoti);
         }
 
         // Odstranimo element, ki sluzi dodajanju novih opomnikov
@@ -299,8 +300,9 @@ public class NotificationOverview extends AppCompatActivity {
             selectedNotification.dailyInterval = isDaily;
             selectedNotification.times = times;
             selectedNotification.comments = comm;
+            selectedNotification.idOfNoti = (int)System.currentTimeMillis();
         }else{
-            selectedNotification = new MedicineNotification(newMedicineName, newMedicineQuantity, newColorId, isDaily, times, comm);
+            selectedNotification = new MedicineNotification(newMedicineName, newMedicineQuantity, newColorId, isDaily, times, comm, (int)System.currentTimeMillis());
             medicineNotifications.add(selectedNotification);
         }
 
@@ -344,7 +346,8 @@ public class NotificationOverview extends AppCompatActivity {
 
                     Intent intent = new Intent(this, MedicineAlarmReceiver.class);
                     intent.putExtra("medicineName", selectedNotification.medicineName);
-                    intent.putExtra("notificationID", times[i]);
+                    intent.putExtra("notificationID", selectedNotification.idOfNoti);
+                    intent.putExtra("alarmID", times[i]);
                     alarm.setAlarm(this, PendingIntent.getBroadcast(this, times[i], intent, PendingIntent.FLAG_UPDATE_CURRENT), cal);
                 }
             }

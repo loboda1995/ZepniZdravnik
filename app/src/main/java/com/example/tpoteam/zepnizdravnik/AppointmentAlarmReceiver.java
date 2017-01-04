@@ -20,7 +20,6 @@ public class AppointmentAlarmReceiver extends WakefulBroadcastReceiver{
     public void onReceive(Context context, Intent intent) {
         Intent service = new Intent(context, AppointmentNotificationService.class);
         service.putExtra("time", intent.getStringExtra("time"));
-        service.putExtra("location", intent.getStringExtra("location"));
         service.putExtra("notificationID", intent.getIntExtra("notificationID", 0));
         startWakefulService(context, service);
     }

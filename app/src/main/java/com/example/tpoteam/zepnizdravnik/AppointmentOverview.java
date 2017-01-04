@@ -65,6 +65,7 @@ public class AppointmentOverview extends AppCompatActivity{
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        toolbar.setTitleTextColor(Color.BLACK);
 
         // Pridobimo vnosna polja
         getAllInputs();
@@ -95,26 +96,31 @@ public class AppointmentOverview extends AppCompatActivity{
 
         // Ce je IDselected kaze na zadnji element pomeni, da ustvarjamo nov opomnik, sicer
         // spreminajmo ze obstojecega
-        if(IDselected < appointmentNotifications.size()-1){
+        if(IDselected < appointmentNotifications.size()){
             selectedNotification = appointmentNotifications.get(IDselected);
 
             inputDoctor.setText(selectedNotification.doctor);
             inputInstitution.setText(selectedNotification.institution);
             inputLocation.setText(selectedNotification.location);
 
-            alarmTime = selectedNotification.timeOfNotification;
-            appointmentTime = selectedNotification.timeOfAppointment;
-            Calendar cal = Calendar.getInstance();
-            cal.setTimeInMillis(alarmTime);
-            displayAlarmTime.setText(alarmTime == -1 ? getResources().getString(R.string.setTimeText) : sdf.format(cal.getTime()));
-            cal.setTimeInMillis(appointmentTime);
-            displayAppointmentTime.setText(appointmentTime == -1 ? getResources().getString(R.string.setTimeText) : sdf.format(cal.getTime()));
-
             colorPicker.setSelection(selectedNotification.idOfColor);
 
             checkRemove.setChecked(selectedNotification.removeOld);
 
             comments.setText(selectedNotification.comments);
+
+            alarmTime = selectedNotification.timeOfNotification;
+            appointmentTime = selectedNotification.timeOfAppointment;
+            // Odstranimo alarm ce je ze minil
+            if(selectedNotification != null && alarmTime != -1 && alarmTime < Calendar.getInstance().getTimeInMillis()) {
+                alarmTime = -1;
+                saveThisNotification();
+            }
+            Calendar cal = Calendar.getInstance();
+            cal.setTimeInMillis(alarmTime);
+            displayAlarmTime.setText(alarmTime == -1 ? getResources().getString(R.string.setTimeText) : sdf.format(cal.getTime()));
+            cal.setTimeInMillis(appointmentTime);
+            displayAppointmentTime.setText(appointmentTime == -1 ? getResources().getString(R.string.setTimeText) : sdf.format(cal.getTime()));
         }
     }
 
@@ -267,8 +273,6 @@ public class AppointmentOverview extends AppCompatActivity{
                     selectedNotification.timeOfAppointment, selectedNotification.comments, selectedNotification.idOfNoti, selectedNotification.removeOld);
         }
 
-        // Odstranimo element, ki sluzi dodajanju novih opomnikov
-        appointmentNotifications.remove(appointmentNotifications.size()-1);
 
         // Ce je izbrani Notification == null, pomeni da ustvarjamo novega, sicer spreminajmo ze
         // obstojecega
@@ -280,12 +284,9 @@ public class AppointmentOverview extends AppCompatActivity{
             selectedNotification.idOfColor = newColorId;
             selectedNotification.comments = comm;
             selectedNotification.removeOld = removeOld;
-            if(alarmTime != -1)
-                selectedNotification.idOfNoti = Math.round(System.currentTimeMillis());
-            else
-                selectedNotification.idOfNoti = -1;
+            selectedNotification.idOfNoti = (int)System.currentTimeMillis();
         }else{
-            selectedNotification = new AppointmentNotification(newColorId, inst, location, doctorName, alarmTime, appointmentTime, comm, alarmTime != -1 ? Math.round(System.currentTimeMillis()) : -1, removeOld);
+            selectedNotification = new AppointmentNotification(newColorId, inst, location, doctorName, alarmTime, appointmentTime, comm,  (int)System.currentTimeMillis(), removeOld);
             appointmentNotifications.add(selectedNotification);
         }
 
@@ -306,7 +307,6 @@ public class AppointmentOverview extends AppCompatActivity{
 
                 Intent intent = new Intent(this, AppointmentAlarmReceiver.class);
                 intent.putExtra("time", sdf.format(new Date(selectedNotification.timeOfAppointment)));
-                intent.putExtra("location", selectedNotification.institution);
                 intent.putExtra("notificationID", selectedNotification.idOfNoti);
                 Log.i("ADD ID", selectedNotification.idOfNoti+"");
                 alarm.setAlarm(this, PendingIntent.getBroadcast(this, selectedNotification.idOfNoti, intent, PendingIntent.FLAG_UPDATE_CURRENT), cal);

@@ -1,9 +1,11 @@
 package com.example.tpoteam.zepnizdravnik;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
@@ -38,11 +40,22 @@ public class AppointmentActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        toolbar.setTitleTextColor(Color.BLACK);
 
         list = (ListView) findViewById(R.id.list);
         list.setOnItemClickListener(overviewListener);
 
         showAppointments();
+
+        // Ce je podan extra potem smo odprli aktivnost ob kliku na notification in odpremo ustrezen pregled
+        int id = this.getIntent().getIntExtra("notificationID", -1);
+        Log.i("ID", id+"");
+        if(id != -1){
+            for(int i = 0; i < appointmentNotifications.size()-1; i++){
+                if(appointmentNotifications.get(i).idOfNoti == id)
+                    startAddNotificationActivity(i);
+            }
+        }
 
     }
 
@@ -75,6 +88,7 @@ public class AppointmentActivity extends AppCompatActivity {
 
     private void startAddNotificationActivity(int id){
         final Intent details = new Intent(AppointmentActivity.this, AppointmentOverview.class);
+        appointmentNotifications.remove(appointmentNotifications.size()-1);
         details.putExtra(nameOfExtra1, appointmentNotifications);
         details.putExtra(nameOfExtra2, id);
         startActivity(details);

@@ -21,6 +21,7 @@ public class MedicineAlarmReceiver extends WakefulBroadcastReceiver{
         Intent service = new Intent(context, MedicineNotificationService.class);
         service.putExtra("medicineName", intent.getStringExtra("medicineName"));
         service.putExtra("notificationID", intent.getIntExtra("notificationID", 0));
+        service.putExtra("alarmID", intent.getIntExtra("alarmID", 0));
         startWakefulService(context, service);
     }
 

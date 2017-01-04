@@ -30,6 +30,7 @@
         tools:showIn="@layout/activity_main">
 
         <RelativeLayout
+            android:background="@color/backgroundBlue"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -41,6 +42,7 @@
                 android:layout_height="match_parent">
 
                 <TextView
+                    android:textColor="@android:color/black"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="22dp"
@@ -51,6 +53,7 @@
                     android:text="@string/noNotifications1"/>
 
                 <TextView
+                    android:textColor="@android:color/black"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="20dp"

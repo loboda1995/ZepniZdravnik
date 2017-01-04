@@ -16,15 +16,17 @@ public class MedicineNotification implements Serializable{
     public boolean dailyInterval;
     public int[] times = new int[24];
     public String comments;
+    public int idOfNoti;
 
 
-    public MedicineNotification(String medicineName, int medicineQuantity, int id, boolean isDaily, int[] t, String comm){
+    public MedicineNotification(String medicineName, int medicineQuantity, int idColor, boolean isDaily, int[] t, String comm, int id){
         this.medicineName = medicineName;
         this.medicineQuantity = medicineQuantity;
-        this.idOfColor = id;
+        this.idOfColor = idColor;
         this.dailyInterval = isDaily;
         this.times = t;
         this.comments = comm;
+        this.idOfNoti = id;
     }
 
 }

@@ -21,11 +21,14 @@ public class MedicineNotificationService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
+        int notificationID = intent.getIntExtra("notificationID", 0);
 
         NotificationManager mNotificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
-        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class), 0);
+        Intent activity = new Intent(this, MainActivity.class);
+        activity.putExtra("notificationID", notificationID);
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, activity, PendingIntent.FLAG_UPDATE_CURRENT);
         Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        int notificationID = intent.getIntExtra("notificationID", 0);
+        int alarmID = intent.getIntExtra("alarmID", 0);
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
@@ -38,7 +41,7 @@ public class MedicineNotificationService extends IntentService {
                         .setContentText("Čas je da vzamete " + intent.getStringExtra("medicineName"));
 
         mBuilder.setContentIntent(contentIntent);
-        mNotificationManager.notify(notificationID, mBuilder.build());
+        mNotificationManager.notify(alarmID, mBuilder.build());
 
         MedicineAlarmReceiver.completeWakefulIntent(intent);
     }
