@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
@@ -128,17 +129,20 @@ public class MainActivity extends AppCompatActivity {
 
     private ArrayList<MedicineNotification> getMedicineNotifications()
     {
-        FileInputStream fis = null;
-        ObjectInputStream ois = null;
+        File file = new File(getFilesDir() + "/" + fileNameWithNotifications);
         ArrayList<MedicineNotification> noti = new ArrayList<>();
-        try {
-            fis = openFileInput(fileNameWithNotifications);
-            ois = new ObjectInputStream(fis);
-            noti = (ArrayList<MedicineNotification>)ois.readObject();
-            ois.close();
-            fis.close();
-        } catch (Exception e) {
-            e.printStackTrace();
+        if(file.exists()) {
+            FileInputStream fis = null;
+            ObjectInputStream ois = null;
+            try {
+                fis = openFileInput(fileNameWithNotifications);
+                ois = new ObjectInputStream(fis);
+                noti = (ArrayList<MedicineNotification>) ois.readObject();
+                ois.close();
+                fis.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         noti.add(null);
         return noti;

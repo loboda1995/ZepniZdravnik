@@ -25,25 +25,57 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:context="com.example.lukaloboda.mojakinoteka.AppointmentActivity"
-        tools:showIn="@layout/activity_appointments">
+        tools:context="com.example.lukaloboda.mojakinoteka.MainActivity"
+        tools:showIn="@layout/activity_main">
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:orientation="vertical" android:layout_width="match_parent"
+        <RelativeLayout
             android:background="@color/backgroundBlue"
+            android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ListView
-                android:visibility="visible"
-                android:id="@+id/list"
+            <LinearLayout
+                android:id="@+id/apointmentsScreen"
+                android:orientation="vertical"
+                android:gravity="center"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:dividerHeight="5dp"
-                android:layout_margin="5dp"
-                android:divider="@android:color/transparent">
-            </ListView>
+                android:layout_height="match_parent">
 
-        </LinearLayout>
+                <TextView
+                    android:textColor="@android:color/black"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="22dp"
+                    android:textAlignment="center"
+                    android:textAllCaps="true"
+                    android:textStyle="bold"
+                    android:paddingBottom="10dp"
+                    android:text="@string/noNotifications2"/>
+
+                <TextView
+                    android:textColor="@android:color/black"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="20dp"
+                    android:textAlignment="center"
+                    android:textAllCaps="true"
+                    android:textStyle="bold"
+                    android:text="@string/noNotifications3"/>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <ListView
+            android:padding="5dp"
+            android:visibility="gone"
+            android:id="@+id/listApointments"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </ListView>
+
+
 
     </RelativeLayout>
 

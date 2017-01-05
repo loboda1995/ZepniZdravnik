@@ -32,6 +32,7 @@ public class AppointmentActivity extends AppCompatActivity {
     private ArrayList<AppointmentNotification> appointmentNotifications = new ArrayList<>();
 
     private ListView list;
+    private LinearLayout startScreen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,10 +43,20 @@ public class AppointmentActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         toolbar.setTitleTextColor(Color.BLACK);
 
-        list = (ListView) findViewById(R.id.list);
+        startScreen = (LinearLayout) findViewById(R.id.apointmentsScreen);
+        list = (ListView) findViewById(R.id.listApointments);
         list.setOnItemClickListener(overviewListener);
 
         showAppointments();
+
+        // Ob kliku na zacetni zaslon prikazemo okno za dodajanje opomnika
+        startScreen.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                startAddNotificationActivity(0);
+            }
+        });
 
         // Ce je podan extra potem smo odprli aktivnost ob kliku na notification in odpremo ustrezen pregled
         int id = this.getIntent().getIntExtra("notificationID", -1);
@@ -71,11 +82,13 @@ public class AppointmentActivity extends AppCompatActivity {
         adapter = new AppointmentAdapter(this, appointmentNotifications);
         list.setAdapter(adapter);
 
-        // TODO: Ce uporabnik se ni ustvaril opomnikov, prikazemo zacetni zaslon, sicer prikazemo seznam
-        if(appointmentNotifications.size() > 0){
+        // Ce uporabnik se ni ustvaril opomnikov, prikazemo zacetni zaslon, sicer prikazemo seznam
+        if(appointmentNotifications.size() > 1){
             list.setVisibility(View.VISIBLE);
+            startScreen.setVisibility(View.GONE);
         }else{
             list.setVisibility(View.GONE);
+            startScreen.setVisibility(View.VISIBLE);
         }
     }
 

@@ -16,8 +16,9 @@
     <string name="buttonDelete">Izbriši</string>
     <string name="buttonSave">Shrani</string>
 
-    <string name="noNotifications1">Začnite uporabljati\naplikacijo</string>
-    <string name="noNotifications2">&#62;&#62;Ustvarite opomnik&#60;&#60;</string>
+    <string name="noNotifications1">Seznam opomnikov\nza zdravila je prazen</string>
+    <string name="noNotifications2">Seznam opomnikov\nza preglede je prazen</string>
+    <string name="noNotifications3">&#62;&#62;Ustvarite opomnik&#60;&#60;</string>
     <string name="notificationSaved">Opomnik je bil uspešno shranjen.</string>
     <string name="notificationNotSaved">Prišlo je do napake, poskusite ponovno.</string>
     <string name="notificationRemovalTitle">Brisanje opomnika</string>

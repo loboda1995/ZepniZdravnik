@@ -327,11 +327,9 @@ public class AppointmentOverview extends AppCompatActivity{
         // Zbrišemo star opomnik ce obstaja
         if(selectedNotification.timeOfNotification != -1){
             Intent intent = new Intent(this, AppointmentAlarmReceiver.class);
-            Log.i("REMOVE ID", selectedNotification.idOfNoti+"");
             alarm.cancelAlarm(this, PendingIntent.getBroadcast(this, selectedNotification.idOfNoti, intent, PendingIntent.FLAG_UPDATE_CURRENT));
         }
 
-        appointmentNotifications.remove(appointmentNotifications.size()-1);
         appointmentNotifications.remove(IDselected);
 
         // Shranimo trenutne opomnike

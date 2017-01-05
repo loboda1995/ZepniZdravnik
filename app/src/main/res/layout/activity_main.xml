@@ -60,7 +60,7 @@
                     android:textAlignment="center"
                     android:textAllCaps="true"
                     android:textStyle="bold"
-                    android:text="@string/noNotifications2"/>
+                    android:text="@string/noNotifications3"/>
 
             </LinearLayout>
 
