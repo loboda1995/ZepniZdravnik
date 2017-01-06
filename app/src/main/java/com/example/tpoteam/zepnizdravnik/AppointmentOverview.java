@@ -166,7 +166,7 @@ public class AppointmentOverview extends AppCompatActivity{
         alertDialogBuilder.setView(promptView);
 
         alertDialogBuilder.setCancelable(false)
-                .setPositiveButton("Nastavi",
+                .setPositiveButton(R.string.set,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 Calendar cal = Calendar.getInstance();
@@ -178,7 +178,7 @@ public class AppointmentOverview extends AppCompatActivity{
                                         alarmTime = cal.getTimeInMillis();
                                         displayAlarmTime.setText(sdf.format(cal.getTime()));
                                     }else{
-                                        // TODO: cas alarma ni pravilen, opozorilo
+                                        Toast.makeText(AppointmentOverview.this, R.string.appointmentError, Toast.LENGTH_LONG).show();
                                     }
                                 }else{
                                     cal.set(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth(), timePicker.getCurrentHour(), timePicker.getCurrentMinute());
@@ -187,13 +187,13 @@ public class AppointmentOverview extends AppCompatActivity{
                                         appointmentTime = cal.getTimeInMillis();
                                         displayAppointmentTime.setText(sdf.format(cal.getTime()));
                                     }else{
-                                        // TODO: cas pregleda ni pravilen, opozorilo
+                                        Toast.makeText(AppointmentOverview.this, R.string.appointmentError, Toast.LENGTH_LONG).show();
                                     }
                                 }
                                 dialog.cancel();
                             }
                         })
-                .setNeutralButton("Izbriši", new DialogInterface.OnClickListener() {
+                .setNeutralButton(R.string.delete, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         if(alarm) {
@@ -206,7 +206,7 @@ public class AppointmentOverview extends AppCompatActivity{
                         dialog.cancel();
                     }
                 })
-                .setNegativeButton("Prekliči",
+                .setNegativeButton(R.string.cancel,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 dialog.cancel();
@@ -245,17 +245,61 @@ public class AppointmentOverview extends AppCompatActivity{
 
     // Shrani novoustvarjen opomnik ali pa shrani spremenjen opomnik
     private void save(){
-        // TODO: preverjanje vnosa
-        boolean b = saveThisNotification();
-        Toast.makeText(this, b ? R.string.notificationSaved : R.string.notificationNotSaved, Toast.LENGTH_LONG).show();
-        if(b){
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    AppointmentOverview.this.finish();
-                }
-            }, 500);
+        if(allInputIsValid()) {
+            boolean b = saveThisNotification();
+            Toast.makeText(this, b ? R.string.notificationSaved : R.string.notificationNotSaved, Toast.LENGTH_LONG).show();
+            if (b) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        AppointmentOverview.this.finish();
+                    }
+                }, 500);
+            }
         }
+        else {
+            Toast.makeText(this, R.string.validationError, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private boolean allInputIsValid() {
+        boolean isValid = true;
+        if(inputDoctor.getText().toString().trim().equals("")) {
+            isValid = false;
+            inputDoctor.setTextColor(Color.RED);
+            inputDoctor.setError(getString(R.string.validationErrorDoctor));
+        }
+        else
+            inputDoctor.setTextColor(Color.BLACK);
+        if(inputInstitution.getText().toString().trim().equals("")) {
+            isValid = false;
+            inputInstitution.setTextColor(Color.RED);
+            inputInstitution.setError(getString(R.string.validationErrorInstitution));
+        }
+        else
+            inputInstitution.setTextColor(Color.BLACK);
+        if(inputLocation.getText().toString().trim().equals("")) {
+            isValid = false;
+            inputLocation.setTextColor(Color.RED);
+            inputLocation.setError(getString(R.string.validationErrorLocation));
+        }
+        else
+            inputLocation.setTextColor(Color.BLACK);
+        if(displayAlarmTime.getText().toString().equals(getString(R.string.setTimeText))) {
+            isValid = false;
+            displayAlarmTime.setTextColor(Color.RED);
+            displayAlarmTime.setError(getString(R.string.validationErrorDisplayAlarm));
+        }
+        else
+            displayAlarmTime.setTextColor(Color.BLACK);
+        if(displayAppointmentTime.getText().toString().equals(getString(R.string.setTimeText))) {
+            isValid = false;
+            displayAppointmentTime.setTextColor(Color.RED);
+            displayAppointmentTime.setError(getString(R.string.validationErrorDisplayAppointment));
+        }
+        else
+            displayAppointmentTime.setTextColor(Color.BLACK);
+        return isValid;
     }
 
     private boolean saveThisNotification() {

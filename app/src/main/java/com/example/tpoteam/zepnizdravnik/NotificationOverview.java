@@ -221,6 +221,7 @@ public class NotificationOverview extends AppCompatActivity {
         else
             medicineNameInput.setTextColor(Color.BLACK);
         if(medicineQuantityInput.getText().toString().trim().equals("")) {
+            isValid = false;
             medicineQuantityInput.setError(getString(R.string.validationErrorQuantityEmpty));
             medicineQuantityInput.setTextColor(Color.RED);
         }

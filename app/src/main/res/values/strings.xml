@@ -23,8 +23,7 @@
     <string name="notificationNotSaved">Prišlo je do napake, poskusite ponovno.</string>
     <string name="notificationRemovalTitle">Brisanje opomnika</string>
     <string name="notificationRemoveMessage">Ali želite odstraniti ta opomnik?</string>
-    <string name="yes">DA</string>
-    <string name="no">NE</string>
+    <string name="appointmentError">Prišlo je do napake pri nastavitvi opomnika. Prosimo, poskusite znova.</string>
     <string name="notifcationRemoved">Opomnik uspešno odstranjen.</string>
     <string name="notifcationNotRemoved">Prišlo je do napake, poskusite ponovno.</string>
     <string name="validationError">Prišlo je do napake pri vnosu podatkov.</string>
@@ -32,6 +31,11 @@
     <string name="validationErrorQuantityEmpty">Vnesite količino zdravila.</string>
     <string name="validationErrorQuantity">Vnesena količina mora biti številka.</string>
     <string name="valiationErrorTimes">Izberite interval jemanja zdravila.</string>
+    <string name="validationErrorDoctor">Vnesite ime zdravnika.</string>
+    <string name="validationErrorInstitution">Vnesite ime ustanove.</string>
+    <string name="validationErrorLocation">Vnesite lokacijo.</string>
+    <string name="validationErrorDisplayAlarm">Nastavite čas.</string>
+    <string name="validationErrorDisplayAppointment">Nastavite čas.</string>
 
     <string name="day1">Ponedeljek</string>
     <string name="day2">Torek</string>
@@ -66,9 +70,9 @@
     <string name="hour22">22:00</string>
     <string name="hour23">23:00</string>
 
-    <string name="labelTimeOfAppointment">Čas pregleda:</string>
-    <string name="labelLocOfAppointment">Kje:</string>
-    <string name="labelDocOfAppointment">Pri zdravniku:</string>
+    <string name="labelTimeOfAppointment">Čas pregleda:&#160;</string>
+    <string name="labelLocOfAppointment">Kje:&#160;</string>
+    <string name="labelDocOfAppointment">Pri zdravniku:&#160;</string>
     <string name="labelDoctor">Zdravnik:</string>
     <string name="labelInstitution">Ustanova:</string>
     <string name="labelLocation">Naslov:</string>
@@ -82,5 +86,11 @@
     <string name="labelAppointTime">Čas pregleda:</string>
 
     <string name="labelRemove">Samodejno odstrani pretekel opomnik:</string>
+
+    <string name="yes">DA</string>
+    <string name="no">NE</string>
+    <string name="set">Nastavi</string>
+    <string name="delete">Izbriši</string>
+    <string name="cancel">Prekliči</string>
 
 </resources>

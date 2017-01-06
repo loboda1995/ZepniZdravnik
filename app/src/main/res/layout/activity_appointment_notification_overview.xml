@@ -42,7 +42,7 @@
                 android:padding="14dp"
                 android:orientation="vertical">
 
-                // Vnosno polje za ime zdravnika
+                <!-- Vnosno polje za ime zdravnika -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -79,7 +79,7 @@
                     </RelativeLayout>
                 </LinearLayout>
 
-                // Vnosno polje za ustanovo
+                <!-- Vnosno polje za ustanovo -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -118,7 +118,7 @@
 
                 </LinearLayout>
 
-                // Vnosno polje za lokacijo pregleda
+                <!-- Vnosno polje za lokacijo pregleda -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -157,7 +157,7 @@
 
                 </LinearLayout>
 
-                // Izbira časa sprožitve opomnika
+                <!-- Izbira časa sprožitve opomnika -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -198,7 +198,7 @@
 
                 </LinearLayout>
 
-                // Izbira časa pregleda
+                <!-- Izbira časa pregleda -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -239,7 +239,7 @@
 
                 </LinearLayout>
 
-                // Izbira barve opomnika
+                <!-- Izbira barve opomnika -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -272,7 +272,7 @@
 
                 </LinearLayout>
 
-                // Izbira samodejnega brisanja opomnika
+                <!-- Izbira samodejnega brisanja opomnika -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -305,7 +305,7 @@
 
                 </LinearLayout>
 
-                // Polje z opombami
+                <!-- Polje z opombami -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

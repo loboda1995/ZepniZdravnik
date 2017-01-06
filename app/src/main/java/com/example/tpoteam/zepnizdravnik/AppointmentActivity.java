@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -109,18 +110,21 @@ public class AppointmentActivity extends AppCompatActivity {
 
     private ArrayList<AppointmentNotification> getAppointmentNotifications()
     {
-        FileInputStream fis = null;
-        ObjectInputStream ois = null;
+        File file = new File(getFilesDir() + "/" + MainActivity.fileNameWithAppointments);
         ArrayList<AppointmentNotification> noti = new ArrayList<>();
         ArrayList<AppointmentNotification> notiActive = new ArrayList<>();
-        try {
-            fis = openFileInput(MainActivity.fileNameWithAppointments);
-            ois = new ObjectInputStream(fis);
-            noti = (ArrayList<AppointmentNotification>)ois.readObject();
-            ois.close();
-            fis.close();
-        } catch (Exception e) {
-            e.printStackTrace();
+        if(file.exists()) {
+            FileInputStream fis = null;
+            ObjectInputStream ois = null;
+            try {
+                fis = openFileInput(MainActivity.fileNameWithAppointments);
+                ois = new ObjectInputStream(fis);
+                noti = (ArrayList<AppointmentNotification>) ois.readObject();
+                ois.close();
+                fis.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         for(AppointmentNotification n : noti){
             if(!n.removeOld || (n.removeOld && n.timeOfAppointment > System.currentTimeMillis())){

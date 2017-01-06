@@ -42,7 +42,7 @@
                 android:padding="14dp"
                 android:orientation="vertical">
 
-                // Vnosno polje za ime zdravila
+                <!-- Vnosno polje za ime zdravila -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -69,7 +69,7 @@
 
                 </LinearLayout>
 
-                // Vnosno polje za količino
+                <!-- Vnosno polje za količino -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -96,7 +96,7 @@
 
                 </LinearLayout>
 
-                // Izbira barve opomnika
+                <!-- Izbira barve opomnika -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -119,7 +119,7 @@
 
                 </LinearLayout>
 
-                // Izbira tipa intervala jemanja zdravil
+                <!-- Izbira tipa intervala jemanja zdravil -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -172,7 +172,7 @@
 
                 </LinearLayout>
 
-                // Izbira dnevov v tednu
+                <!-- Izbira dnevov v tednu -->
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
@@ -192,7 +192,7 @@
                 </LinearLayout>
 
 
-                // Polje z opombami
+                <!-- Polje z opombami -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
