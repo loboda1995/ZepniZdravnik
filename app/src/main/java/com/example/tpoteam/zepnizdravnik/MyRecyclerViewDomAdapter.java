@@ -69,8 +69,8 @@ public class MyRecyclerViewDomAdapter extends RecyclerView.Adapter<MyRecyclerVie
         holder.ime.setText(d.getIme());
 
         holder.mailDoma.setText(d.getMail());
-        holder.krajDoma.setText(d.getNaslov());
-        holder.naslovDoma.setText(d.getKraj());
+        holder.krajDoma.setText(d.getPosta());
+        holder.naslovDoma.setText(d.getNaslov());
         holder.naziv.setText("Zdravstveni dom");
 
         final int pos = position;

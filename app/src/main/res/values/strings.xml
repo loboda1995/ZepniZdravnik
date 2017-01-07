@@ -101,5 +101,10 @@
     <string name="labelImeZdravnika">Ime:</string>
     <string name="labelPriimekZdravnika">Priimek:</string>
     <string name="search">Išči</string>
+    <string name="labelMail">Mail:</string>
+    <string name="labelTel">Telefon:</string>
+    <string name="labelPosta">Pošta:</string>
+    <string name="labelNaslov">Naslov:</string>
+    <string name="noresults">Nobenih zadetkov</string>
 
 </resources>

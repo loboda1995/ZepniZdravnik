@@ -70,7 +70,7 @@ public class DomExpandableAdapter extends BaseExpandableListAdapter {
         TextView naslov = (TextView)convertView.findViewById(R.id.tvNaslovDoma);
         TextView mail = (TextView)convertView.findViewById(R.id.tvMailDoma);
         TextView telefon = (TextView)convertView.findViewById(R.id.tvTelefonDoma);
-        kraj.setText(domovi.get(groupPosition).getKraj());
+        kraj.setText(domovi.get(groupPosition).getPosta());
         naslov.setText(domovi.get(groupPosition).getNaslov());
         mail.setText(domovi.get(groupPosition).getMail());
         telefon.setText(domovi.get(groupPosition).getTelefon());

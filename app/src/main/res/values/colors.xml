@@ -5,6 +5,7 @@
     <color name="colorAccent">#FF4081</color>
     <color name="addListItem">#1eb2fc</color>
     <color name="backgroundBlue">#cff1fd</color>
+    <color name="transparentBackgroundBlue">#881eb2fc</color>
 
     <item name="blue" type="color">#33b5e5</item>
     <item name="purple" type="color">#FFAA66CC</item>

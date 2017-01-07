@@ -48,5 +48,5 @@ public class Dom {
 
     public String getTelefon(){return this.telefon;}
 
-    public String getKraj() {return this.kraj;};
+    public String getPosta() {return this.postna_st + ", " + this.kraj;}
 }

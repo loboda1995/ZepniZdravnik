@@ -377,16 +377,34 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
-
-        <com.pnikosis.materialishprogress.ProgressWheel
+        <include
+            android:id="@+id/noresults"
             android:visibility="gone"
-            android:id="@+id/progress_wheel"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            wheel:matProg_barColor="#5588FF"
-            wheel:matProg_progressIndeterminate="true" />
+            android:layout_below="@id/masterField"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            layout="@layout/noresults"/>
+
+        <RelativeLayout
+            android:visibility="gone"
+            android:id="@+id/dimScreen"
+            android:background="@color/transparentBackgroundBlue"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.pnikosis.materialishprogress.ProgressWheel
+
+                android:id="@+id/progress_wheel"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:scaleX="3"
+                android:scaleY="3"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                wheel:matProg_barColor="@color/colorPrimaryDark"
+                wheel:matProg_progressIndeterminate="true" />
+
+        </RelativeLayout>
 
     </RelativeLayout>
 

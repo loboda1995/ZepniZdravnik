@@ -5,55 +5,110 @@
     android:layout_height="wrap_content">
 
     <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#5252d4">
-
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:background="@color/backgroundBlue"
+        android:padding="10dp">
 
         <LinearLayout
-            android:layout_height="wrap_content"
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:background="#b4b4ef"
-            android:paddingLeft="100dp"
-            >
+            android:layout_height="wrap_content">
 
-
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/labelPosta"
+                android:textSize="17dp"
+                android:textColor="@android:color/black"
+                android:paddingRight="5dp"
+                android:textStyle="bold"
+                android:fontFamily="sans-serif" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="LJUBLJANA"
-                android:textStyle="bold"
+                android:textColor="@android:color/black"
                 android:textSize="17dp"
                 android:id="@+id/tvKrajDoma" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/labelNaslov"
+                android:textSize="17dp"
+                android:textColor="@android:color/black"
+                android:paddingRight="5dp"
+                android:textStyle="bold"
+                android:fontFamily="sans-serif" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Celovška cesta 109"
                 android:textSize="17dp"
-                android:id="@+id/tvNaslovDoma"
-                android:layout_marginBottom="5dp"/>
+                android:textColor="@android:color/black"
+                android:id="@+id/tvNaslovDoma" />
+        </LinearLayout>
 
 
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/labelMail"
+                android:textSize="17dp"
+                android:textColor="@android:color/black"
+                android:paddingRight="5dp"
+                android:textStyle="bold"
+                android:fontFamily="sans-serif" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="janez.novak@zdravstevnidom.si"
                 android:id="@+id/tvMailDoma"
-                android:textSize="16dp"
+                android:textSize="17dp"
+                android:textColor="@android:color/black"
                 android:fontFamily="sans-serif" />
+        </LinearLayout>
 
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@string/labelTel"
+                android:textSize="17dp"
+                android:textColor="@android:color/black"
+                android:paddingRight="5dp"
+                android:textStyle="bold"
+                android:fontFamily="sans-serif" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="01/70123332"
-                android:textSize="16dp"
+                android:textSize="17dp"
+                android:textColor="@android:color/black"
                 android:id="@+id/tvTelefonDoma" />
-
         </LinearLayout>
+
     </LinearLayout>
+
 </LinearLayout>

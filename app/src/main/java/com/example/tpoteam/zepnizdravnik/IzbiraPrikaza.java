@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -14,6 +16,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.pnikosis.materialishprogress.ProgressWheel;
@@ -48,6 +51,8 @@ public class IzbiraPrikaza extends AppCompatActivity {
     private LinearLayout search;
     private LinearLayout searchDomovi;
     private LinearLayout searchZdravniki;
+    private RelativeLayout dim;
+    private View noresults;
 
     private RadioGroup searchTypeGroup;
     private EditText inputDomIme;
@@ -69,6 +74,26 @@ public class IzbiraPrikaza extends AppCompatActivity {
 
         getAllFields();
 
+    }
+
+    // Ustvarimo meni
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_contacts, menu);
+        return true;
+    }
+
+    @Override
+    // Odziv na uporabnikovo izbiro iz menija
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_mycontacts:
+                // TODO: zazenemo aktivnost s prikazom shranjenih kontaktov
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+
+        }
     }
 
     private void  getAllFields(){
@@ -127,7 +152,8 @@ public class IzbiraPrikaza extends AppCompatActivity {
                     search.setVisibility(View.VISIBLE);
                     return;
                 }
-                pw.setVisibility(View.VISIBLE);
+                noresults.setVisibility(View.GONE);
+                dim.setVisibility(View.VISIBLE);
                 pw.spin();
                 listaDomov.clear();
                 listaZdravnikov.clear();
@@ -140,7 +166,10 @@ public class IzbiraPrikaza extends AppCompatActivity {
             }
         });
 
+        dim = (RelativeLayout) findViewById(R.id.dimScreen);
         pw = (ProgressWheel)findViewById(R.id.progress_wheel);
+
+        noresults = findViewById(R.id.noresults);
     }
 
     private void prikazZdravstvenihDomov(){
@@ -187,8 +216,11 @@ public class IzbiraPrikaza extends AppCompatActivity {
                         try {
 
                             pw.stopSpinning();
-                            pw.setVisibility(View.GONE);
+                            dim.setVisibility(View.GONE);
                             search.setVisibility(View.GONE);
+
+                            if(listaDomov.size() == 0)
+                                noresults.setVisibility(View.VISIBLE);
 
                             RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
 
@@ -265,8 +297,10 @@ public class IzbiraPrikaza extends AppCompatActivity {
                             try {
 
                                 pw.stopSpinning();
-                                pw.setVisibility(View.GONE);
+                                dim.setVisibility(View.GONE);
                                 search.setVisibility(View.GONE);
+                                if(listaZdravnikov.size() == 0)
+                                    noresults.setVisibility(View.VISIBLE);
 
 
                                 RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);

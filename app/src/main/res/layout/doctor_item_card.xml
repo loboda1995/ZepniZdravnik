@@ -13,49 +13,35 @@
         android:id="@+id/card_view"
 
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        card_view:cardElevation="5dp"
-
-
-        android:layout_marginBottom="20dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
-        >
+        android:layout_height="wrap_content"
+        card_view:cardElevation="5dp">
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#5252d4">
-
-
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                app:srcCompat="@drawable/doctor_icon"
+                app:srcCompat="@drawable/doctor_icon_dark"
                 android:id="@+id/imageView"
-                android:paddingRight="10dp"
-                android:paddingLeft="10dp"
-
-                />
-
+                android:scaleType="centerCrop"
+                android:padding="10dp"/>
 
             <LinearLayout
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 android:orientation="vertical"
-                android:background="#b4b4ef"
-                android:paddingLeft="10dp">
-
-
+                android:background="@color/backgroundBlue"
+                android:padding="10dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="dr.med.spec."
-                    android:textStyle="bold"
                     android:textSize="12dp"
+                    android:textColor="@android:color/black"
                     android:id="@+id/tvNazivDoktorja" />
 
                 <LinearLayout
@@ -66,62 +52,40 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Nada"
                         android:textStyle="bold"
-                        android:textSize="20dp"
+                        android:textSize="18dp"
+                        android:textColor="@android:color/black"
                         android:paddingRight="7dp"
                         android:id="@+id/tvImeDoktorja" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Bedenčič"
                         android:textStyle="bold"
-                        android:textSize="20dp"
+                        android:textSize="18dp"
+                        android:textColor="@android:color/black"
                         android:id="@+id/tvPriimekDoktorja" />
-
-
-
-
-
-
-
-
-
-
 
                 </LinearLayout>
 
-
-
-
-
             </LinearLayout>
 
-
-
-
         </LinearLayout>
-
-
 
 
     </android.support.v7.widget.CardView>
 
     <include
-
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
-
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="-5dp"
         layout="@layout/selected_doctor_item"
         android:visibility="visible"
         android:layout_width="match_parent"
         android:id="@+id/docInfo"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="63dp"
-        android:layout_marginBottom="20dp" />
+        android:layout_below="@id/card_view"
+        android:layout_centerHorizontal="true" />
 
 
 </RelativeLayout>

@@ -3,33 +3,31 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    >
+    android:layout_height="wrap_content">
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#5252d4">
+        android:padding="5dp"
+        android:background="@color/colorPrimary">
 
 
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            app:srcCompat="@drawable/doctor_icon"
+            app:srcCompat="@drawable/doctor_icon_dark"
             android:id="@+id/imageView"
             android:paddingRight="10dp"
-            android:paddingLeft="10dp"
-
-            />
+            android:paddingLeft="10dp" />
 
 
         <LinearLayout
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:orientation="vertical"
-            android:background="#b4b4ef"
+            android:background="@color/backgroundBlue"
             android:paddingLeft="10dp">
 
 
@@ -64,21 +62,9 @@
                     android:textSize="20dp"
                     android:id="@+id/tvPriimekDoktorja" />
 
-
-
-
-
-
             </LinearLayout>
 
-
-
-
-
         </LinearLayout>
-
-
-
 
     </LinearLayout>
 

@@ -6,13 +6,13 @@
     <item
         android:id="@+id/action_appointment"
         android:icon="@drawable/appointment_icon_dark"
-        android:title="Moji filmi"
+        android:title="Pregledi"
         app:showAsAction="always"/>
 
     <item
         android:id="@+id/action_contacts"
         android:icon="@drawable/doctor_icon_dark"
-        android:title="Moji filmi"
+        android:title="Kontakti"
         app:showAsAction="always"/>
 
 </menu>
