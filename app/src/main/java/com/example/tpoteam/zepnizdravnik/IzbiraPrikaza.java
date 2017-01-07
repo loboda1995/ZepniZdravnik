@@ -26,8 +26,10 @@ import java.util.ArrayList;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
@@ -96,9 +98,15 @@ public class IzbiraPrikaza extends AppCompatActivity {
                 if(checkedId == R.id.radioDomovi){
                     searchDomovi.setVisibility(View.VISIBLE);
                     searchZdravniki.setVisibility(View.GONE);
+                    inputImeZdrav.setText("");
+                    inputPriimekZdrav.setText("");
+                    inputImeDomZdrav.setText("");
                 }else if(checkedId == R.id.radioZdravniki){
                     searchDomovi.setVisibility(View.GONE);
                     searchZdravniki.setVisibility(View.VISIBLE);
+                    inputDomIme.setText("");
+                    inputDomPosta.setText("");
+                    inputDomKraj.setText("");
                 }
             }
         });
@@ -138,8 +146,15 @@ public class IzbiraPrikaza extends AppCompatActivity {
     private void prikazZdravstvenihDomov(){
         OkHttpClient client = new OkHttpClient();
 
+        RequestBody formBody = new FormBody.Builder()
+                .add("imeDoma", inputDomIme.getText().toString().trim())
+                .add("posta", inputDomPosta.getText().toString().trim())
+                .add("kraj", inputDomKraj.getText().toString().trim())
+                .build();
+
         Request request = new Request.Builder()
                 .url("http://zepnizdravnik.azurewebsites.net/index.php/homeInfoJSON")
+                .post(formBody)
                 .build();
 
 
@@ -196,9 +211,15 @@ public class IzbiraPrikaza extends AppCompatActivity {
     private void prikazZdravnikov(){
         OkHttpClient client = new OkHttpClient();
 
+        RequestBody formBody = new FormBody.Builder()
+                .add("imeDoma", inputImeDomZdrav.getText().toString().trim())
+                .add("ime", inputImeZdrav.getText().toString().trim())
+                .add("priimek", inputPriimekZdrav.getText().toString().trim())
+                .build();
+
         Request request = new Request.Builder()
-                //spremeniti na naslov, ki bo na azure
                 .url("http://zepnizdravnik.azurewebsites.net/index.php/doctorInfoJSON")
+                .post(formBody)
                 .build();
 
 
