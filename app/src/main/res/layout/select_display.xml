@@ -1,59 +1,393 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical" android:layout_width="match_parent"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="0dp"
-    android:weightSum="1">
+    xmlns:wheel="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fitsSystemWindows="true"
+    android:focusableInTouchMode="false">
 
-    <TextView
-        android:text="Kaj želite prikazati?"
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView"
-        android:textSize="24sp"
-        android:paddingTop="50px"
-        android:paddingBottom="50px"
-        android:textAllCaps="false" />
+        android:theme="@style/AppTheme.AppBarOverlay">
 
-    <RadioGroup
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+
+    </android.support.design.widget.AppBarLayout>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="39dp"
-        android:id="@+id/IzbiraGroup"
-        android:layout_weight="0.44">
+        android:layout_height="match_parent"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:context="com.example.lukaloboda.mojakinoteka.IzbiraPrikaza"
+        tools:showIn="@layout/select_display">
 
-    <RadioButton
-        android:text="Zdravstveni domovi"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/radioButton"
-        android:checked="true"
-        android:paddingTop="0dp"
-        android:textSize="18sp"
-        android:layout_weight="0.18" />
+        <LinearLayout
+            android:padding="14dp"
+            android:background="@drawable/search_background"
+            android:id="@+id/masterField"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <RadioButton
-        android:text="Zdravniki"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/radioButton2"
-        android:textSize="18sp"
-        android:layout_weight="0.16" />
-    </RadioGroup>
+            <LinearLayout
+                android:id="@+id/search"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-    <TextView
-        android:text="TextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/TVOpis"
-        android:paddingTop="150px"
-        android:textSize="18sp" />
+                <LinearLayout
+                    android:paddingBottom="10dp"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-    <Button
-        android:text="Prikaži"
-        android:layout_width="386dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/prikaz"
-        android:textSize="14sp"
-        android:elevation="0dp" />
-</LinearLayout>
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="0.35"
+                        android:layout_height="match_parent">
+                        <TextView
+                            android:layout_centerVertical="true"
+                            android:textColor="@android:color/black"
+                            android:text="@string/labelWhatSearch"
+                            android:textSize="18dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="0.65"
+                        android:layout_height="match_parent">
+
+                        <RadioGroup
+                            android:orientation="vertical"
+                            android:id="@+id/searchTypeGroup"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <RadioButton
+                                android:id="@+id/radioDomovi"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="18dp"
+                                android:checked="true"
+                                android:text="@string/radioDomovi"/>
+
+                            <RadioButton
+                                android:id="@+id/radioZdravniki"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="18dp"
+                                android:text="@string/radioZdravniki"/>
+
+                        </RadioGroup>
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                // Search polja za domove
+                <LinearLayout
+                    android:id="@+id/searchDomovi"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:paddingBottom="10dp"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="0.35"
+                            android:layout_height="match_parent">
+                            <TextView
+                                android:layout_centerVertical="true"
+                                android:textColor="@android:color/black"
+                                android:text="@string/labelImeDoma"
+                                android:textSize="18dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="0.65"
+                            android:layout_height="match_parent">
+
+                            <EditText
+                                android:background="@drawable/inputbackground"
+                                android:id="@+id/imeDoma"
+                                android:layout_centerVertical="true"
+                                android:textSize="18dp"
+                                android:inputType="text"
+                                android:selectAllOnFocus="true"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"/>
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:paddingBottom="10dp"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="0.35"
+                            android:layout_height="match_parent">
+                            <TextView
+                                android:layout_centerVertical="true"
+                                android:textColor="@android:color/black"
+                                android:text="@string/labelPostaDoma"
+                                android:textSize="18dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="0.65"
+                            android:layout_height="match_parent">
+
+                            <EditText
+                                android:background="@drawable/inputbackground"
+                                android:id="@+id/postaDoma"
+                                android:layout_centerVertical="true"
+                                android:textSize="18dp"
+                                android:inputType="text"
+                                android:selectAllOnFocus="true"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"/>
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="0.35"
+                            android:layout_height="match_parent">
+                            <TextView
+                                android:layout_centerVertical="true"
+                                android:textColor="@android:color/black"
+                                android:text="@string/labelKrajDoma"
+                                android:textSize="18dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="0.65"
+                            android:layout_height="match_parent">
+
+                            <EditText
+                                android:background="@drawable/inputbackground"
+                                android:id="@+id/krajDoma"
+                                android:layout_centerVertical="true"
+                                android:textSize="18dp"
+                                android:inputType="text"
+                                android:selectAllOnFocus="true"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"/>
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                // Search polja za zdravnika
+                <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/searchZdravniki"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:paddingBottom="10dp"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="0.35"
+                            android:layout_height="match_parent">
+                            <TextView
+                                android:layout_centerVertical="true"
+                                android:textColor="@android:color/black"
+                                android:text="@string/labelImeZdravnika"
+                                android:textSize="18dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="0.65"
+                            android:layout_height="match_parent">
+
+                            <EditText
+                                android:background="@drawable/inputbackground"
+                                android:id="@+id/imeZdravnika"
+                                android:layout_centerVertical="true"
+                                android:textSize="18dp"
+                                android:inputType="text"
+                                android:selectAllOnFocus="true"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"/>
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:paddingBottom="10dp"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="0.35"
+                            android:layout_height="match_parent">
+                            <TextView
+                                android:layout_centerVertical="true"
+                                android:textColor="@android:color/black"
+                                android:text="@string/labelPriimekZdravnika"
+                                android:textSize="18dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="0.65"
+                            android:layout_height="match_parent">
+
+                            <EditText
+                                android:background="@drawable/inputbackground"
+                                android:id="@+id/priimekZdravnika"
+                                android:layout_centerVertical="true"
+                                android:textSize="18dp"
+                                android:inputType="text"
+                                android:selectAllOnFocus="true"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"/>
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="0.35"
+                            android:layout_height="match_parent">
+                            <TextView
+                                android:layout_centerVertical="true"
+                                android:textColor="@android:color/black"
+                                android:text="@string/labelImeDoma"
+                                android:textSize="18dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="0.65"
+                            android:layout_height="match_parent">
+
+                            <EditText
+                                android:background="@drawable/inputbackground"
+                                android:id="@+id/imeDomaZdravnika"
+                                android:layout_centerVertical="true"
+                                android:textSize="18dp"
+                                android:inputType="text"
+                                android:selectAllOnFocus="true"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"/>
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:paddingTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/buttonSearch"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/button_background"
+                    android:text="@string/search"
+                    android:minHeight="0dp"
+                    android:minWidth="0dp"
+                    android:textSize="18dp"
+                    android:paddingLeft="45dp"
+                    android:paddingRight="45dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:textAllCaps="false"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/my_recycler_view"
+            android:layout_below="@+id/masterField"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+
+        <com.pnikosis.materialishprogress.ProgressWheel
+            android:visibility="gone"
+            android:id="@+id/progress_wheel"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            wheel:matProg_barColor="#5588FF"
+            wheel:matProg_progressIndeterminate="true" />
+
+    </RelativeLayout>
+
+</android.support.design.widget.CoordinatorLayout>

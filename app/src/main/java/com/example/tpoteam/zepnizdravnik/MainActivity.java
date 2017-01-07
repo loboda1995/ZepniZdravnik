@@ -98,7 +98,8 @@ public class MainActivity extends AppCompatActivity {
 
     // Prikaze aktivnost s kontakti
     private void showContacts(){
-
+        final Intent doctors = new Intent(MainActivity.this, IzbiraPrikaza.class);
+        startActivity(doctors);
     }
 
     AdapterView.OnItemClickListener overviewListener = new AdapterView.OnItemClickListener() {

@@ -92,5 +92,14 @@
     <string name="set">Nastavi</string>
     <string name="delete">Izbriši</string>
     <string name="cancel">Prekliči</string>
+    <string name="labelWhatSearch">Išči:</string>
+    <string name="radioDomovi">Zdravstveni dom</string>
+    <string name="radioZdravniki">Zdravnik</string>
+    <string name="labelImeDoma">Ime doma:</string>
+    <string name="labelPostaDoma">Pošta:</string>
+    <string name="labelKrajDoma">Kraj:</string>
+    <string name="labelImeZdravnika">Ime:</string>
+    <string name="labelPriimekZdravnika">Priimek:</string>
+    <string name="search">Išči</string>
 
 </resources>

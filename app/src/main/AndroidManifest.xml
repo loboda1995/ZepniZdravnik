@@ -3,6 +3,7 @@
     package="com.example.tpoteam.zepnizdravnik">
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -23,6 +24,7 @@
         <activity
             android:name=".NotificationOverview"
             android:label="@string/title_activity_notification_overview"
+            android:windowSoftInputMode="adjustPan"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".AppointmentActivity"
@@ -31,6 +33,7 @@
             android:exported="true"/>
         <activity
             android:name=".AppointmentOverview"
+            android:windowSoftInputMode="adjustPan"
             android:label="@string/title_activity_appointment_overviev"
             android:theme="@style/AppTheme.NoActionBar" />
 
@@ -38,6 +41,11 @@
         <service android:name=".MedicineNotificationService" />
         <receiver android:name=".AppointmentAlarmReceiver"></receiver>
         <service android:name=".AppointmentNotificationService" />
+
+        <activity android:name=".DatabaseTestActivity"/>
+
+        <activity android:name=".IzbiraPrikaza"
+            android:windowSoftInputMode="adjustPan"/>
 
     </application>
 </manifest>
