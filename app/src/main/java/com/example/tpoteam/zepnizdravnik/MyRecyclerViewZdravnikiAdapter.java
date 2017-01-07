@@ -2,16 +2,23 @@ package com.example.tpoteam.zepnizdravnik;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.widget.CardView;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
-import android.transition.TransitionManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+
+import static android.content.Context.MODE_APPEND;
 
 /**
  * Created by Thinkpad on 19. 12. 2016.
@@ -22,7 +29,7 @@ public class MyRecyclerViewZdravnikiAdapter extends RecyclerView.Adapter<MyRecyc
     private Context mContext;
     private int expandedPosition = -1;
 
-
+    private String fileName = "lokalniZdravniki";
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -41,6 +48,7 @@ public class MyRecyclerViewZdravnikiAdapter extends RecyclerView.Adapter<MyRecyc
         public TextView sob;
         public TextView ned;
         public LinearLayout details;
+        public FloatingActionButton add;
 
 
         public ViewHolder(View itemView) {
@@ -60,7 +68,7 @@ public class MyRecyclerViewZdravnikiAdapter extends RecyclerView.Adapter<MyRecyc
             sob = (TextView)itemView.findViewById(R.id.tvSobota);
             ned = (TextView)itemView.findViewById(R.id.tvNedelja);
             details = (LinearLayout)itemView.findViewById(R.id.docInfo);
-
+            add = (FloatingActionButton) itemView.findViewById(R.id.fab);
 
         }
     }
@@ -90,7 +98,7 @@ public class MyRecyclerViewZdravnikiAdapter extends RecyclerView.Adapter<MyRecyc
 
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         Zdravnik z = zdravniki.get(position);
         holder.ime.setText(z.getIme());
         holder.priimek.setText(z.getPriimek());
@@ -131,6 +139,17 @@ public class MyRecyclerViewZdravnikiAdapter extends RecyclerView.Adapter<MyRecyc
             holder.details.setVisibility(View.GONE);
         }
 
+        holder.add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String vnos = holder.ime.getText().toString()+ ":" + holder.priimek.getText().toString();
+                if(doesExist(vnos)){
+                    save(holder.ime.getText().toString(), holder.priimek.getText().toString());
+                }
+            }
+        });
+
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -144,15 +163,47 @@ public class MyRecyclerViewZdravnikiAdapter extends RecyclerView.Adapter<MyRecyc
                 }else{ expandedPosition = position;
                     notifyItemChanged(expandedPosition);}
 
-
             }
         });
-
-
-
-
-
     }
+
+    private boolean doesExist(String text){
+        boolean rez = true;
+        String line = "";
+        FileInputStream fis;
+        try {
+            try{
+                fis = mContext.openFileInput(fileName);
+            }catch (FileNotFoundException e){
+                FileOutputStream fos = mContext.openFileOutput(fileName, MODE_APPEND);
+                fos.write("".getBytes("UTF-8"));
+                fos.close();
+                fis = mContext.openFileInput(fileName);
+            }
+
+            final InputStreamReader isr = new InputStreamReader(fis);
+            final BufferedReader br = new BufferedReader(isr);
+
+            while((line = br.readLine()) != null){
+                if(line.equals(text)) {
+                    return false;
+                }
+            }
+            br.close();
+            isr.close();
+            fis.close();
+        } catch (IOException e) {}
+        return rez;
+    }
+
+    private void save(String ime, String priimek) {
+        try{
+            FileOutputStream fos = mContext.openFileOutput(fileName, MODE_APPEND);
+            String zdravnik_ime_priimek = ime + ":" + priimek + "\n";
+            fos.write((zdravnik_ime_priimek).getBytes("UTF-8"));
+            fos.close();
+        } catch (IOException e) {}
+    };
 
     @Override
     public int getItemCount() {

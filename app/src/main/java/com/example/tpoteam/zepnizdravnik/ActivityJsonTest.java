@@ -1,11 +1,10 @@
 package com.example.tpoteam.zepnizdravnik;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ExpandableListAdapter;
 
 import com.pnikosis.materialishprogress.ProgressWheel;
 
