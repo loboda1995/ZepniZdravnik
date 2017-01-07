@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -55,6 +56,15 @@ public class MainActivity extends AppCompatActivity {
                 startAddNotificationActivity(0);
             }
         });
+
+        // Ce je podan extra potem smo odprli aktivnost ob kliku na notification in odpremo ustrezen pregled
+        int id = this.getIntent().getIntExtra("notificationID", -1);
+        if(id != -1){
+            for(int i = 0; i < medicineNotifications.size()-1; i++){
+                if(medicineNotifications.get(i).idOfNoti == id)
+                    startAddNotificationActivity(i);
+            }
+        }
     }
 
     // Ustvarimo meni
