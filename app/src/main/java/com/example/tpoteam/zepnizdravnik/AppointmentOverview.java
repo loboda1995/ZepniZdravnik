@@ -9,12 +9,16 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
@@ -24,8 +28,11 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -44,7 +51,7 @@ public class AppointmentOverview extends AppCompatActivity{
     private int IDselected;
     private AppointmentNotification selectedNotification;
 
-    private EditText inputDoctor;
+    private MyAutoComplete inputDoctor;
     private EditText inputInstitution;
     private EditText inputLocation;
     private Spinner colorPicker;
@@ -126,7 +133,25 @@ public class AppointmentOverview extends AppCompatActivity{
 
     // Pridobimo in shranimo vsa vnosna polja
     private void getAllInputs(){
-        inputDoctor = (EditText) findViewById(R.id.appointDoctorName);
+        inputDoctor = (MyAutoComplete) findViewById(R.id.appointDoctorName);
+
+        ArrayList<Zdravnik> doctors = getDoctors();
+        DoctorInputAdapter adapter = new DoctorInputAdapter(this, doctors);
+        inputDoctor.setAdapter(adapter);
+        inputDoctor.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+
+                if (v.getWindowVisibility() != View.VISIBLE) {
+                    return;
+                }
+                if (hasFocus)
+                    inputDoctor.showDropDown();
+                else
+                    inputDoctor.dismissDropDown();
+            }
+        });
+
         inputInstitution = (EditText) findViewById(R.id.appointInstitution);
         inputLocation = (EditText) findViewById(R.id.appointLocation);
 
@@ -377,5 +402,26 @@ public class AppointmentOverview extends AppCompatActivity{
             return false;
         }
         return true;
+    }
+
+    private ArrayList<Zdravnik> getDoctors()
+    {
+
+        File file = new File(getFilesDir() + "/" + MainActivity.fileNameWithDoctors);
+        ArrayList<Zdravnik> notri = new ArrayList<Zdravnik>();
+        if(file.exists()) {
+            FileInputStream fis = null;
+            ObjectInputStream ois = null;
+            try {
+                fis = openFileInput(MainActivity.fileNameWithDoctors);
+                ois = new ObjectInputStream(fis);
+                notri = (ArrayList<Zdravnik>) ois.readObject();
+                ois.close();
+                fis.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return notri;
     }
 }

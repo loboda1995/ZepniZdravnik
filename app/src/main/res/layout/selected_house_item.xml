@@ -4,7 +4,7 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:orientation="vertical"
@@ -12,6 +12,7 @@
         android:padding="10dp">
 
         <LinearLayout
+            android:id="@+id/row1"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -37,6 +38,8 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/row2"
+            android:layout_below="@+id/row1"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -62,6 +65,8 @@
 
 
         <LinearLayout
+            android:id="@+id/row3"
+            android:layout_below="@+id/row2"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -87,6 +92,8 @@
 
 
         <LinearLayout
+            android:id="@+id/row4"
+            android:layout_below="@+id/row3"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -109,6 +116,18 @@
                 android:id="@+id/tvTelefonDoma" />
         </LinearLayout>
 
-    </LinearLayout>
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/row4"
+            android:scaleType="centerInside"
+            app:fabSize="mini"
+            app:srcCompat="@android:drawable/ic_menu_add"
+            app:backgroundTint="@color/colorPrimary"
+            app:rippleColor="@color/backgroundBlue" />
+
+    </RelativeLayout>
 
 </LinearLayout>

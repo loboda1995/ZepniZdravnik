@@ -93,6 +93,8 @@ public class IzbiraPrikaza extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_mycontacts:
                 // TODO: zazenemo aktivnost s prikazom shranjenih kontaktov
+                final Intent doctors = new Intent(IzbiraPrikaza.this, MyContactsActivity.class);
+                startActivity(doctors);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

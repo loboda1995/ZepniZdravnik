@@ -48,5 +48,8 @@
         <activity android:name=".IzbiraPrikaza"
             android:windowSoftInputMode="adjustPan"/>
 
+        <activity android:name=".MyContactsActivity"
+            android:windowSoftInputMode="adjustPan"/>
+
     </application>
 </manifest>

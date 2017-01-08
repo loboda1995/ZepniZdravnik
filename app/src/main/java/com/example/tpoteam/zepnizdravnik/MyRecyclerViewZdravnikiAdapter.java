@@ -29,9 +29,6 @@ public class MyRecyclerViewZdravnikiAdapter extends RecyclerView.Adapter<MyRecyc
     private transient Context mContext;
     private int expandedPosition = -1;
 
-
-
-
     public static class ViewHolder extends RecyclerView.ViewHolder{
 
         public TextView naziv;
