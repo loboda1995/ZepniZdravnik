@@ -285,20 +285,6 @@ public class AppointmentOverview extends AppCompatActivity{
         }
         else
             inputLocation.setTextColor(Color.BLACK);
-        if(displayAlarmTime.getText().toString().equals(getString(R.string.setTimeText))) {
-            isValid = false;
-            displayAlarmTime.setTextColor(Color.RED);
-            displayAlarmTime.setError(getString(R.string.validationErrorDisplayAlarm));
-        }
-        else
-            displayAlarmTime.setTextColor(Color.BLACK);
-        if(displayAppointmentTime.getText().toString().equals(getString(R.string.setTimeText))) {
-            isValid = false;
-            displayAppointmentTime.setTextColor(Color.RED);
-            displayAppointmentTime.setError(getString(R.string.validationErrorDisplayAppointment));
-        }
-        else
-            displayAppointmentTime.setTextColor(Color.BLACK);
         return isValid;
     }
 

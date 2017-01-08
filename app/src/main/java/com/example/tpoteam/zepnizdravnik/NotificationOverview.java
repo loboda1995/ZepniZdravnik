@@ -207,6 +207,9 @@ public class NotificationOverview extends AppCompatActivity {
                 }, 500);
             }
         }
+        else {
+            Toast.makeText(this, R.string.validationError, Toast.LENGTH_SHORT).show();
+        }
     }
 
     // Preveri ali so vrednosti vseh vnosnih polj podane in regularne
@@ -234,30 +237,6 @@ public class NotificationOverview extends AppCompatActivity {
                 medicineQuantityInput.setTextColor(Color.RED);
                 medicineQuantityInput.setError(getString(R.string.validationErrorQuantity));
             }
-        }
-        if(isValid) {
-            boolean isDaily = radioDaily.isChecked();
-            int counter = 0;
-            if (isDaily) {
-                for (CheckBox dailyCheckbox : dailyCheckboxes) {
-                    if (dailyCheckbox.isChecked()) {
-                        counter++;
-                    }
-                }
-            } else {
-                for (CheckBox weeklyCheckbox : weeklyCheckboxes) {
-                    if (weeklyCheckbox.isChecked()) {
-                        counter++;
-                    }
-                }
-            }
-            if (counter == 0) {
-                isValid = false;
-                Toast.makeText(this, R.string.valiationErrorTimes, Toast.LENGTH_SHORT).show();
-            }
-        }
-        else {
-            Toast.makeText(this, R.string.validationError, Toast.LENGTH_SHORT).show();
         }
         return isValid;
     }

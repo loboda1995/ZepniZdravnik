@@ -1,7 +1,10 @@
 package com.example.tpoteam.zepnizdravnik;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,6 +21,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.pnikosis.materialishprogress.ProgressWheel;
 
@@ -173,122 +177,42 @@ public class IzbiraPrikaza extends AppCompatActivity {
     }
 
     private void prikazZdravstvenihDomov(){
-        OkHttpClient client = new OkHttpClient();
+        if(networkAvailable()) {
+            OkHttpClient client = new OkHttpClient();
 
-        RequestBody formBody = new FormBody.Builder()
-                .add("imeDoma", inputDomIme.getText().toString().trim())
-                .add("posta", inputDomPosta.getText().toString().trim())
-                .add("kraj", inputDomKraj.getText().toString().trim())
-                .build();
+            RequestBody formBody = new FormBody.Builder()
+                    .add("imeDoma", inputDomIme.getText().toString().trim())
+                    .add("posta", inputDomPosta.getText().toString().trim())
+                    .add("kraj", inputDomKraj.getText().toString().trim())
+                    .build();
 
-        Request request = new Request.Builder()
-                .url("http://zepnizdravnik.azurewebsites.net/index.php/homeInfoJSON")
-                .post(formBody)
-                .build();
+            Request request = new Request.Builder()
+                    .url("http://zepnizdravnik.azurewebsites.net/index.php/homeInfoJSON")
+                    .post(formBody)
+                    .build();
 
 
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
-
-            }
-
-            public void onResponse(Call call, final Response response) throws IOException {
-                try {
-                    String responseData = response.body().string();
-                    jsonDomovi = new JSONArray(responseData);
-
-                    for(int i=0; i<jsonDomovi.length(); i++) {
-                        JSONObject zdrDom = (JSONObject) jsonDomovi.get(i);
-
-                        Dom d = new Dom(zdrDom.getString("Ime_doma"), zdrDom.getString("Naslov"), zdrDom.getString("Kraj"), zdrDom.getString("Mail_dom"), zdrDom.getString("Postna_stevilka"), zdrDom.getString("Telefon_dom"));
-
-                        listaDomov.add(d);
-                    }
-                } catch (Exception e) {
+            client.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
                     e.printStackTrace();
+
                 }
 
-                IzbiraPrikaza.this.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
+                public void onResponse(Call call, final Response response) throws IOException {
+                    try {
+                        String responseData = response.body().string();
+                        jsonDomovi = new JSONArray(responseData);
 
-                            pw.stopSpinning();
-                            dim.setVisibility(View.GONE);
-                            search.setVisibility(View.GONE);
+                        for (int i = 0; i < jsonDomovi.length(); i++) {
+                            JSONObject zdrDom = (JSONObject) jsonDomovi.get(i);
 
-                            if(listaDomov.size() == 0)
-                                noresults.setVisibility(View.VISIBLE);
+                            Dom d = new Dom(zdrDom.getString("Ime_doma"), zdrDom.getString("Naslov"), zdrDom.getString("Kraj"), zdrDom.getString("Mail_dom"), zdrDom.getString("Postna_stevilka"), zdrDom.getString("Telefon_dom"));
 
-                            RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
-
-                            RecyclerView.Adapter mAdapter = new MyRecyclerViewDomAdapter(IzbiraPrikaza.this, listaDomov);
-                            mRecyclerView.setLayoutManager(new LinearLayoutManager(IzbiraPrikaza.this));
-                            mRecyclerView.setAdapter(mAdapter);
-
-
-                        } catch (Exception e) {
-                            e.printStackTrace();
+                            listaDomov.add(d);
                         }
-                    }
-                });
-
-
-            }
-        });
-    }
-
-    private void prikazZdravnikov(){
-        OkHttpClient client = new OkHttpClient();
-
-        RequestBody formBody = new FormBody.Builder()
-                .add("imeDoma", inputImeDomZdrav.getText().toString().trim())
-                .add("ime", inputImeZdrav.getText().toString().trim())
-                .add("priimek", inputPriimekZdrav.getText().toString().trim())
-                .build();
-
-        Request request = new Request.Builder()
-                .url("http://zepnizdravnik.azurewebsites.net/index.php/doctorInfoJSON")
-                .post(formBody)
-                .build();
-
-
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
-
-            }
-
-
-            public void onResponse(Call call, final Response response) throws IOException {
-                try {
-                    String responseData = response.body().string();
-                    //Log.e("vrne", responseData.toString());
-                    jsonZdravniki = new JSONArray(responseData);
-
-                    for(int i=0; i<jsonZdravniki.length(); i++) {
-                        JSONObject zdr = (JSONObject) jsonZdravniki.get(i);
-
-
-                        Zdravnik t = new Zdravnik(zdr.getString("Ime"), zdr.getString("Priimek"), zdr.getString("Ime_doma"),
-                                zdr.getString("Mail_zdravnik"),
-                                zdr.getString("Telefon_zdravnik"),
-                                zdr.getString("Naziv"),
-                                zdr.getString("ID_urnika"));
-
-                        ArrayList<Dan> dneviUrnik = new ArrayList<>();
-                        String[] dnevi = {"Ponedeljek", "Torek", "Sreda", "Cetrtek", "Petek", "Sobota", "Nedelja"};
-                        for (int j = 0; j < dnevi.length; j++) {
-                            dneviUrnik.add(new Dan(dnevi[j], zdr.getString(dnevi[j])));
-                        }
-                        t.setUrnik(dneviUrnik);
-                        listaZdravnikov.add(t);
-
-
-
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
 
                     IzbiraPrikaza.this.runOnUiThread(new Runnable() {
@@ -299,15 +223,16 @@ public class IzbiraPrikaza extends AppCompatActivity {
                                 pw.stopSpinning();
                                 dim.setVisibility(View.GONE);
                                 search.setVisibility(View.GONE);
-                                if(listaZdravnikov.size() == 0)
-                                    noresults.setVisibility(View.VISIBLE);
 
+                                if (listaDomov.size() == 0)
+                                    noresults.setVisibility(View.VISIBLE);
 
                                 RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
 
-                                RecyclerView.Adapter mAdapter = new MyRecyclerViewZdravnikiAdapter(IzbiraPrikaza.this,listaZdravnikov);
+                                RecyclerView.Adapter mAdapter = new MyRecyclerViewDomAdapter(IzbiraPrikaza.this, listaDomov);
                                 mRecyclerView.setLayoutManager(new LinearLayoutManager(IzbiraPrikaza.this));
                                 mRecyclerView.setAdapter(mAdapter);
+
 
                             } catch (Exception e) {
                                 e.printStackTrace();
@@ -315,11 +240,109 @@ public class IzbiraPrikaza extends AppCompatActivity {
                         }
                     });
 
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
 
-        });
+                }
+            });
+        }
+        else {
+            pw.stopSpinning();
+            dim.setVisibility(View.GONE);
+            Toast.makeText(this, R.string.error_network, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void prikazZdravnikov(){
+        if(networkAvailable()) {
+            OkHttpClient client = new OkHttpClient();
+
+            RequestBody formBody = new FormBody.Builder()
+                    .add("imeDoma", inputImeDomZdrav.getText().toString().trim())
+                    .add("ime", inputImeZdrav.getText().toString().trim())
+                    .add("priimek", inputPriimekZdrav.getText().toString().trim())
+                    .build();
+
+            Request request = new Request.Builder()
+                    .url("http://zepnizdravnik.azurewebsites.net/index.php/doctorInfoJSON")
+                    .post(formBody)
+                    .build();
+
+
+            client.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    e.printStackTrace();
+
+                }
+
+
+                public void onResponse(Call call, final Response response) throws IOException {
+                    try {
+                        String responseData = response.body().string();
+                        //Log.e("vrne", responseData.toString());
+                        jsonZdravniki = new JSONArray(responseData);
+
+                        for (int i = 0; i < jsonZdravniki.length(); i++) {
+                            JSONObject zdr = (JSONObject) jsonZdravniki.get(i);
+
+
+                            Zdravnik t = new Zdravnik(zdr.getString("Ime"), zdr.getString("Priimek"), zdr.getString("Ime_doma"),
+                                    zdr.getString("Mail_zdravnik"),
+                                    zdr.getString("Telefon_zdravnik"),
+                                    zdr.getString("Naziv"),
+                                    zdr.getString("ID_urnika"));
+
+                            ArrayList<Dan> dneviUrnik = new ArrayList<>();
+                            String[] dnevi = {"Ponedeljek", "Torek", "Sreda", "Cetrtek", "Petek", "Sobota", "Nedelja"};
+                            for (int j = 0; j < dnevi.length; j++) {
+                                dneviUrnik.add(new Dan(dnevi[j], zdr.getString(dnevi[j])));
+                            }
+                            t.setUrnik(dneviUrnik);
+                            listaZdravnikov.add(t);
+
+
+                        }
+
+                        IzbiraPrikaza.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+
+                                    pw.stopSpinning();
+                                    dim.setVisibility(View.GONE);
+                                    search.setVisibility(View.GONE);
+                                    if (listaZdravnikov.size() == 0)
+                                        noresults.setVisibility(View.VISIBLE);
+
+
+                                    RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
+
+                                    RecyclerView.Adapter mAdapter = new MyRecyclerViewZdravnikiAdapter(IzbiraPrikaza.this, listaZdravnikov);
+                                    mRecyclerView.setLayoutManager(new LinearLayoutManager(IzbiraPrikaza.this));
+                                    mRecyclerView.setAdapter(mAdapter);
+
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            });
+        }
+        else {
+            pw.stopSpinning();
+            dim.setVisibility(View.GONE);
+            Toast.makeText(this, R.string.error_network, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private boolean networkAvailable() {
+        ConnectivityManager cm = (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
     }
 }

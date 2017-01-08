@@ -1,6 +1,7 @@
 package com.example.tpoteam.zepnizdravnik;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.PorterDuff;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,7 @@ public class NotificationAdapter extends ArrayAdapter<MedicineNotification> {
 
     private String times[] = {"00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00","24:00"};
     private String days[] = {"ponedeljek", "torek", "sreda", "četrtek", "petek", "sobota", "nedelja"};
+    private String notification_not_set = "Opozorilo ni nastavljeno.";
 
     public NotificationAdapter(Context context, ArrayList<MedicineNotification> notifications) {
         super(context, 0, notifications);
@@ -46,7 +48,7 @@ public class NotificationAdapter extends ArrayAdapter<MedicineNotification> {
             medicineQunatityDisplay.setText(Integer.toString(notification.medicineQuantity));
             TextView medicineTimesDisplay = (TextView) convertView.findViewById(R.id.medicineTimes);
             Calendar calendar = Calendar.getInstance();
-            String alarm = "";
+            String alarm = notification_not_set;
             for (int i = 0; i < notification.times.length; i++) {
                 if(notification.times[i] != 0) {
                     if(notification.dailyInterval) {
@@ -67,7 +69,7 @@ public class NotificationAdapter extends ArrayAdapter<MedicineNotification> {
                     }
                 }
             }
-            if(alarm.length() == 0){
+            if(alarm.equals(notification_not_set)){
                 for(int i = 0; i < notification.times.length; i++){
                     if(notification.times[i] != 0){
                         alarm = notification.dailyInterval ? times[i]+" (jutri)" : days[i];

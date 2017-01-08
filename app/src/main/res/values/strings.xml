@@ -106,5 +106,6 @@
     <string name="labelPosta">Pošta:</string>
     <string name="labelNaslov">Naslov:</string>
     <string name="noresults">Nobenih zadetkov</string>
+    <string name="error_network">Prosimo, preverite internetno povezavo in poskusite znova.</string>
 
 </resources>
