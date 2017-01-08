@@ -159,7 +159,8 @@ public class MyRecyclerViewZdravnikiAdapter extends RecyclerView.Adapter<MyRecyc
         holder.add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Zdravnik temp = new Zdravnik(zdravniki.get(position).getIme(), zdravniki.get(position).getPriimek(), zdravniki.get(position).getIme_doma(), zdravniki.get(position).getMail_zdravnika(), zdravniki.get(position).getTelefon_zdravnika(), zdravniki.get(position).getNaziv(), zdravniki.get(position).getID_urnika());
+                //Zdravnik temp = new Zdravnik(zdravniki.get(position).getIme(), zdravniki.get(position).getPriimek(), zdravniki.get(position).getIme_doma(), zdravniki.get(position).getMail_zdravnika(), zdravniki.get(position).getTelefon_zdravnika(), zdravniki.get(position).getNaziv(), zdravniki.get(position).getID_urnika());
+                Zdravnik temp = zdravniki.get(position);
 
                 writeObjectToFile(temp);
                 System.out.println(getDoctors().toString());
@@ -167,11 +168,25 @@ public class MyRecyclerViewZdravnikiAdapter extends RecyclerView.Adapter<MyRecyc
         });
     }
 
-    private boolean writeObjectToFile(Object o){
+    private boolean writeObjectToFile(Zdravnik o){
+        ArrayList<Zdravnik> dosedaj = new ArrayList<Zdravnik>();
+        dosedaj = getDoctors();
+        boolean obstaja = false;
+        for(Zdravnik z:dosedaj){
+            if(z.getIme().equals(o.getIme()) && z.getPriimek().equals(o.getPriimek()) && z.getIme_doma().equals(o.getIme_doma())
+                    && z.getNaziv().equals(o.getNaziv())){
+                obstaja=true;
+                break;
+            }
+        }
+        if(!obstaja){
+            dosedaj.add(o);
+        }
+
         try {
             FileOutputStream fos = mContext.openFileOutput(MainActivity.fileNameWithDoctors, mContext.MODE_PRIVATE);
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fos);
-            objectOutputStream.writeObject(o);
+            objectOutputStream.writeObject(dosedaj);
             objectOutputStream.close();
             fos.close();
         } catch (IOException e) {
@@ -184,7 +199,7 @@ public class MyRecyclerViewZdravnikiAdapter extends RecyclerView.Adapter<MyRecyc
     {
 
         File file = new File(mContext.getFilesDir() + "/" + MainActivity.fileNameWithDoctors);
-        ArrayList<Zdravnik> notri = new ArrayList<>();
+        ArrayList<Zdravnik> notri = new ArrayList<Zdravnik>();
         if(file.exists()) {
             FileInputStream fis = null;
             ObjectInputStream ois = null;
@@ -198,7 +213,6 @@ public class MyRecyclerViewZdravnikiAdapter extends RecyclerView.Adapter<MyRecyc
                 e.printStackTrace();
             }
         }
-        notri.add(null);
         return notri;
     }
 

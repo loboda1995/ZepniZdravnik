@@ -1,10 +1,12 @@
 package com.example.tpoteam.zepnizdravnik;
 
+import java.io.Serializable;
+
 /**
  * Created by Thinkpad on 3. 12. 2016.
  */
 
-public class Dan {
+public class Dan implements Serializable{
     String ime;
     String delovnik;
 

@@ -1,5 +1,6 @@
 package com.example.tpoteam.zepnizdravnik;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 
@@ -7,7 +8,7 @@ import java.util.ArrayList;
  * Created by Thinkpad on 21. 11. 2016.
  */
 
-public class Zdravnik {
+public class Zdravnik implements Serializable{
 
     String ime;
     String priimek;
