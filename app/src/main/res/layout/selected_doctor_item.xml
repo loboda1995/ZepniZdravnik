@@ -5,180 +5,153 @@
     android:layout_height="wrap_content">
 
     <LinearLayout
-        android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:background="@color/backgroundBlue"
-        android:padding="10dp">
+        android:layout_height="wrap_content"
+        android:background="#5252d4">
 
-        <TextView
-            android:layout_marginBottom="5dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ZDRAVSTVENI DOM ljubljana center"
-            android:textColor="@android:color/black"
-            android:textStyle="bold"
-            android:textSize="17dp"
-            android:id="@+id/tvZdravstveniDom" />
 
         <LinearLayout
-            android:orientation="horizontal"
+            android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:orientation="vertical"
+            android:background="#b4b4ef"
+            android:paddingLeft="100dp"
+            >
+
+
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/labelMail"
-                android:textSize="17dp"
-                android:textColor="@android:color/black"
-                android:paddingRight="5dp"
+                android:text="ZDRAVSTVENI DOM ljubljana center"
                 android:textStyle="bold"
-                android:fontFamily="sans-serif" />
+                android:textSize="17dp"
+                android:id="@+id/tvZdravstveniDom" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="janez.novak@zdravstevnidom.si"
                 android:id="@+id/tvMailZdravnika"
-                android:textSize="17dp"
-                android:textColor="@android:color/black"
+                android:textSize="16dp"
                 android:fontFamily="sans-serif" />
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/labelTel"
-                android:textSize="17dp"
-                android:paddingRight="5dp"
-                android:textStyle="bold"
-                android:textColor="@android:color/black"
-                android:fontFamily="sans-serif" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="01/70123332"
-                android:textSize="17dp"
-                android:textColor="@android:color/black"
+                android:textSize="16dp"
                 android:id="@+id/tvTelefonZdravnika" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Urnik"
+                android:id="@+id/tvUrnik" />
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
+                <TableRow
+                    >
+                    <TextView
+                        android:text="ponedeljek"
+                        android:padding="3dip" />
+                    <TextView
+                        android:text="10:30 - 17:00"
+                        android:gravity="right"
+                        android:padding="3dip"
+                        android:id="@+id/tvPonedeljek"/>
+                </TableRow>
+
+                <TableRow
+                    >
+                    <TextView
+                        android:text="torek"
+                        android:padding="3dip" />
+                    <TextView
+                        android:text="10:30 - 17:00"
+                        android:gravity="right"
+                        android:padding="3dip"
+                        android:id="@+id/tvTorek"/>
+                </TableRow>
+
+                <TableRow
+                    >
+                    <TextView
+                        android:text="sreda"
+                        android:padding="3dip" />
+                    <TextView
+                        android:text="10:30 - 17:00"
+                        android:gravity="right"
+                        android:padding="3dip"
+                        android:id="@+id/tvSreda"/>
+                </TableRow>
+                <TableRow
+                    >
+                    <TextView
+                        android:text="četrtek"
+                        android:padding="3dip" />
+                    <TextView
+                        android:text="10:30 - 17:00"
+                        android:gravity="right"
+                        android:padding="3dip"
+                        android:id="@+id/tvCetrtek"/>
+                </TableRow>
+                <TableRow
+                    >
+                    <TextView
+                        android:text="petek"
+                        android:padding="3dip" />
+                    <TextView
+                        android:text="10:30 - 17:00"
+                        android:gravity="right"
+                        android:padding="3dip"
+                        android:id="@+id/tvPetek"/>
+                </TableRow>
+                <TableRow
+                    >
+                    <TextView
+                        android:text="sobota"
+                        android:padding="3dip" />
+                    <TextView
+                        android:text="10:30 - 17:00"
+                        android:gravity="right"
+                        android:padding="3dip"
+                        android:id="@+id/tvSobota"/>
+                </TableRow>
+                <TableRow
+                    >
+                    <TextView
+                        android:text="nedelja"
+                        android:padding="3dip" />
+                    <TextView
+                        android:text="10:30 - 17:00"
+                        android:gravity="right"
+                        android:padding="3dip"
+                        android:id="@+id/tvNedelja"/>
+                </TableRow>
+            </TableLayout>
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                app:srcCompat="@android:drawable/ic_menu_add"
+                app:backgroundTint="@color/cardview_light_background"
+                app:rippleColor="@color/darkblue"
+                android:layout_weight="1"
+                android:layout_margin="5dp" />
+
 
         </LinearLayout>
 
-        <TextView
-            android:layout_marginTop="5dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="17dp"
-            android:textStyle="bold"
-            android:text="Urnik"
-            android:textColor="@android:color/black"
-            android:id="@+id/tvUrnik" />
-
-        <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent">
-            <TableRow android:background="@drawable/tablerow_background">
-                <TextView
-                    android:text="ponedeljek"
-                    android:textColor="@android:color/black"
-                    android:padding="3dip" />
-                <TextView
-                    android:text="10:30 - 17:00"
-                    android:gravity="right"
-                    android:padding="3dip"
-                    android:textColor="@android:color/black"
-                    android:id="@+id/tvPonedeljek"/>
-            </TableRow>
-
-            <TableRow android:background="@drawable/tablerow_background"
-                android:layout_marginTop="-2dp">
-                <TextView
-                    android:text="torek"
-                    android:textColor="@android:color/black"
-                    android:padding="3dip" />
-                <TextView
-                    android:text="10:30 - 17:00"
-                    android:gravity="right"
-                    android:padding="3dip"
-                    android:textColor="@android:color/black"
-                    android:id="@+id/tvTorek"/>
-            </TableRow>
-
-            <TableRow android:background="@drawable/tablerow_background"
-                android:layout_marginTop="-2dp">
-                <TextView
-                    android:text="sreda"
-                    android:textColor="@android:color/black"
-                    android:padding="3dip" />
-                <TextView
-                    android:text="10:30 - 17:00"
-                    android:gravity="right"
-                    android:padding="3dip"
-                    android:textColor="@android:color/black"
-                    android:id="@+id/tvSreda"/>
-            </TableRow>
-            <TableRow android:background="@drawable/tablerow_background"
-                android:layout_marginTop="-2dp">
-                <TextView
-                    android:text="četrtek"
-                    android:textColor="@android:color/black"
-                    android:padding="3dip" />
-                <TextView
-                    android:text="10:30 - 17:00"
-                    android:gravity="right"
-                    android:padding="3dip"
-                    android:textColor="@android:color/black"
-                    android:id="@+id/tvCetrtek"/>
-            </TableRow>
-            <TableRow android:background="@drawable/tablerow_background"
-                android:layout_marginTop="-2dp">
-                <TextView
-                    android:text="petek"
-                    android:textColor="@android:color/black"
-                    android:padding="3dip" />
-                <TextView
-                    android:text="10:30 - 17:00"
-                    android:gravity="right"
-                    android:padding="3dip"
-                    android:textColor="@android:color/black"
-                    android:id="@+id/tvPetek"/>
-            </TableRow>
-            <TableRow android:background="@drawable/tablerow_background"
-                android:layout_marginTop="-2dp">
-                <TextView
-                    android:text="sobota"
-                    android:textColor="@android:color/black"
-                    android:padding="3dip" />
-                <TextView
-                    android:text="10:30 - 17:00"
-                    android:gravity="right"
-                    android:padding="3dip"
-                    android:textColor="@android:color/black"
-                    android:id="@+id/tvSobota"/>
-            </TableRow>
-            <TableRow android:background="@drawable/tablerow_background"
-                android:layout_marginTop="-2dp">
-                <TextView
-                    android:text="nedelja"
-                    android:textColor="@android:color/black"
-                    android:padding="3dip" />
-                <TextView
-                    android:text="10:30 - 17:00"
-                    android:gravity="right"
-                    android:padding="3dip"
-                    android:textColor="@android:color/black"
-                    android:id="@+id/tvNedelja"/>
-            </TableRow>
-        </TableLayout>
-
     </LinearLayout>
+
+
 
 </LinearLayout>

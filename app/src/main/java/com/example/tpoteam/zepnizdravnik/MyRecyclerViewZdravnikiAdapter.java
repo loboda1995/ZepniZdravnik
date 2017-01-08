@@ -2,30 +2,37 @@ package com.example.tpoteam.zepnizdravnik;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.widget.CardView;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
-import android.transition.TransitionManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
+
 
 /**
  * Created by Thinkpad on 19. 12. 2016.
  */
 
-public class MyRecyclerViewZdravnikiAdapter extends RecyclerView.Adapter<MyRecyclerViewZdravnikiAdapter.ViewHolder> {
+public class MyRecyclerViewZdravnikiAdapter extends RecyclerView.Adapter<MyRecyclerViewZdravnikiAdapter.ViewHolder>  implements Serializable{
     private ArrayList<Zdravnik> zdravniki;
-    private Context mContext;
+    private transient Context mContext;
     private int expandedPosition = -1;
 
 
 
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder{
 
         public TextView naziv;
         public TextView ime;
@@ -41,6 +48,7 @@ public class MyRecyclerViewZdravnikiAdapter extends RecyclerView.Adapter<MyRecyc
         public TextView sob;
         public TextView ned;
         public LinearLayout details;
+        public FloatingActionButton add;
 
 
         public ViewHolder(View itemView) {
@@ -60,7 +68,7 @@ public class MyRecyclerViewZdravnikiAdapter extends RecyclerView.Adapter<MyRecyc
             sob = (TextView)itemView.findViewById(R.id.tvSobota);
             ned = (TextView)itemView.findViewById(R.id.tvNedelja);
             details = (LinearLayout)itemView.findViewById(R.id.docInfo);
-
+            add = (FloatingActionButton) itemView.findViewById(R.id.fab);
 
         }
     }
@@ -148,10 +156,50 @@ public class MyRecyclerViewZdravnikiAdapter extends RecyclerView.Adapter<MyRecyc
             }
         });
 
+        holder.add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Zdravnik temp = new Zdravnik(zdravniki.get(position).getIme(), zdravniki.get(position).getPriimek(), zdravniki.get(position).getIme_doma(), zdravniki.get(position).getMail_zdravnika(), zdravniki.get(position).getTelefon_zdravnika(), zdravniki.get(position).getNaziv(), zdravniki.get(position).getID_urnika());
 
+                writeObjectToFile(temp);
+                System.out.println(getDoctors().toString());
+            }
+        });
+    }
 
+    private boolean writeObjectToFile(Object o){
+        try {
+            FileOutputStream fos = mContext.openFileOutput(MainActivity.fileNameWithDoctors, mContext.MODE_PRIVATE);
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fos);
+            objectOutputStream.writeObject(o);
+            objectOutputStream.close();
+            fos.close();
+        } catch (IOException e) {
+            return false;
+        }
+        return true;
+    }
 
+    private ArrayList<Zdravnik> getDoctors()
+    {
 
+        File file = new File(mContext.getFilesDir() + "/" + MainActivity.fileNameWithDoctors);
+        ArrayList<Zdravnik> notri = new ArrayList<>();
+        if(file.exists()) {
+            FileInputStream fis = null;
+            ObjectInputStream ois = null;
+            try {
+                fis = mContext.openFileInput(MainActivity.fileNameWithDoctors);
+                ois = new ObjectInputStream(fis);
+                notri = (ArrayList<Zdravnik>) ois.readObject();
+                ois.close();
+                fis.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        notri.add(null);
+        return notri;
     }
 
     @Override
