@@ -2,15 +2,20 @@ package com.example.tpoteam.zepnizdravnik;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.widget.CardView;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
-import android.transition.TransitionManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 /**
@@ -32,6 +37,7 @@ public class MyRecyclerViewDomAdapter extends RecyclerView.Adapter<MyRecyclerVie
         public TextView naslovDoma;
         public LinearLayout details;
         public TextView naziv;
+        public FloatingActionButton add;
 
 
         public ViewHolder(View itemView) {
@@ -44,6 +50,7 @@ public class MyRecyclerViewDomAdapter extends RecyclerView.Adapter<MyRecyclerVie
             krajDoma = (TextView)itemView.findViewById(R.id.tvKrajDoma);
             naslovDoma = (TextView)itemView.findViewById(R.id.tvNaslovDoma);
             details = (LinearLayout)itemView.findViewById(R.id.docInfo);
+            add = (FloatingActionButton) itemView.findViewById(R.id.fab);
         }
     }
 
@@ -113,6 +120,65 @@ public class MyRecyclerViewDomAdapter extends RecyclerView.Adapter<MyRecyclerVie
 
             }
         });
+
+        holder.add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Zdravnik temp = new Zdravnik(zdravniki.get(position).getIme(), zdravniki.get(position).getPriimek(), zdravniki.get(position).getIme_doma(), zdravniki.get(position).getMail_zdravnika(), zdravniki.get(position).getTelefon_zdravnika(), zdravniki.get(position).getNaziv(), zdravniki.get(position).getID_urnika());
+                Dom temp = domovi.get(position);
+
+                writeObjectToFile(temp);
+                System.out.println(getDoctors().toString());
+            }
+        });
+    }
+
+
+    private boolean writeObjectToFile(Dom o){
+        ArrayList<Dom> dosedaj = new ArrayList<Dom>();
+        dosedaj = getDoctors();
+        boolean obstaja = false;
+        for(Dom z:dosedaj){
+            if(z.getIme().equals(o.getIme()) ){
+                obstaja=true;
+                break;
+            }
+        }
+        if(!obstaja){
+            dosedaj.add(o);
+        }
+
+        try {
+            FileOutputStream fos = mContext.openFileOutput(MainActivity.fileNameWithHouse, mContext.MODE_PRIVATE);
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fos);
+            objectOutputStream.writeObject(dosedaj);
+            objectOutputStream.close();
+            fos.close();
+        } catch (IOException e) {
+            return false;
+        }
+        return true;
+    }
+
+    private ArrayList<Dom> getDoctors()
+    {
+
+        File file = new File(mContext.getFilesDir() + "/" + MainActivity.fileNameWithHouse);
+        ArrayList<Dom> notri = new ArrayList<Dom>();
+        if(file.exists()) {
+            FileInputStream fis = null;
+            ObjectInputStream ois = null;
+            try {
+                fis = mContext.openFileInput(MainActivity.fileNameWithHouse);
+                ois = new ObjectInputStream(fis);
+                notri = (ArrayList<Dom>) ois.readObject();
+                ois.close();
+                fis.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return notri;
     }
     @Override
     public int getItemCount() {

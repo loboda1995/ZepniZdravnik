@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String fileNameWithNotifications = "notificationsFile";
     public static final String fileNameWithAppointments = "appointmentsFile";
     public static final String fileNameWithDoctors = "doctorsFile";
+    public static final String fileNameWithHouse = "houseFile";
     public static final String nameOfExtra1 = "Notifications";
     public static final String nameOfExtra2 = "ID";
 
