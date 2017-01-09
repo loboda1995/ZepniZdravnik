@@ -18,6 +18,7 @@ public class Zdravnik implements Serializable{
     String Naziv;
     String ID_urnika;
     ArrayList<Dan> urnik;
+    Boolean local = false;
 
 //    String Ponedeljek;
 //    String Torek;
@@ -41,6 +42,14 @@ public class Zdravnik implements Serializable{
         this.Naziv = N;
         this.ID_urnika = u;
 
+    }
+
+    public Boolean getLocal() {
+        return local;
+    }
+
+    public void setLocal(Boolean local) {
+        this.local = local;
     }
 
     public ArrayList<Dan> getUrnik() {

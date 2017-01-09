@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,7 @@ public class MyRecyclerViewZdravnikiAdapter extends RecyclerView.Adapter<MyRecyc
     private ArrayList<Zdravnik> zdravniki;
     private transient Context mContext;
     private int expandedPosition = -1;
+    private ArrayList<Zdravnik> lokalniZdravniki;
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
 
@@ -46,6 +48,7 @@ public class MyRecyclerViewZdravnikiAdapter extends RecyclerView.Adapter<MyRecyc
         public TextView ned;
         public LinearLayout details;
         public FloatingActionButton add;
+        public FloatingActionButton remove;
 
 
         public ViewHolder(View itemView) {
@@ -66,6 +69,7 @@ public class MyRecyclerViewZdravnikiAdapter extends RecyclerView.Adapter<MyRecyc
             ned = (TextView)itemView.findViewById(R.id.tvNedelja);
             details = (LinearLayout)itemView.findViewById(R.id.docInfo);
             add = (FloatingActionButton) itemView.findViewById(R.id.fab);
+            remove = (FloatingActionButton)itemView.findViewById(R.id.fabRemove);
 
         }
     }
@@ -77,6 +81,7 @@ public class MyRecyclerViewZdravnikiAdapter extends RecyclerView.Adapter<MyRecyc
     public MyRecyclerViewZdravnikiAdapter(Context c , ArrayList<Zdravnik> zdr) {
         zdravniki = zdr;
         mContext = c;
+
     }
 
 
@@ -88,6 +93,7 @@ public class MyRecyclerViewZdravnikiAdapter extends RecyclerView.Adapter<MyRecyc
 
         View doc_item = inflater.inflate(R.layout.doctor_item_card,parent,false);
         ViewHolder viewHolder = new ViewHolder(doc_item);
+        lokalniZdravniki = getDoctors();
         return viewHolder;
     }
 
@@ -95,7 +101,7 @@ public class MyRecyclerViewZdravnikiAdapter extends RecyclerView.Adapter<MyRecyc
 
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         Zdravnik z = zdravniki.get(position);
         holder.ime.setText(z.getIme());
         holder.priimek.setText(z.getPriimek());
@@ -153,16 +159,77 @@ public class MyRecyclerViewZdravnikiAdapter extends RecyclerView.Adapter<MyRecyc
             }
         });
 
+
+        if(zdravniki.get(position).getLocal()){
+            holder.remove.show();
+        }else{
+            holder.remove.hide();
+
+        }
+
+
+        for(Zdravnik zd : lokalniZdravniki){
+            if(zd.getIme().equals(zdravniki.get(position).getIme()) && zd.getPriimek().equals(zdravniki.get(position).getPriimek())){
+                holder.remove.show();
+            }
+        }
+
+
+
+
         holder.add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Zdravnik temp = new Zdravnik(zdravniki.get(position).getIme(), zdravniki.get(position).getPriimek(), zdravniki.get(position).getIme_doma(), zdravniki.get(position).getMail_zdravnika(), zdravniki.get(position).getTelefon_zdravnika(), zdravniki.get(position).getNaziv(), zdravniki.get(position).getID_urnika());
                 Zdravnik temp = zdravniki.get(position);
-
+                temp.setLocal(true);
+                holder.remove.show();
                 writeObjectToFile(temp);
-                System.out.println(getDoctors().toString());
+                //System.out.println(getDoctors().toString());
             }
         });
+
+        holder.remove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Zdravnik temp = zdravniki.get(position);
+                holder.remove.hide();
+                Boolean t = removeObjectFromFile(temp);
+
+                zdravniki.remove(temp);
+                notifyItemRemoved(position);
+                notifyItemRangeChanged(position, zdravniki.size());
+
+                Log.e("stanje remove: ", t.toString());
+
+            }
+        });
+    }
+
+    private boolean removeObjectFromFile(Zdravnik o){
+        ArrayList<Zdravnik> dosedaj = new ArrayList<Zdravnik>();
+        dosedaj = getDoctors();
+        for(Zdravnik z:dosedaj){
+            if(z.getIme().equals(o.getIme()) && z.getPriimek().equals(o.getPriimek()) && z.getIme_doma().equals(o.getIme_doma())
+                    && z.getNaziv().equals(o.getNaziv())){
+                dosedaj.remove(z);
+                break;
+            }
+        }
+
+        try {
+            FileOutputStream fos = mContext.openFileOutput(MainActivity.fileNameWithDoctors, mContext.MODE_PRIVATE);
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fos);
+            objectOutputStream.writeObject(dosedaj);
+            objectOutputStream.close();
+            fos.close();
+        } catch (IOException e) {
+            return false;
+        }
+        return true;
+
+
+
     }
 
     private boolean writeObjectToFile(Zdravnik o){
