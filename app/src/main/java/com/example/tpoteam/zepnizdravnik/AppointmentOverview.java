@@ -7,17 +7,16 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableString;
-import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -52,8 +51,8 @@ public class AppointmentOverview extends AppCompatActivity{
     private AppointmentNotification selectedNotification;
 
     private MyAutoComplete inputDoctor;
-    private EditText inputInstitution;
-    private EditText inputLocation;
+    private MyAutoComplete inputInstitution;
+    private MyAutoComplete inputLocation;
     private Spinner colorPicker;
     private TextView displayAlarmTime;
     private TextView displayAppointmentTime;
@@ -134,10 +133,13 @@ public class AppointmentOverview extends AppCompatActivity{
     // Pridobimo in shranimo vsa vnosna polja
     private void getAllInputs(){
         inputDoctor = (MyAutoComplete) findViewById(R.id.appointDoctorName);
-
         ArrayList<Zdravnik> doctors = getDoctors();
-        DoctorInputAdapter adapter = new DoctorInputAdapter(this, doctors);
-        inputDoctor.setAdapter(adapter);
+        ArrayList<String> names = new ArrayList<>(doctors.size());
+        for(Zdravnik z : doctors){
+            names.add(String.format("%s %s", z.getIme(), z.getPriimek()));
+        }
+        AutocompleteAdapter adapter1 = new AutocompleteAdapter(this, names);
+        inputDoctor.setAdapter(adapter1);
         inputDoctor.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -152,8 +154,60 @@ public class AppointmentOverview extends AppCompatActivity{
             }
         });
 
-        inputInstitution = (EditText) findViewById(R.id.appointInstitution);
-        inputLocation = (EditText) findViewById(R.id.appointLocation);
+        inputInstitution = (MyAutoComplete) findViewById(R.id.appointInstitution);
+        ArrayList<Dom> institutions = getInstitutions();
+        final ArrayList<String> name = new ArrayList<>(institutions.size());
+        final ArrayList<String> location = new ArrayList<>(institutions.size());
+        for(Dom d : institutions){
+            name.add(d.getIme());
+            location.add(d.getNaslov());
+        }
+        AutocompleteAdapter adapter2 = new AutocompleteAdapter(this, name);
+        inputInstitution.setAdapter(adapter2);
+        inputInstitution.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+
+                if (v.getWindowVisibility() != View.VISIBLE) {
+                    return;
+                }
+                if (hasFocus)
+                    inputInstitution.showDropDown();
+                else
+                    inputInstitution.dismissDropDown();
+            }
+        });
+        inputInstitution.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if(inputLocation.getText().length() == 0)
+                    inputLocation.setText(location.get(i));
+            }
+        });
+
+        inputLocation = (MyAutoComplete) findViewById(R.id.appointLocation);
+        adapter2 = new AutocompleteAdapter(this, location);
+        inputLocation.setAdapter(adapter2);
+        inputLocation.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+
+                if (v.getWindowVisibility() != View.VISIBLE) {
+                    return;
+                }
+                if (hasFocus)
+                    inputLocation.showDropDown();
+                else
+                    inputLocation.dismissDropDown();
+            }
+        });
+        inputLocation.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if(inputInstitution.getText().length() == 0)
+                    inputInstitution.setText(name.get(i));
+            }
+        });
 
         displayAlarmTime = (TextView) findViewById(R.id.displayAlarmTime);
         displayAlarmTime.setOnClickListener(new View.OnClickListener() {
@@ -240,6 +294,9 @@ public class AppointmentOverview extends AppCompatActivity{
 
         AlertDialog alert = alertDialogBuilder.create();
         alert.show();
+        alert.getButton(alert.BUTTON_NEGATIVE).setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        alert.getButton(alert.BUTTON_NEUTRAL).setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        alert.getButton(alert.BUTTON_POSITIVE).setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary));
     }
 
     // Izbrise izbrani opomnik
@@ -333,6 +390,7 @@ public class AppointmentOverview extends AppCompatActivity{
         // obstojecega
         if(selectedNotification != null){
             selectedNotification.doctor = doctorName;
+            selectedNotification.institution = inst;
             selectedNotification.location = location;
             selectedNotification.timeOfNotification = alarmTime;
             selectedNotification.timeOfAppointment = appointmentTime;
@@ -416,6 +474,27 @@ public class AppointmentOverview extends AppCompatActivity{
                 fis = openFileInput(MainActivity.fileNameWithDoctors);
                 ois = new ObjectInputStream(fis);
                 notri = (ArrayList<Zdravnik>) ois.readObject();
+                ois.close();
+                fis.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return notri;
+    }
+
+    private ArrayList<Dom> getInstitutions()
+    {
+
+        File file = new File(getFilesDir() + "/" + MainActivity.fileNameWithHouse);
+        ArrayList<Dom> notri = new ArrayList<>();
+        if(file.exists()) {
+            FileInputStream fis = null;
+            ObjectInputStream ois = null;
+            try {
+                fis = openFileInput(MainActivity.fileNameWithHouse);
+                ois = new ObjectInputStream(fis);
+                notri = (ArrayList<Dom>) ois.readObject();
                 ois.close();
                 fis.close();
             } catch (Exception e) {

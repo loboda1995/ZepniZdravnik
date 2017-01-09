@@ -128,15 +128,15 @@ public class MyRecyclerViewDomAdapter extends RecyclerView.Adapter<MyRecyclerVie
                 Dom temp = domovi.get(position);
 
                 writeObjectToFile(temp);
-                System.out.println(getDoctors().toString());
+                System.out.println(getInstitutions().toString());
             }
         });
     }
 
 
     private boolean writeObjectToFile(Dom o){
-        ArrayList<Dom> dosedaj = new ArrayList<Dom>();
-        dosedaj = getDoctors();
+        ArrayList<Dom> dosedaj;
+        dosedaj = getInstitutions();
         boolean obstaja = false;
         for(Dom z:dosedaj){
             if(z.getIme().equals(o.getIme()) ){
@@ -160,11 +160,11 @@ public class MyRecyclerViewDomAdapter extends RecyclerView.Adapter<MyRecyclerVie
         return true;
     }
 
-    private ArrayList<Dom> getDoctors()
+    private ArrayList<Dom> getInstitutions()
     {
 
         File file = new File(mContext.getFilesDir() + "/" + MainActivity.fileNameWithHouse);
-        ArrayList<Dom> notri = new ArrayList<Dom>();
+        ArrayList<Dom> notri = new ArrayList<>();
         if(file.exists()) {
             FileInputStream fis = null;
             ObjectInputStream ois = null;

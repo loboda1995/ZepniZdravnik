@@ -1,10 +1,12 @@
 package com.example.tpoteam.zepnizdravnik;
 
+import java.io.Serializable;
+
 /**
  * Created by Žiga on 12.12.2016.
  */
 
-public class Dom {
+public class Dom implements Serializable{
     String ime;
     String mail;
     String naslov;
@@ -49,4 +51,5 @@ public class Dom {
     public String getTelefon(){return this.telefon;}
 
     public String getPosta() {return this.postna_st + ", " + this.kraj;}
+
 }

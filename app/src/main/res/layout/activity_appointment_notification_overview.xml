@@ -68,17 +68,7 @@
                         android:layout_width="0dp"
                         android:layout_weight="0.6"
                         android:layout_height="match_parent">
-                        <!--
-                        <EditText
-                            android:background="@drawable/inputbackground"
-                            android:id="@+id/appointDoctorName"
-                            android:layout_centerVertical="true"
-                            android:textSize="18dp"
-                            android:inputType="text"
-                            android:selectAllOnFocus="true"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
-                        -->
+
                         <com.example.tpoteam.zepnizdravnik.MyAutoComplete
                             android:background="@drawable/inputbackground"
                             android:id="@+id/appointDoctorName"
@@ -117,7 +107,8 @@
                         android:layout_width="0dp"
                         android:layout_weight="0.6"
                         android:layout_height="match_parent">
-                        <EditText
+
+                        <com.example.tpoteam.zepnizdravnik.MyAutoComplete
                             android:background="@drawable/inputbackground"
                             android:id="@+id/appointInstitution"
                             android:layout_centerVertical="true"
@@ -125,7 +116,7 @@
                             android:inputType="text"
                             android:selectAllOnFocus="true"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content" />
 
                     </RelativeLayout>
 
@@ -156,7 +147,8 @@
                         android:layout_width="0dp"
                         android:layout_weight="0.6"
                         android:layout_height="match_parent">
-                        <EditText
+
+                        <com.example.tpoteam.zepnizdravnik.MyAutoComplete
                             android:background="@drawable/inputbackground"
                             android:id="@+id/appointLocation"
                             android:layout_centerVertical="true"
@@ -164,7 +156,7 @@
                             android:inputType="text"
                             android:selectAllOnFocus="true"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content" />
 
                     </RelativeLayout>
 
