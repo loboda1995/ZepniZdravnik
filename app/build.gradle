@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 24
-    buildToolsVersion "25.0.2"
+    buildToolsVersion "25.0.0"
     defaultConfig {
         applicationId "com.example.tpoteam.zepnizdravnik"
         minSdkVersion 18
@@ -24,12 +24,17 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    //http requests
+    //json to objects - currently unused
+    //progress circle
+    //cards
     compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.android.support:design:24.2.1'
-    compile 'com.squareup.okhttp3:okhttp:3.3.0' //http requests
-    compile 'com.google.code.gson:gson:2.6.2'   //json to objects - currently unused
-    compile 'com.pnikosis:materialish-progress:1.7' //progress circle
-    compile 'com.android.support:cardview-v7:24.2.1' //cards
-    compile 'com.android.support:recyclerview-v7:24.0.+'
+    compile 'com.squareup.okhttp3:okhttp:3.3.0'
+    compile 'com.google.code.gson:gson:2.6.2'
+    compile 'com.pnikosis:materialish-progress:1.7'
+    compile 'com.android.support:cardview-v7:24.2.1'
+    compile 'com.android.support:recyclerview-v7:24.2.1'
+    compile 'com.android.support:support-v4:24.2.1'
     testCompile 'junit:junit:4.12'
 }
