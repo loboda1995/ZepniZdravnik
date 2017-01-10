@@ -41,7 +41,7 @@ public class MyContactsActivity extends AppCompatActivity {
 
         // TODO: v adapter dodamo dva fragmenta, en za prikaz zdravnikov drug za domove
         adapter.addFrag(new FragmentZdravniki(), "Zdravniki");
-        adapter.addFrag(new Fragment(), "Zdravstveni domovi");
+        adapter.addFrag(new FragmentDomovi(), "Zdravstveni domovi");
 
 
         viewPager.setAdapter(adapter);

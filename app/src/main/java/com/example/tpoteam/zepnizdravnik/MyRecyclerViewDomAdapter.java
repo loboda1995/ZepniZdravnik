@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,8 +25,10 @@ import java.util.ArrayList;
 
 public class MyRecyclerViewDomAdapter extends RecyclerView.Adapter<MyRecyclerViewDomAdapter.ViewHolder>{
     private ArrayList<Dom> domovi;
+    private ArrayList<Dom> lokalniDomovi;
     private Context mContext;
     private int expandedPosition = -1;
+    private boolean inSearch;
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -38,6 +41,7 @@ public class MyRecyclerViewDomAdapter extends RecyclerView.Adapter<MyRecyclerVie
         public LinearLayout details;
         public TextView naziv;
         public FloatingActionButton add;
+        public FloatingActionButton remove;
 
 
         public ViewHolder(View itemView) {
@@ -51,12 +55,14 @@ public class MyRecyclerViewDomAdapter extends RecyclerView.Adapter<MyRecyclerVie
             naslovDoma = (TextView)itemView.findViewById(R.id.tvNaslovDoma);
             details = (LinearLayout)itemView.findViewById(R.id.docInfo);
             add = (FloatingActionButton) itemView.findViewById(R.id.fab);
+            remove = (FloatingActionButton)itemView.findViewById(R.id.fabRemove);
         }
     }
 
-    public MyRecyclerViewDomAdapter(Context c , ArrayList<Dom> zdr) {
+    public MyRecyclerViewDomAdapter(Context c , ArrayList<Dom> zdr, Boolean insrc) {
         domovi = zdr;
         mContext = c;
+        inSearch = insrc;
     }
 
     @Override
@@ -67,11 +73,12 @@ public class MyRecyclerViewDomAdapter extends RecyclerView.Adapter<MyRecyclerVie
 
         View doc_item = inflater.inflate(R.layout.house_item_card,parent,false);
         ViewHolder viewHolder = new ViewHolder(doc_item);
+        lokalniDomovi = getInstitutions();
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         Dom d = domovi.get(position);
         holder.ime.setText(d.getIme());
 
@@ -121,16 +128,87 @@ public class MyRecyclerViewDomAdapter extends RecyclerView.Adapter<MyRecyclerVie
             }
         });
 
+
+        if(!inSearch){
+            holder.remove.show();
+        }else{
+            holder.remove.hide();
+        }
+
+
+        for(Dom dom : lokalniDomovi){
+            if(dom.getIme().equals(domovi.get(position).getIme())){
+                //if(!inSearch)
+                holder.remove.show();
+            }
+        }
+
+
         holder.add.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                //Zdravnik temp = new Zdravnik(zdravniki.get(position).getIme(), zdravniki.get(position).getPriimek(), zdravniki.get(position).getIme_doma(), zdravniki.get(position).getMail_zdravnika(), zdravniki.get(position).getTelefon_zdravnika(), zdravniki.get(position).getNaziv(), zdravniki.get(position).getID_urnika());
-                Dom temp = domovi.get(position);
-
-                writeObjectToFile(temp);
-                System.out.println(getInstitutions().toString());
+            public void onClick(View v) {
+                if(inSearch){
+                    Dom temp = domovi.get(position);
+                    temp.setLocal(true);
+                    Boolean te = writeObjectToFile(temp);
+                    Log.e("Uspesno zapisano : ", te.toString());
+                    holder.remove.show();
+                }
             }
         });
+
+
+        holder.remove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!inSearch){
+                    Dom temp = domovi.get(position);
+                    Boolean t = removeObjectFromFile(temp);
+
+                    domovi.remove(temp);
+                    notifyItemRemoved(position);
+                    notifyItemRangeChanged(position, domovi.size());
+
+                    Log.e("stanje remove: ", t.toString());
+                }else{
+                    Dom temp = domovi.get(position);
+                    removeObjectFromFile(temp);
+                    holder.remove.hide();
+                }
+            }
+        });
+
+
+
+
+
+
+
+    }
+
+    private boolean removeObjectFromFile(Dom o){
+        ArrayList<Dom> dosedaj = new ArrayList<Dom>();
+        dosedaj = getInstitutions();
+        for(Dom dom:dosedaj){
+            if(dom.getIme().equals(o.getIme()) && dom.getNaslov().equals(o.getNaslov())){
+                dosedaj.remove(dom);
+                break;
+            }
+        }
+
+        try {
+            FileOutputStream fos = mContext.openFileOutput(MainActivity.fileNameWithHouse, mContext.MODE_PRIVATE);
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fos);
+            objectOutputStream.writeObject(dosedaj);
+            objectOutputStream.close();
+            fos.close();
+        } catch (IOException e) {
+            return false;
+        }
+        return true;
+
+
+
     }
 
 

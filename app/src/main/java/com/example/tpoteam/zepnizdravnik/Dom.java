@@ -13,6 +13,7 @@ public class Dom implements Serializable{
     String telefon;
     String postna_st;
     String kraj;
+    Boolean local;
 
     public Dom(){
         this.ime = "";
@@ -40,6 +41,14 @@ public class Dom implements Serializable{
         this.telefon = telefon;
         this.kraj = kraj;
         this.postna_st = postna_st;
+    }
+
+    public Boolean getLocal() {
+        return local;
+    }
+
+    public void setLocal(Boolean local) {
+        this.local = local;
     }
 
     public String getNaslov(){return this.naslov;}
