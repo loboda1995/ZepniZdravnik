@@ -318,7 +318,7 @@ public class IzbiraPrikaza extends AppCompatActivity {
 
                                     RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
 
-                                    RecyclerView.Adapter mAdapter = new MyRecyclerViewZdravnikiAdapter(IzbiraPrikaza.this, listaZdravnikov);
+                                    RecyclerView.Adapter mAdapter = new MyRecyclerViewZdravnikiAdapter(IzbiraPrikaza.this, listaZdravnikov, true);
                                     mRecyclerView.setLayoutManager(new LinearLayoutManager(IzbiraPrikaza.this));
                                     mRecyclerView.setAdapter(mAdapter);
 

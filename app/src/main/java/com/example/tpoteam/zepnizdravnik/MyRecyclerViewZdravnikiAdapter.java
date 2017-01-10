@@ -28,6 +28,7 @@ import java.util.ArrayList;
 public class MyRecyclerViewZdravnikiAdapter extends RecyclerView.Adapter<MyRecyclerViewZdravnikiAdapter.ViewHolder>  implements Serializable{
     private ArrayList<Zdravnik> zdravniki;
     private transient Context mContext;
+    private boolean inSearch;
     private int expandedPosition = -1;
     private ArrayList<Zdravnik> lokalniZdravniki;
 
@@ -78,10 +79,10 @@ public class MyRecyclerViewZdravnikiAdapter extends RecyclerView.Adapter<MyRecyc
 
 
 
-    public MyRecyclerViewZdravnikiAdapter(Context c , ArrayList<Zdravnik> zdr) {
+    public MyRecyclerViewZdravnikiAdapter(Context c , ArrayList<Zdravnik> zdr, boolean inSearch) {
         zdravniki = zdr;
         mContext = c;
-
+        this.inSearch = inSearch;
     }
 
 
@@ -160,17 +161,17 @@ public class MyRecyclerViewZdravnikiAdapter extends RecyclerView.Adapter<MyRecyc
         });
 
 
-        if(zdravniki.get(position).getLocal()){
+        if(!inSearch){
             holder.remove.show();
         }else{
             holder.remove.hide();
-
         }
 
 
         for(Zdravnik zd : lokalniZdravniki){
             if(zd.getIme().equals(zdravniki.get(position).getIme()) && zd.getPriimek().equals(zdravniki.get(position).getPriimek())){
-                holder.remove.show();
+                if(!inSearch)
+                    holder.remove.show();
             }
         }
 
@@ -180,28 +181,29 @@ public class MyRecyclerViewZdravnikiAdapter extends RecyclerView.Adapter<MyRecyc
         holder.add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Zdravnik temp = new Zdravnik(zdravniki.get(position).getIme(), zdravniki.get(position).getPriimek(), zdravniki.get(position).getIme_doma(), zdravniki.get(position).getMail_zdravnika(), zdravniki.get(position).getTelefon_zdravnika(), zdravniki.get(position).getNaziv(), zdravniki.get(position).getID_urnika());
-                Zdravnik temp = zdravniki.get(position);
-                temp.setLocal(true);
-                holder.remove.show();
-                writeObjectToFile(temp);
-                //System.out.println(getDoctors().toString());
+                if(inSearch){
+                    //Zdravnik temp = new Zdravnik(zdravniki.get(position).getIme(), zdravniki.get(position).getPriimek(), zdravniki.get(position).getIme_doma(), zdravniki.get(position).getMail_zdravnika(), zdravniki.get(position).getTelefon_zdravnika(), zdravniki.get(position).getNaziv(), zdravniki.get(position).getID_urnika());
+                    Zdravnik temp = zdravniki.get(position);
+                    temp.setLocal(true);
+                    writeObjectToFile(temp);
+                    //System.out.println(getDoctors().toString());
+                }
             }
         });
 
         holder.remove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Zdravnik temp = zdravniki.get(position);
-                holder.remove.hide();
-                Boolean t = removeObjectFromFile(temp);
+                if(!inSearch){
+                    Zdravnik temp = zdravniki.get(position);
+                    Boolean t = removeObjectFromFile(temp);
 
-                zdravniki.remove(temp);
-                notifyItemRemoved(position);
-                notifyItemRangeChanged(position, zdravniki.size());
+                    zdravniki.remove(temp);
+                    notifyItemRemoved(position);
+                    notifyItemRangeChanged(position, zdravniki.size());
 
-                Log.e("stanje remove: ", t.toString());
-
+                    Log.e("stanje remove: ", t.toString());
+                }
             }
         });
     }

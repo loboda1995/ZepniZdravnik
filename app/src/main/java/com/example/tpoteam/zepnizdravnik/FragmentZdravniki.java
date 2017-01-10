@@ -50,7 +50,7 @@ public class FragmentZdravniki extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         rc = (RecyclerView)view.findViewById(R.id.my_recycler_view);
-        RecyclerView.Adapter mAdapter = new MyRecyclerViewZdravnikiAdapter(c.getApplicationContext(), shranjeniZdravniki);
+        RecyclerView.Adapter mAdapter = new MyRecyclerViewZdravnikiAdapter(c.getApplicationContext(), shranjeniZdravniki, false);
         rc.setLayoutManager(new LinearLayoutManager(c.getApplicationContext()));
         rc.setAdapter(mAdapter);
     }
