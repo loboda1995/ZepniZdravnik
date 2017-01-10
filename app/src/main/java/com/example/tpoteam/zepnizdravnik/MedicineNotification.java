@@ -11,7 +11,7 @@ import java.io.Serializable;
 public class MedicineNotification implements Serializable{
 
     public String medicineName;
-    public int medicineQuantity;
+    public String medicineQuantity;
     public int idOfColor;
     public boolean dailyInterval;
     public int[] times = new int[24];
@@ -19,7 +19,7 @@ public class MedicineNotification implements Serializable{
     public int idOfNoti;
 
 
-    public MedicineNotification(String medicineName, int medicineQuantity, int idColor, boolean isDaily, int[] t, String comm, int id){
+    public MedicineNotification(String medicineName, String medicineQuantity, int idColor, boolean isDaily, int[] t, String comm, int id){
         this.medicineName = medicineName;
         this.medicineQuantity = medicineQuantity;
         this.idOfColor = idColor;

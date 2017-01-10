@@ -45,7 +45,7 @@ public class NotificationAdapter extends ArrayAdapter<MedicineNotification> {
             TextView medicineNameDisplay = (TextView) convertView.findViewById(R.id.medicineName);
             medicineNameDisplay.setText(notification.medicineName);
             TextView medicineQunatityDisplay = (TextView) convertView.findViewById(R.id.medicineQuantity);
-            medicineQunatityDisplay.setText(Integer.toString(notification.medicineQuantity));
+            medicineQunatityDisplay.setText(notification.medicineQuantity);
             TextView medicineTimesDisplay = (TextView) convertView.findViewById(R.id.medicineTimes);
             Calendar calendar = Calendar.getInstance();
             String alarm = notification_not_set;

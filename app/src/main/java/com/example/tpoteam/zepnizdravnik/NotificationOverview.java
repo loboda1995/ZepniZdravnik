@@ -110,7 +110,7 @@ public class NotificationOverview extends AppCompatActivity {
             selectedNotification = medicineNotifications.get(IDselected);
 
             medicineNameInput.setText(selectedNotification.medicineName);
-            medicineQuantityInput.setText(Integer.toString(selectedNotification.medicineQuantity));
+            medicineQuantityInput.setText(selectedNotification.medicineQuantity);
 
             colorPicker.setSelection(selectedNotification.idOfColor);
 
@@ -228,22 +228,14 @@ public class NotificationOverview extends AppCompatActivity {
             medicineQuantityInput.setError(getString(R.string.validationErrorQuantityEmpty));
             medicineQuantityInput.setTextColor(Color.RED);
         }
-        else {
-            try {
-                int newMedicineQuantity = Integer.parseInt(medicineQuantityInput.getText().toString());
-                medicineQuantityInput.setTextColor(Color.BLACK);
-            } catch (Exception e) {
-                isValid = false;
-                medicineQuantityInput.setTextColor(Color.RED);
-                medicineQuantityInput.setError(getString(R.string.validationErrorQuantity));
-            }
-        }
+        else
+            medicineQuantityInput.setTextColor(Color.BLACK);
         return isValid;
     }
 
     private boolean saveThisNotification() {
         String newMedicineName = medicineNameInput.getText().toString();
-        int newMedicineQuantity = Integer.parseInt(medicineQuantityInput.getText().toString());
+        String newMedicineQuantity = medicineQuantityInput.getText().toString();
         int newColorId = colorPicker.getSelectedItemPosition();
         boolean isDaily = radioDaily.isChecked();
         int[] times = new int[24];
