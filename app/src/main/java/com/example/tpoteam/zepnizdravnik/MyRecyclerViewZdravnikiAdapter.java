@@ -170,7 +170,7 @@ public class MyRecyclerViewZdravnikiAdapter extends RecyclerView.Adapter<MyRecyc
 
         for(Zdravnik zd : lokalniZdravniki){
             if(zd.getIme().equals(zdravniki.get(position).getIme()) && zd.getPriimek().equals(zdravniki.get(position).getPriimek())){
-                if(!inSearch)
+                //if(!inSearch)
                     holder.remove.show();
             }
         }
@@ -186,6 +186,7 @@ public class MyRecyclerViewZdravnikiAdapter extends RecyclerView.Adapter<MyRecyc
                     Zdravnik temp = zdravniki.get(position);
                     temp.setLocal(true);
                     writeObjectToFile(temp);
+                    holder.remove.show();
                     //System.out.println(getDoctors().toString());
                 }
             }
@@ -203,6 +204,10 @@ public class MyRecyclerViewZdravnikiAdapter extends RecyclerView.Adapter<MyRecyc
                     notifyItemRangeChanged(position, zdravniki.size());
 
                     Log.e("stanje remove: ", t.toString());
+                }else{
+                    Zdravnik temp = zdravniki.get(position);
+                    removeObjectFromFile(temp);
+                    holder.remove.hide();
                 }
             }
         });
