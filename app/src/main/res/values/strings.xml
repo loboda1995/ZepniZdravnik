@@ -107,5 +107,7 @@
     <string name="labelNaslov">Naslov:</string>
     <string name="noresults">Nobenih zadetkov</string>
     <string name="error_network">Prosimo, preverite internetno povezavo in poskusite znova.</string>
+    <string name="validationErrorAlarmTime">Čas alarma je v preteklosti.</string>
+    <string name="validationErrorAppointTime">Čas pregleda je v preteklosti.</string>
 
 </resources>

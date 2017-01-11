@@ -156,7 +156,6 @@ public class MyRecyclerViewZdravnikiAdapter extends RecyclerView.Adapter<MyRecyc
                 }else{ expandedPosition = position;
                     notifyItemChanged(expandedPosition);}
 
-
             }
         });
 

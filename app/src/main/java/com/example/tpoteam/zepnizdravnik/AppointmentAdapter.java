@@ -20,7 +20,7 @@ import java.util.Date;
 
 public class AppointmentAdapter extends ArrayAdapter<AppointmentNotification> {
 
-    private String notification_not_set = "Opozorilo ni nastavljeno.";
+    private String notification_not_set = "ni nastavljen";
 
     public AppointmentAdapter(Context context, ArrayList<AppointmentNotification> notifications) {
         super(context, 0, notifications);

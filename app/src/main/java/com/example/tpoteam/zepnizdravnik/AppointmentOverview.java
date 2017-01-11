@@ -257,6 +257,8 @@ public class AppointmentOverview extends AppCompatActivity{
                                         alarmTime = cal.getTimeInMillis();
                                         displayAlarmTime.setText(sdf.format(cal.getTime()));
                                     }else{
+                                        displayAlarmTime.setTextColor(Color.RED);
+                                        displayAlarmTime.setError(getString(R.string.validationErrorAlarmTime));
                                         Toast.makeText(AppointmentOverview.this, R.string.appointmentError, Toast.LENGTH_LONG).show();
                                     }
                                 }else{
@@ -266,6 +268,8 @@ public class AppointmentOverview extends AppCompatActivity{
                                         appointmentTime = cal.getTimeInMillis();
                                         displayAppointmentTime.setText(sdf.format(cal.getTime()));
                                     }else{
+                                        displayAppointmentTime.setTextColor(Color.RED);
+                                        displayAppointmentTime.setError(getString(R.string.validationErrorAppointTime));
                                         Toast.makeText(AppointmentOverview.this, R.string.appointmentError, Toast.LENGTH_LONG).show();
                                     }
                                 }
@@ -278,9 +282,11 @@ public class AppointmentOverview extends AppCompatActivity{
                         if(alarm) {
                             alarmTime = -1;
                             displayAlarmTime.setText(getResources().getString(R.string.setTimeText));
+                            displayAlarmTime.setTextColor(Color.BLACK);
                         }else {
                             appointmentTime = -1;
                             displayAppointmentTime.setText(getResources().getString(R.string.setTimeText));
+                            displayAppointmentTime.setTextColor(Color.BLACK);
                         }
                         dialog.cancel();
                     }
@@ -305,7 +311,7 @@ public class AppointmentOverview extends AppCompatActivity{
             String chars = getResources().getString(R.string.notificationRemovalTitle);
             SpannableString str = new SpannableString(chars);
             str.setSpan(new ForegroundColorSpan(Color.BLACK), 0, chars.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            new AlertDialog.Builder(this)
+            AlertDialog dialog = new AlertDialog.Builder(this)
                     .setTitle(str)
                     .setMessage(R.string.notificationRemoveMessage)
                     .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
@@ -322,6 +328,8 @@ public class AppointmentOverview extends AppCompatActivity{
                             }
                         }})
                     .setNegativeButton(R.string.no, null).show();
+            dialog.getButton(dialog.BUTTON_NEGATIVE).setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary));
+            dialog.getButton(dialog.BUTTON_POSITIVE).setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary));
         }
     }
 
@@ -367,6 +375,31 @@ public class AppointmentOverview extends AppCompatActivity{
         }
         else
             inputLocation.setTextColor(Color.BLACK);
+        Calendar cal = Calendar.getInstance();
+        Calendar currentTime = Calendar.getInstance();
+        if(alarmTime != -1){
+            cal.setTimeInMillis(alarmTime);
+            // preverimo ali čas alarma ni v preteklosti
+            if(cal.getTimeInMillis()-currentTime.getTimeInMillis() > 0){
+                displayAlarmTime.setTextColor(Color.BLACK);
+            }else{
+                isValid = false;
+                displayAlarmTime.setTextColor(Color.RED);
+                displayAlarmTime.setError(getString(R.string.validationErrorAlarmTime));
+            }
+        }
+        if(appointmentTime != -1){
+            cal.setTimeInMillis(appointmentTime);
+            // preverimo ali čas alarma ni v preteklosti
+            if(cal.getTimeInMillis()-currentTime.getTimeInMillis() > 0){
+                displayAppointmentTime.setTextColor(Color.BLACK);
+            }else{
+                isValid = false;
+                displayAppointmentTime.setTextColor(Color.RED);
+                displayAppointmentTime.setError(getString(R.string.validationErrorAppointTime));
+            }
+        }
+
         return isValid;
     }
 

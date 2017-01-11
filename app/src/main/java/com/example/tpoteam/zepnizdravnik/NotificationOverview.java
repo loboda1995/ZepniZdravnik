@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
@@ -110,7 +111,7 @@ public class NotificationOverview extends AppCompatActivity {
             selectedNotification = medicineNotifications.get(IDselected);
 
             medicineNameInput.setText(selectedNotification.medicineName);
-            medicineQuantityInput.setText(Integer.toString(selectedNotification.medicineQuantity));
+            medicineQuantityInput.setText(selectedNotification.medicineQuantity);
 
             colorPicker.setSelection(selectedNotification.idOfColor);
 
@@ -173,7 +174,7 @@ public class NotificationOverview extends AppCompatActivity {
             String chars = getResources().getString(R.string.notificationRemovalTitle);
             SpannableString str = new SpannableString(chars);
             str.setSpan(new ForegroundColorSpan(Color.BLACK), 0, chars.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            new AlertDialog.Builder(this)
+            AlertDialog dialog = new AlertDialog.Builder(this)
                     .setTitle(str)
                     .setMessage(R.string.notificationRemoveMessage)
                     .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
@@ -190,6 +191,8 @@ public class NotificationOverview extends AppCompatActivity {
                             }
                         }})
                     .setNegativeButton(R.string.no, null).show();
+            dialog.getButton(dialog.BUTTON_NEGATIVE).setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary));
+            dialog.getButton(dialog.BUTTON_POSITIVE).setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary));
         }
     }
 
@@ -229,21 +232,14 @@ public class NotificationOverview extends AppCompatActivity {
             medicineQuantityInput.setTextColor(Color.RED);
         }
         else {
-            try {
-                int newMedicineQuantity = Integer.parseInt(medicineQuantityInput.getText().toString());
-                medicineQuantityInput.setTextColor(Color.BLACK);
-            } catch (Exception e) {
-                isValid = false;
-                medicineQuantityInput.setTextColor(Color.RED);
-                medicineQuantityInput.setError(getString(R.string.validationErrorQuantity));
-            }
+            medicineQuantityInput.setTextColor(Color.BLACK);
         }
         return isValid;
     }
 
     private boolean saveThisNotification() {
         String newMedicineName = medicineNameInput.getText().toString();
-        int newMedicineQuantity = Integer.parseInt(medicineQuantityInput.getText().toString());
+        String newMedicineQuantity = medicineQuantityInput.getText().toString();
         int newColorId = colorPicker.getSelectedItemPosition();
         boolean isDaily = radioDaily.isChecked();
         int[] times = new int[24];
