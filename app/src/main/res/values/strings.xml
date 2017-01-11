@@ -29,7 +29,6 @@
     <string name="validationError">Prišlo je do napake pri vnosu podatkov.</string>
     <string name="validationErrorMedicine">Vnesite ime zdravila.</string>
     <string name="validationErrorQuantityEmpty">Vnesite količino zdravila.</string>
-    <string name="validationErrorQuantity">Vnesena količina mora biti številka.</string>
     <string name="valiationErrorTimes">Izberite interval jemanja zdravila.</string>
     <string name="validationErrorDoctor">Vnesite ime zdravnika.</string>
     <string name="validationErrorInstitution">Vnesite ime ustanove.</string>
