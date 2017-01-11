@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -184,7 +185,7 @@ public class MyRecyclerViewZdravnikiAdapter extends RecyclerView.Adapter<MyRecyc
                     //Zdravnik temp = new Zdravnik(zdravniki.get(position).getIme(), zdravniki.get(position).getPriimek(), zdravniki.get(position).getIme_doma(), zdravniki.get(position).getMail_zdravnika(), zdravniki.get(position).getTelefon_zdravnika(), zdravniki.get(position).getNaziv(), zdravniki.get(position).getID_urnika());
                     Zdravnik temp = zdravniki.get(position);
                     temp.setLocal(true);
-                    writeObjectToFile(temp);
+                    Toast.makeText(mContext, writeObjectToFile(temp) ? mContext.getString(R.string.notification_doctor_added) : mContext.getString(R.string.notification_doctor_not_added), Toast.LENGTH_SHORT).show();
                     holder.remove.show();
                     //System.out.println(getDoctors().toString());
                 }
@@ -194,9 +195,10 @@ public class MyRecyclerViewZdravnikiAdapter extends RecyclerView.Adapter<MyRecyc
         holder.remove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Boolean t;
                 if(!inSearch){
                     Zdravnik temp = zdravniki.get(position);
-                    Boolean t = removeObjectFromFile(temp);
+                    t = removeObjectFromFile(temp);
 
                     zdravniki.remove(temp);
                     notifyItemRemoved(position);
@@ -205,9 +207,10 @@ public class MyRecyclerViewZdravnikiAdapter extends RecyclerView.Adapter<MyRecyc
                     Log.e("stanje remove: ", t.toString());
                 }else{
                     Zdravnik temp = zdravniki.get(position);
-                    removeObjectFromFile(temp);
+                    t = removeObjectFromFile(temp);
                     holder.remove.hide();
                 }
+                Toast.makeText(mContext, t ? mContext.getString(R.string.notification_doctor_removed) : mContext.getString(R.string.notification_doctor_not_removed), Toast.LENGTH_SHORT).show();;
             }
         });
     }

@@ -26,6 +26,15 @@
     <string name="appointmentError">Prišlo je do napake pri nastavitvi opomnika. Prosimo, poskusite znova.</string>
     <string name="notifcationRemoved">Opomnik uspešno odstranjen.</string>
     <string name="notifcationNotRemoved">Prišlo je do napake, poskusite ponovno.</string>
+    <string name="notification_doctor_added">Zdravnik je bil dodan med priljubljene.</string>
+    <string name="notification_doctor_not_added">Zdravnik ni bil dodan med priljubljene.</string>
+    <string name="notification_doctor_removed">Zdravnik je bil odstranjen iz priljubljenih.</string>
+    <string name="notification_doctor_not_removed">Zdravnik ni bil odstranjen iz priljubljenih.</string>
+    <string name="notification_institution_added">Zdravstveni dom je bil dodan med priljubljene.</string>
+    <string name="notification_institution_not_added">Zdravstveni dom ni bil dodan med priljubljene.</string>
+    <string name="notification_institution_removed">Zdravstveni dom je bil odstranjen iz priljubljenih.</string>
+    <string name="notification_institution_not_removed">Zdravstveni dom ni bil odstranjen iz priljubljenih.</string>
+    <string name="notification_not_set">ni nastavljen</string>
     <string name="validationError">Prišlo je do napake pri vnosu podatkov.</string>
     <string name="validationErrorMedicine">Vnesite ime zdravila.</string>
     <string name="validationErrorQuantityEmpty">Vnesite količino zdravila.</string>
@@ -35,6 +44,9 @@
     <string name="validationErrorLocation">Vnesite lokacijo.</string>
     <string name="validationErrorDisplayAlarm">Nastavite čas.</string>
     <string name="validationErrorDisplayAppointment">Nastavite čas.</string>
+    <string name="validationErrorAlarmTime">Čas alarma je v preteklosti.</string>
+    <string name="validationErrorAppointTime">Čas pregleda je v preteklosti.</string>
+
 
     <string name="day1">Ponedeljek</string>
     <string name="day2">Torek</string>
@@ -106,7 +118,4 @@
     <string name="labelNaslov">Naslov:</string>
     <string name="noresults">Nobenih zadetkov</string>
     <string name="error_network">Prosimo, preverite internetno povezavo in poskusite znova.</string>
-    <string name="validationErrorAlarmTime">Čas alarma je v preteklosti.</string>
-    <string name="validationErrorAppointTime">Čas pregleda je v preteklosti.</string>
-
 </resources>

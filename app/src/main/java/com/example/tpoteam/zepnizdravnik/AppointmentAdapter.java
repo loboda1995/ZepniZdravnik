@@ -20,8 +20,6 @@ import java.util.Date;
 
 public class AppointmentAdapter extends ArrayAdapter<AppointmentNotification> {
 
-    private String notification_not_set = "ni nastavljen";
-
     public AppointmentAdapter(Context context, ArrayList<AppointmentNotification> notifications) {
         super(context, 0, notifications);
     }
@@ -52,7 +50,7 @@ public class AppointmentAdapter extends ArrayAdapter<AppointmentNotification> {
                 timeOfAppoint.setText(simpleDateFormat.format(time));
             }
             else {
-                timeOfAppoint.setText(notification_not_set);
+                timeOfAppoint.setText(getContext().getString(R.string.notification_not_set));
             }
 
             locOfAppoint.setText(appointment.location);

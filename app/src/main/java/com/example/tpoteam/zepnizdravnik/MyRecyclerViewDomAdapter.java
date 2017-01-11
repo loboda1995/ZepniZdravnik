@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -150,8 +151,7 @@ public class MyRecyclerViewDomAdapter extends RecyclerView.Adapter<MyRecyclerVie
                 if(inSearch){
                     Dom temp = domovi.get(position);
                     temp.setLocal(true);
-                    Boolean te = writeObjectToFile(temp);
-                    Log.e("Uspesno zapisano : ", te.toString());
+                    Toast.makeText(mContext, writeObjectToFile(temp) ? mContext.getString(R.string.notification_institution_added) : mContext.getString(R.string.notification_institution_not_added), Toast.LENGTH_SHORT).show();
                     holder.remove.show();
                 }
             }
@@ -161,9 +161,10 @@ public class MyRecyclerViewDomAdapter extends RecyclerView.Adapter<MyRecyclerVie
         holder.remove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Boolean t;
                 if(!inSearch){
                     Dom temp = domovi.get(position);
-                    Boolean t = removeObjectFromFile(temp);
+                    t = removeObjectFromFile(temp);
 
                     domovi.remove(temp);
                     notifyItemRemoved(position);
@@ -172,18 +173,12 @@ public class MyRecyclerViewDomAdapter extends RecyclerView.Adapter<MyRecyclerVie
                     Log.e("stanje remove: ", t.toString());
                 }else{
                     Dom temp = domovi.get(position);
-                    removeObjectFromFile(temp);
+                    t = removeObjectFromFile(temp);
                     holder.remove.hide();
                 }
+                Toast.makeText(mContext, t ? mContext.getString(R.string.notification_institution_removed) : mContext.getString(R.string.notification_institution_not_removed), Toast.LENGTH_SHORT).show();;
             }
         });
-
-
-
-
-
-
-
     }
 
     private boolean removeObjectFromFile(Dom o){
